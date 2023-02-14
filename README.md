@@ -5,6 +5,16 @@
 3. Create subtasks for selected story to see progress of the back-end and front-end.
 4. Decide on the contract between two people, e.g. the end-point that will be created and what kind of json object it will return. Furthermore, front-end developer should work with mocked data, if the back-end is not available yet. Moreover, front-end should be merged to the project using the real end-point even if back-end is not yet finished (unless the back-end developer will not be able to finish his work during the sprint).
 
+# Front-end notes
+After you install angular with npm you will need to run ```npm install``` in webapp/TourneyRent folder. After that, you can just run it with ```ng-serve```.
+
+
+  Using:
+  * tailwindcss, docs: https://v2.tailwindcss.com/docs/grid-column
+  * Angular Material, docs: https://material.angular.io/
+
+I recommend completing this tutorial: https://angular.io/tutorial/tour-of-heroes
+
 # Back-end notes
 ## Easy way to run it
 
