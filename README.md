@@ -24,4 +24,4 @@ Before running the project you should [create a database](https://support.mailes
 in Package Manager Console (you can find it in VStudio menu by navigating to Tools > NuGet Package Manager > Package Manager Console).
 This command will apply current migration file.
 
-After this project should run fine.
+After this project should run fine. Refer to this video in order to understand how most things in .NET Core work: https://www.youtube.com/watch?v=fmvcAzHpsk8&ab_channel=LesJackson.
