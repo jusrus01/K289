@@ -20,7 +20,7 @@ Before running the project you should [create a database](https://support.mailes
 ```Data Source=(LocalDB)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=60; MultipleActiveResultSets=True;Database=TourneyRentDatabase;```)
 
 2. Next step would be restoring missing nuget packages. You can find some information about it [here](https://docs.microsoft.com/en-us/nuget/consume-packages/package-restore).
-3. If at this point the solution compiles, you will need to do one more thing. Run command ```Update-Database -Project TourneyRent.DataLayer -StartUpProject TourneyRent.WebApp```
+3. If at this point the solution compiles, you will need to do one more thing. Run command ```Update-Database -Project TourneyRent.DataLayer -StartUpProject TourneyRent.Presentation.Api```
 in Package Manager Console (you can find it in VStudio menu by navigating to Tools > NuGet Package Manager > Package Manager Console).
 This command will apply current migration file.
 
