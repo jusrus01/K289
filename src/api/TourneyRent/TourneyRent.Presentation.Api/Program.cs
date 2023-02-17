@@ -16,9 +16,10 @@ namespace TourneyRent.Presentation.Api
             var profiles = assembly
                 .GetTypes()
                 .Where(t => t.IsSubclassOf(typeof(Profile)))
+                .Select(profile => (Profile)Activator.CreateInstance(profile))
                 .ToList();
             builder.Services.AddAutoMapper(cfg =>
-                cfg.AddProfiles((IEnumerable<Profile>)profiles));
+                cfg.AddProfiles(profiles));
 
             builder.Services.AddCors(options =>
                 options.AddDefaultPolicy(builder =>
@@ -35,7 +36,9 @@ namespace TourneyRent.Presentation.Api
                 options.Filters.Add<GlobalModelStateValidationFilter>());
 
             var app = builder.Build();
+            app.UseCors();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseMiddleware<GlobalExceptionMiddleware>();
             app.UseEndpoints(endpoints =>
