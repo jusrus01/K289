@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Security.Authentication;
 using TourneyRent.Authentication.Models;
 using TourneyRent.DataLayer.Models;
 
@@ -45,7 +46,7 @@ namespace TourneyRent.Authentication.Services
             var identityResult = await _userManager.CreateAsync(newUser, registerArgs.Password);
             if (!identityResult.Succeeded)
             {
-                throw new Exception("Failed to create an account");
+                throw new AuthenticationException("Failed to create an account");
             }
 
             return new CreatedUser(newUser.Email, newUser.FirstName, newUser.LastName);
@@ -55,7 +56,7 @@ namespace TourneyRent.Authentication.Services
         {
             if (await IsUserAlreadyRegisteredAsync(registerArgs.Email))
             {
-                throw new Exception("User is already registered");
+                throw new AuthenticationException("User is already registered");
             }
         }
 
@@ -68,7 +69,7 @@ namespace TourneyRent.Authentication.Services
         {
             if (user == null)
             {
-                throw new Exception("User not found");
+                throw new AuthenticationException("User not found");
             }
         }
 
@@ -76,7 +77,7 @@ namespace TourneyRent.Authentication.Services
         {
             if (!result.Succeeded)
             {
-                throw new Exception("Invalid credentials");
+                throw new AuthenticationException("Invalid credentials");
             }
         }
     }

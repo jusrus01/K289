@@ -1,5 +1,10 @@
+html, body {
+    height: 100%;
+    @apply bg-neutral-50;
+    @apply text-slate-700;
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

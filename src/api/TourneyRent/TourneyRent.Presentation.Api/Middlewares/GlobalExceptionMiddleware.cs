@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Security.Authentication;
+using TourneyRent.BusinessLogic.Exceptions;
 
 namespace TourneyRent.Presentation.Api.Middlewares
 {
@@ -17,7 +19,15 @@ namespace TourneyRent.Presentation.Api.Middlewares
             {
                 await _next(httpContext);
             }
-            catch
+            catch (AuthenticationException e)
+            {
+                await HandleExceptionAsync(httpContext, e.Message, StatusCodes.Status400BadRequest);
+            }
+            catch (BaseDomainException e)
+            {
+                await HandleExceptionAsync(httpContext, e.Message, StatusCodes.Status400BadRequest);
+            }
+            catch (Exception e)
             {
                 await HandleExceptionAsync(httpContext, "Internal server error", StatusCodes.Status500InternalServerError);
             }

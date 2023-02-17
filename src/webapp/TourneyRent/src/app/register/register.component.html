@@ -1,0 +1,32 @@
+<div class="flex items-center justify-center h-screen">
+    <form class="register-container" [formGroup]="registerForm">
+        <h2 class="text-center text-2xl">Create an account!</h2>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>First Name</mat-label>
+                <input formControlName="firstName" matInput>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Last Name</mat-label>
+                <input formControlName="lastName" matInput>
+            </mat-form-field>
+        </div>
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Enter your email</mat-label>
+            <input formControlName="email" type="email" matInput>
+        </mat-form-field>
+        <div>
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Enter your password</mat-label>
+                <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <div class="w-full">
+            <button class="mx-auto" mat-raised-button color="primary" (click)="register()">Register</button>
+        </div>
+    </form>
+</div>
