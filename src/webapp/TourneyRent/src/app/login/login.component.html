@@ -1,7 +1,11 @@
 <div class="flex items-center justify-center h-screen">
     <form class="login-container" [formGroup]="loginForm">
-        <h2 class="text-center text-2xl">Login</h2>
-        <mat-form-field appearance="fill" class="w-full">
+        <h2 class="text-center text-5xl font-bold">Log in</h2>
+        <div class="text-center mt-2">
+            <span class="text-center">Don't have an account?</span>
+            <span class="text-indigo-900 cursor-pointer pl-1" routerLink="/register">Sign up</span>
+        </div>
+        <mat-form-field appearance="fill" class="w-full mt-2">
             <mat-label>Enter your email</mat-label>
             <input formControlName="email" type="email" matInput>
         </mat-form-field>
@@ -16,7 +20,7 @@
             </mat-form-field>
         </div>
         <div class="w-full">
-            <button class="mx-auto" mat-raised-button color="primary" (click)="login()">Login</button>
+            <button class="mx-auto w-full" mat-raised-button color="primary" (click)="login()">Login</button>
         </div>
     </form>
 </div>
