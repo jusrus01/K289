@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { catchError, EMPTY } from 'rxjs';
+import { RoutingService } from '../services/routing.service';
 import { RegisterResource } from './register.resource';
 
 @Component({
@@ -16,7 +15,7 @@ export class RegisterComponent {
   constructor(
     private resource: RegisterResource,
     private formBuilder: FormBuilder,
-    private router: Router
+    private routing: RoutingService
   ) {
     this.hidePassword = true;
     this.registerForm = this.formBuilder.group({
@@ -31,19 +30,17 @@ export class RegisterComponent {
 
   public register(): void {
     if (!this.registerForm.valid) {
-      // TODO: Handle differently
+      // TODO: Handle differently?
       console.error('Invalid input');
       return;
     }
 
     this.resource
       .register(this.registerForm.value)
-      .pipe(
-        catchError((error) => {
-          console.error(error);
-          return EMPTY;
-        })
-      )
-      .subscribe((response) => this.router.navigate(['/login']));
+      .subscribe(() => this.routing.goToLogin());
+  }
+
+  public redirectToLogin(): void {
+    this.routing.goToLogin();
   }
 }

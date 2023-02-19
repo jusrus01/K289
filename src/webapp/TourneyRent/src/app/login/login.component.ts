@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { catchError, EMPTY } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import { RoutingService } from '../services/routing.service';
 import { LoginResource } from './login.resource';
 
 @Component({
@@ -17,8 +16,8 @@ export class LoginComponent {
   constructor(
     private resource: LoginResource,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private cookieService: CookieService
+    private routing: RoutingService,
+    private authService: AuthService,
   ) {
     this.hidePassword = true;
     this.loginForm = this.formBuilder.group({
@@ -31,22 +30,18 @@ export class LoginComponent {
 
   public login(): void {
     if (!this.loginForm.valid) {
-      // TODO: Handle differently
-      console.error('Invalid input');
       return;
     }
 
     this.resource
       .login(this.loginForm.value)
-      .pipe(
-        catchError((error) => {
-          console.error(error);
-          return EMPTY;
-        })
-      )
-      .subscribe((response) => {
-        this.cookieService.set('hasToken', 'true');
-        this.router.navigate(['/home']);
+      .subscribe(() => {
+        this.authService.logIn();
+        this.routing.goToHome();
       });
+  }
+
+  public redirectToSignUp(): void {
+    this.routing.goToRegister();
   }
 }

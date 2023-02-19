@@ -3,7 +3,7 @@
         <h2 class="text-center text-5xl font-bold">Log in</h2>
         <div class="text-center mt-2">
             <span class="text-center">Don't have an account?</span>
-            <span class="text-indigo-900 cursor-pointer pl-1" routerLink="/register">Sign up</span>
+            <span class="text-indigo-900 cursor-pointer pl-1" (click)="redirectToSignUp()">Sign up</span>
         </div>
         <mat-form-field appearance="fill" class="w-full mt-2">
             <mat-label>Enter your email</mat-label>

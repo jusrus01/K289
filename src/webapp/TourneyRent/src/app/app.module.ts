@@ -9,7 +9,7 @@ import { NavbarComponent } from './common/navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {A11yModule} from '@angular/cdk/a11y';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {ClipboardModule} from '@angular/cdk/clipboard';
@@ -47,7 +47,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -57,6 +57,10 @@ import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {CdkMenuModule} from '@angular/cdk/menu';
 import {DialogModule} from '@angular/cdk/dialog';
+import { HttpClientInterceptor } from './interceptors/http.interceptor';
+import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { RoutingService } from './services/routing.service';
 
 export const API_URL = "http://localhost:5155";
 
@@ -66,7 +70,7 @@ export const API_URL = "http://localhost:5155";
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
-    HomeComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -128,7 +132,14 @@ export const API_URL = "http://localhost:5155";
     ScrollingModule,
     DialogModule,
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useFactory: function(authService: AuthService, router: RoutingService, snack: MatSnackBar) {
+      return new HttpClientInterceptor(authService, router, snack);
+    },
+    multi: true,
+    deps: [AuthService, RoutingService, MatSnackBar]
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
