@@ -11,10 +11,10 @@ namespace TourneyRent.DataLayer.Configurations
         {
             builder.HasData(new ApplicationRole
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = DemoAdminAccount.AdminRoleId,
                 Name = TourneyRentRoles.Administrator,
                 NormalizedName = TourneyRentRoles.Administrator.ToUpper(),
-                ConcurrencyStamp = Guid.NewGuid().ToString()
+                ConcurrencyStamp = "3d887dc2-f10e-4b6a-be3b-4e36870d73f8"
             });
         }
     }
