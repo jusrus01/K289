@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using TourneyRent.Contracts;
 
 namespace TourneyRent.Authentication.Attributes
 {

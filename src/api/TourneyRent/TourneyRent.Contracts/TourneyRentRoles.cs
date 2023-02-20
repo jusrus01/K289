@@ -1,4 +1,4 @@
-﻿namespace TourneyRent.Authentication
+﻿namespace TourneyRent.Contracts
 {
     public static class TourneyRentRoles
     {
