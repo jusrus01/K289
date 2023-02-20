@@ -24,4 +24,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TourneyRent.Contracts\TourneyRent.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

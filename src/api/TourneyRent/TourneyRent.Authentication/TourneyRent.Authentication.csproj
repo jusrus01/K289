@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TourneyRent.Contracts\TourneyRent.Contracts.csproj" />
     <ProjectReference Include="..\TourneyRent.DataLayer\TourneyRent.DataLayer.csproj" />
   </ItemGroup>
 

@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyRent.Presentation.Api", "TourneyRent.Presentation.Api\TourneyRent.Presentation.Api.csproj", "{B42AA457-A05F-47FF-9503-A549FC0693FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourneyRent.Presentation.Api", "TourneyRent.Presentation.Api\TourneyRent.Presentation.Api.csproj", "{B42AA457-A05F-47FF-9503-A549FC0693FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyRent.Authentication", "TourneyRent.Authentication\TourneyRent.Authentication.csproj", "{E1C66C06-38FF-4882-86B3-75F7DB24CF30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourneyRent.Authentication", "TourneyRent.Authentication\TourneyRent.Authentication.csproj", "{E1C66C06-38FF-4882-86B3-75F7DB24CF30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyRent.BusinessLogic", "TourneyRent.BusinessLogic\TourneyRent.BusinessLogic.csproj", "{7C43B62B-3D68-4358-BFE5-8A290495631F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourneyRent.BusinessLogic", "TourneyRent.BusinessLogic\TourneyRent.BusinessLogic.csproj", "{7C43B62B-3D68-4358-BFE5-8A290495631F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyRent.DataLayer", "TourneyRent.DataLayer\TourneyRent.DataLayer.csproj", "{AD707F46-36E4-4353-86FD-ADE22719041B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourneyRent.DataLayer", "TourneyRent.DataLayer\TourneyRent.DataLayer.csproj", "{AD707F46-36E4-4353-86FD-ADE22719041B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyRent.Contracts", "TourneyRent.Contracts\TourneyRent.Contracts.csproj", "{293FE23C-D3D3-4F18-85BC-80208A1A6AB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{AD707F46-36E4-4353-86FD-ADE22719041B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD707F46-36E4-4353-86FD-ADE22719041B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD707F46-36E4-4353-86FD-ADE22719041B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{293FE23C-D3D3-4F18-85BC-80208A1A6AB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{293FE23C-D3D3-4F18-85BC-80208A1A6AB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{293FE23C-D3D3-4F18-85BC-80208A1A6AB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{293FE23C-D3D3-4F18-85BC-80208A1A6AB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
