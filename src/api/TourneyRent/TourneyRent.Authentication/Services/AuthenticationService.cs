@@ -18,13 +18,15 @@ namespace TourneyRent.Authentication.Services
             _signInManager = signInManager;
         }
 
-        public async Task SignInAsync(LoginArgs loginArgs)
+        public async Task<UserRoles> SignInAsync(LoginArgs loginArgs)
         {
             var user = await _userManager.FindByEmailAsync(loginArgs.Email);
             EnsureValidUser(user);
             await _signInManager.SignOutAsync();
             var result = await _signInManager.PasswordSignInAsync(user, loginArgs.Password, false, false);
             EnsureValidCredentials(result);
+            var roles = await _userManager.GetRolesAsync(user);
+            return new UserRoles(roles);
         }
 
         public async Task<CreatedUser> RegisterAsync(RegisterArgs registerArgs)

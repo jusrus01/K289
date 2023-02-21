@@ -12,6 +12,8 @@ namespace TourneyRent.Presentation.Api.Profiles
             CreateMap<LoginArgsView, LoginArgs>();
 
             CreateMap<CreatedUser, CreatedUserView>();
+
+            CreateMap<UserRoles, UserRolesView>();
         }
     }
 }

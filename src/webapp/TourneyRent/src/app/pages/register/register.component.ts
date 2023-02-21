@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RoutingService } from '../services/routing.service';
-import { RegisterResource } from './register.resource';
+import { RoutingService } from '../../services/routing.service';
+import { RegisterResource } from '../../resources/register.resource';
 
 @Component({
   selector: 'app-register',
@@ -30,8 +30,6 @@ export class RegisterComponent {
 
   public register(): void {
     if (!this.registerForm.valid) {
-      // TODO: Handle differently?
-      console.error('Invalid input');
       return;
     }
 
