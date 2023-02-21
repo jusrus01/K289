@@ -22,8 +22,8 @@ namespace TourneyRent.Presentation.Api.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginArgsView loginArgs)
         {
-            await _authenticationService.SignInAsync(_mapper.Map<LoginArgs>(loginArgs));
-            return Ok();
+            var userRoles = await _authenticationService.SignInAsync(_mapper.Map<LoginArgs>(loginArgs));
+            return Ok(_mapper.Map<UserRolesView>(userRoles));
         }
 
         [HttpPost("Register")]

@@ -31,7 +31,7 @@ export class HttpClientInterceptor implements HttpInterceptor {
     if (status == this.UNAUTHORIZED ||
         status == this.FORBIDDEN ||
         status == this.METHOD_NOT_ALLOWED) {
-            this.authService.logOut();
+            this.authService.logout();
             this.routing.goToLogin();
             return of(err.message);
         }
