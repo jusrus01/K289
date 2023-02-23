@@ -61,6 +61,7 @@ import { HttpClientInterceptor } from './interceptors/http.interceptor';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { RoutingService } from './services/routing.service';
+import { TeamCreateComponent } from './pages/team-create/team-create/team-create.component';
 
 export const API_URL = "http://localhost:5155";
 
@@ -70,7 +71,8 @@ export const API_URL = "http://localhost:5155";
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    TeamCreateComponent
   ],
   imports: [
     BrowserModule,
