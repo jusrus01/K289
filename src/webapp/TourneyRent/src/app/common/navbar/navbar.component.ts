@@ -12,7 +12,6 @@ export class NavbarComponent {
     private routing: RoutingService,
     private authService: AuthService) {
   }
-  // TODO: Subscribe to something. probably need an event.
   public showMenu = false;
 
   public toggleNavbar(): void {
