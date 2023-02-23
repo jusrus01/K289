@@ -61,6 +61,8 @@ import { HttpClientInterceptor } from './interceptors/http.interceptor';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { RoutingService } from './services/routing.service';
+import { ShowForAuthenticatedUserDirective } from './common/directives/show-for-authenticated-user.directive';
+import { ShowForGuestUserDirective } from './common/directives/show-for-guest-user.directive';
 
 export const API_URL = "http://localhost:5155";
 
@@ -70,7 +72,9 @@ export const API_URL = "http://localhost:5155";
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    ShowForAuthenticatedUserDirective,
+    ShowForGuestUserDirective
   ],
   imports: [
     BrowserModule,

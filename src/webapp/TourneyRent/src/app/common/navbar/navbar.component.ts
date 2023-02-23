@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { RoutingService } from 'src/app/services/routing.service';
 
 @Component({
@@ -7,9 +8,11 @@ import { RoutingService } from 'src/app/services/routing.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  constructor(private routing: RoutingService) {
+  constructor(
+    private routing: RoutingService,
+    private authService: AuthService) {
   }
-
+  // TODO: Subscribe to something. probably need an event.
   public showMenu = false;
 
   public toggleNavbar(): void {
@@ -25,6 +28,11 @@ export class NavbarComponent {
   }
 
   public goToLogin(): void {
+    this.routing.goToLogin();
+  }
+
+  public logout(): void {
+    this.authService.logout();
     this.routing.goToLogin();
   }
 }
