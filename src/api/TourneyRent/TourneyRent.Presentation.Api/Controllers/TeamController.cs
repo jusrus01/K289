@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.JsonPatch;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
-using TourneyRent.Presentation.Api.Views.Team;
+using TourneyRent.Presentation.Api.Views.Teams;
 
 namespace TourneyRent.Presentation.Api.Controllers
 {
@@ -25,83 +25,79 @@ namespace TourneyRent.Presentation.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TeamRead>> GetTeamById(int id)
+        public async Task<ActionResult<TeamView>> GetTeamByIdAsync(int id)
         {
-            var team = await _teamService.GetTeamById(id);
+            var team = await _teamService.GetTeamByIdAsync(id);
             if(team==null)
             {
                 return NotFound();
             }
 
-            var teamRead = _mapper.Map<TeamRead>(team);
+            var teamRead = _mapper.Map<TeamView>(team);
             return Ok(teamRead);
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TeamRead>>> GetAllTeams()
+        public async Task<ActionResult<IEnumerable<TeamView>>> GetAllTeamsAsync()
         {
-            var teams = await _teamService.GetAllTeams();
-            var teamRead = _mapper.Map<IEnumerable<TeamRead>>(teams);
+            var teams = await _teamService.GetAllTeamsAsync();
+            var teamRead = _mapper.Map<IEnumerable<TeamView>>(teams);
             return Ok(teamRead);
         }
 
         [HttpPost]
-        public async Task<ActionResult<TeamRead>> AddTeam(TeamCreate teamCreate)
+        public async Task<ActionResult<TeamView>> AddTeamAsync(TeamCreate teamCreate)
         {
             var team = _mapper.Map<Team>(teamCreate);
-            await _teamService.AddTeam(team);
-            var teamRead = _mapper.Map<TeamRead>(team);
-            return CreatedAtAction(nameof(GetTeamById), new { id = teamRead.Id }, teamRead);
+            await _teamService.AddTeamAsync(team);
+            var teamRead = _mapper.Map<TeamView>(team);
+            return CreatedAtAction(nameof(GetTeamByIdAsync), new { id = teamRead.Id }, teamRead);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTeam(int id, TeamUpdate teamUpdate)
+        public async Task<IActionResult> UpdateTeamAsync(int id, TeamUpdate teamUpdate)
         {
+
             var team = _mapper.Map<Team>(teamUpdate);
             team.Id = id;
 
-            try
-            {
-                await _teamService.UpdateTeam(team);
-            }
-            catch(DbUpdateConcurrencyException)
-            {
-                if(await _teamService.GetTeamById(id) == null)
-                {
-                    return NotFound();
-                }
+            await _teamService.UpdateTeamAsync(team);
 
-                throw;
+            if(await _teamService.GetTeamByIdAsync(id) == null)
+            {
+                return NotFound();
             }
+
+             
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTeam(int id)
+        public async Task<IActionResult> DeleteTeamAsync(int id)
         {
-            var team = await _teamService.GetTeamById(id);
+            var team = await _teamService.GetTeamByIdAsync(id);
             if(team == null)
             {
                 return NotFound();
             }
 
-            await _teamService.DeleteTeam(team);
+            await _teamService.DeleteTeamAsync(team);
 
             return NoContent();
         }
 
         [HttpPost("{teamId}/players")]
-        public async Task<ActionResult<ApplicationUser>> AddPlayer(int teamId, ApplicationUser player)
+        public async Task<ActionResult<ApplicationUser>> AddPlayerAsync(int teamId, ApplicationUser player)
         {
-            await _teamService.AddPlayer(teamId, player);
-            return CreatedAtAction(nameof(GetPlayerById), new { teamId, id = player.Id }, player);
+            await _teamService.AddPlayerAsync(teamId, player);
+            return CreatedAtAction(nameof(GetPlayerByIdAsync), new { teamId, id = player.Id }, player);
         }
 
         [HttpGet("{teamId}/players/{id}")]
-        public async Task<ActionResult<ApplicationUser>> GetPlayerById(int teamId, int id)
+        public async Task<ActionResult<ApplicationUser>> GetPlayerByIdAsync(int teamId, int id)
         {
-            var team = await _teamService.GetTeamById(teamId);
+            var team = await _teamService.GetTeamByIdAsync(teamId);
             if(team == null)
             {
                 return NotFound();
@@ -110,7 +106,7 @@ namespace TourneyRent.Presentation.Api.Controllers
             var player = team.Players.FirstOrDefault(p => Convert.ToInt32(p.Id) == id);
             if(player==null)
             {
-                return NotFound(); ;
+                return NotFound();
             }
             return Ok(player);
         }

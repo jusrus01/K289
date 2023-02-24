@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using TourneyRent.DataLayer.Models;
-using TourneyRent.Presentation.Api.Views.Team;
+using TourneyRent.Presentation.Api.Views.Teams;
 
 namespace TourneyRent.Presentation.Api.Profiles
 {
@@ -8,7 +8,7 @@ namespace TourneyRent.Presentation.Api.Profiles
     {
         public TeamProfile()
         {
-            CreateMap<Team, TeamRead>();
+            CreateMap<Team, TeamView>();
             CreateMap<TeamCreate, Team>();
             CreateMap<TeamUpdate, Team>();
         }

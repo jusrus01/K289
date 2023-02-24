@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TourneyRent.DataLayer.Models;
 
-namespace TourneyRent.Presentation.Api.Views.Team
+namespace TourneyRent.Presentation.Api.Views.Teams
 {
     public class TeamUpdate
     {

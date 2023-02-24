@@ -1,8 +1,8 @@
 ﻿using TourneyRent.DataLayer.Models;
 
-namespace TourneyRent.Presentation.Api.Views.Team
+namespace TourneyRent.Presentation.Api.Views.Teams
 {
-    public class TeamRead
+    public class TeamView
     {
         public int Id { get; set; }
 

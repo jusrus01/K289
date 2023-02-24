@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TourneyRent.BusinessLogic.Exceptions;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 
@@ -18,34 +18,37 @@ namespace TourneyRent.BusinessLogic.Services
             _teamRepository = teamRepository;
         }
 
-        public async Task<Team> GetTeamById(int id)
+        public async Task<Team> GetTeamByIdAsync(int id)
         {
-            return await _teamRepository.GetTeamById(id);
+            return await _teamRepository.GetTeamByIdAsync(id);
+
         }
 
-        public async Task<IEnumerable<Team>> GetAllTeams()
+        public async Task<IEnumerable<Team>> GetAllTeamsAsync()
         {
-            return await _teamRepository.GetAllTeams();
+            return await _teamRepository.GetAllTeamsAsync();
         }
 
-        public async Task AddTeam(Team team)
+        public async Task AddTeamAsync(Team team)
         {
-            await _teamRepository.AddTeam(team);
+            await _teamRepository.AddTeamAsync(team);
         }
 
-        public async Task UpdateTeam(Team team)
+        public async Task UpdateTeamAsync(Team team)
         {
-            await _teamRepository.UpdateTeam(team);
+            await _teamRepository.UpdateTeamAsync(team);
+
         }
 
-        public async Task DeleteTeam(Team team)
+        public async Task DeleteTeamAsync(Team team)
         {
-            await _teamRepository.DeleteTeam(team);
+            await _teamRepository.DeleteTeamAsync(team);
+
         }
 
-        public async Task AddPlayer(int teamId, ApplicationUser player)
+        public async Task AddPlayerAsync(int teamId, ApplicationUser player)
         {
-            var team = await _teamRepository.GetTeamById(teamId);
+            var team = await _teamRepository.GetTeamByIdAsync(teamId);
             if(team == null)
             {
                 throw new ArgumentException("Team not found.");
@@ -54,8 +57,9 @@ namespace TourneyRent.BusinessLogic.Services
             //player.TeamId = teamId (Jei zaidejas gali tureti tik viena komanda)
             team.Players.Add(player);
 
-            await _teamRepository.UpdateTeam(team);
+            await _teamRepository.UpdateTeamAsync(team);
         }
+
 
 
     }

@@ -17,29 +17,29 @@ namespace TourneyRent.DataLayer
             _context = context;
         }
 
-       public async Task<Team> GetTeamById(int id)
+       public async Task<Team> GetTeamByIdAsync(int id)
         {
             return await _context.Teams.Include(t => t.Players).FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<IEnumerable<Team>> GetAllTeams()
+        public async Task<IEnumerable<Team>> GetAllTeamsAsync()
         {
             return await _context.Teams.Include(t => t.Players).ToListAsync();
         }
 
-        public async Task AddTeam(Team team)
+        public async Task AddTeamAsync(Team team)
         {
             await _context.Teams.AddAsync(team);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTeam(Team team)
+        public async Task UpdateTeamAsync(Team team)
         {
             _context.Entry(team).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteTeam(Team team)
+        public async Task DeleteTeamAsync(Team team)
         {
             _context.Teams.Remove(team);
             await _context.SaveChangesAsync();
