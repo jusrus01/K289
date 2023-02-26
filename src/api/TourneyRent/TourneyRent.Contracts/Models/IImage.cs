@@ -2,6 +2,6 @@
 {
     public interface IImage
     {
-        public Guid? ImageId { get; set; }
+        Guid? ImageId { get; set; }
     }
 }
