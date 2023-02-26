@@ -7,7 +7,7 @@ import { LoginResponse } from '../models/login/login-response.model';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly TOKEN_COOKIE_PARAM = 'roles';
+  private readonly TOKEN_COOKIE_PARAM = 'auth';
 
   public readonly isLoggedIn$: Subject<boolean>;
 
@@ -28,14 +28,23 @@ export class AuthService {
     this.isLoggedIn$.next(false);
   }
 
+  public getAuthUserId(): string {
+    const userInfo = this.getUserInfo();
+    return userInfo.userId;
+  }
+
   public isLoggedIn(): boolean {
     return this.cookieService.check(this.TOKEN_COOKIE_PARAM);
   }
 
   public hasRole(role: string): boolean {
-    const loginData = JSON.parse(
+    const userInfo = this.getUserInfo();
+    return userInfo.roles.includes(role);
+  }
+
+  private getUserInfo(): LoginResponse {
+    return JSON.parse(
       this.cookieService.get(this.TOKEN_COOKIE_PARAM)
     ) as LoginResponse;
-    return loginData.roles.includes(role);
   }
 }
