@@ -97,17 +97,7 @@ namespace TourneyRent.Presentation.Api.Controllers
         [HttpGet("{teamId}/players/{id}")]
         public async Task<ActionResult<ApplicationUser>> GetPlayerByIdAsync(int teamId, int id)
         {
-            var team = await _teamService.GetTeamByIdAsync(teamId);
-            if(team == null)
-            {
-                return NotFound();
-            }
-
-            var player = team.Players.FirstOrDefault(p => Convert.ToInt32(p.Id) == id);
-            if(player==null)
-            {
-                return NotFound();
-            }
+            var player = _teamService.GetPlayerByIdAsync(teamId, id);
             return Ok(player);
         }
 

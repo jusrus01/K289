@@ -60,6 +60,23 @@ namespace TourneyRent.BusinessLogic.Services
             await _teamRepository.UpdateTeamAsync(team);
         }
 
+        public async Task<ApplicationUser> GetPlayerByIdAsync(int teamId, int id)
+        {
+            var team = await _teamRepository.GetTeamByIdAsync(teamId);
+            if (team == null)
+            {
+                throw new ArgumentNullException("Team was not found");
+            }
+
+            var player = team.Players.FirstOrDefault(p => Convert.ToInt32(p.Id) == id);
+            if (player == null)
+            {
+                throw new ArgumentNullException("Player was not found");
+            }
+
+            return player;
+        }
+
 
 
     }
