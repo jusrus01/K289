@@ -26,8 +26,10 @@ fieldset {
 
 .header-paget {
   display: flex;
-  background-color: #474747;
+  background-color: #2b2b2b;
   justify-content: center;
+  margin-top: -0.1%;
+  letter-spacing: 4px;
 }
 
 h4 {
@@ -116,7 +118,7 @@ input[type='button']{
 }
 
 .form-panel>.body {
-  padding: 50px;
+  padding: 40px;
 }
 
 label {
@@ -160,17 +162,12 @@ label {
 
 body {
   -webkit-font-smoothing: antialiased;
-}
-
-body {
   font-family: "Inter",Arial,Helvetica,sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
   color: #D8D8D8;
   background-color: #272A33;
 }
-
-
 
 .box {
     display: flex;
