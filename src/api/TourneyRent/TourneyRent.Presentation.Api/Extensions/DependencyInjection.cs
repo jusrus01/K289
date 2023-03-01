@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TourneyRent.Authentication.Services;
+using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
+using static TourneyRent.DataLayer.RentalItemRepository;
 
 namespace TourneyRent.Presentation.Api.Extensions
 {
@@ -11,7 +13,9 @@ namespace TourneyRent.Presentation.Api.Extensions
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<AuthenticationService>();
-        }
+            services.AddScoped<RentalItemRepository>();
+            services.AddScoped<RentalItemService>();
+		}
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {

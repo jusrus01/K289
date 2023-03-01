@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TourneyRent.DataLayer\TourneyRent.DataLayer.csproj" />
+  </ItemGroup>
+
 </Project>
