@@ -1,1 +1,51 @@
-<p>team-add works!</p>
+<h2 class="mt-16"></h2>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<div class="header-paget">
+  <h4>ADD TO A TEAM</h4>
+</div>
+
+<div class="box mt-16">
+  <fieldset class="form-fieldset">
+    <div class="form-panel">
+      <div class="body">
+
+        <div class="inline-field">
+          <span class="lbl">
+            <label class="field-label -required" for="item_member">Search for a member: </label>
+          </span>
+          <div class="control">
+            <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" name="item[member]" id="item_member">
+          </div>
+        </div>
+
+        <div class="inline-field2 cntr">
+            <button class="button sbutton" onclick="addTeamItem()">ADD</button>
+        </div>
+
+        <div class="inline-field">
+         <span class="lbl">
+             <label class="field-label -required" for="item_selectMember">Select a team member</label>
+         </span>
+         <select class="selectMember" id="item_selectMember" name="item[selectMember]">Select</select>
+        </div>
+
+        <div class="inline-field3 cntr">
+            <button class="button sbutton" onclick="selectTeamItem()">SELECT</button>
+        </div>
+
+        <div class="inline-field">
+            <span class="lbl">
+                <label class="field-label -required" for="item_setRole">Set a role for the member</label>
+            </span>
+            <select class="selectMember" id="item_setRole" name="item[setRole]">Select</select>
+        </div>
+
+        <div class="inline-field2 cntr">
+            <button class="button sbutton" onclick="setTeamRole()">SET</button>
+        </div>
+
+      </div>
+    </div>
+  </fieldset>
+</div>
