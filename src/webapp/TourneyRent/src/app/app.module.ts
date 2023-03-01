@@ -63,6 +63,7 @@ import { AuthService } from './services/auth.service';
 import { RoutingService } from './services/routing.service';
 import { ShowForAuthenticatedUserDirective } from './common/directives/show-for-authenticated-user.directive';
 import { ShowForGuestUserDirective } from './common/directives/show-for-guest-user.directive';
+import { TeamAddComponent } from './pages/team-add/team-add.component';
 
 export const API_URL = "http://localhost:5155";
 
@@ -74,7 +75,8 @@ export const API_URL = "http://localhost:5155";
     NavbarComponent,
     HomeComponent,
     ShowForAuthenticatedUserDirective,
-    ShowForGuestUserDirective
+    ShowForGuestUserDirective,
+    TeamAddComponent
   ],
   imports: [
     BrowserModule,
