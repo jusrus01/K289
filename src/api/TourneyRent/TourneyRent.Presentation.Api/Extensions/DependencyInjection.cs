@@ -14,9 +14,10 @@ namespace TourneyRent.Presentation.Api.Extensions
         {
             services.AddScoped<ImageRepository>();
             services.AddScoped<ImageService>();
-
             services.AddScoped<AuthenticationService>();
             services.AddScoped<AccountService>();
+            services.AddScoped<TeamRepository>();
+            services.AddScoped<TeamService>();
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)

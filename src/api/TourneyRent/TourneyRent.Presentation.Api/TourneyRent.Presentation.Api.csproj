@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TourneyRent.Authentication\TourneyRent.Authentication.csproj" />
     <ProjectReference Include="..\TourneyRent.BusinessLogic\TourneyRent.BusinessLogic.csproj" />
+    <ProjectReference Include="..\TourneyRent.Contracts\TourneyRent.Contracts.csproj" />
     <ProjectReference Include="..\TourneyRent.DataLayer\TourneyRent.DataLayer.csproj" />
   </ItemGroup>
 

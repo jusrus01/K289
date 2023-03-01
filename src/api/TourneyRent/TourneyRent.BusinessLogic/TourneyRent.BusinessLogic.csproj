@@ -9,9 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\TourneyRent.DataLayer\TourneyRent.DataLayer.csproj" />
   </ItemGroup>
-
 </Project>
