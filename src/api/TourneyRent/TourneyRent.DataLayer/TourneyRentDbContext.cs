@@ -13,6 +13,8 @@ namespace TourneyRent.DataLayer
         {
         }
 
+        public DbSet<RentalItem> RentalItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
