@@ -7,6 +7,9 @@ namespace TourneyRent.DataLayer.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Guid? ImageId { get; set; }
+        //public Guid? ImageId { get; set; }
+
+        public int? TeamId { get; set; }
+        public Team Team { get; set; }
     }
 }

@@ -346,9 +346,11 @@ namespace TourneyRent.DataLayer.Migrations
 
             modelBuilder.Entity("TourneyRent.DataLayer.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("TourneyRent.DataLayer.Models.Team", null)
+                    b.HasOne("TourneyRent.DataLayer.Models.Team", "Team")
                         .WithMany("Players")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("TourneyRent.DataLayer.Models.Team", b =>
