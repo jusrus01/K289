@@ -19,8 +19,10 @@ namespace TourneyRent.DataLayer.Models
 		[Required]
 		public string Description { get; set; }
 
-		[Required]
-        public byte[] Image { get; set; }
+		//[Required]
+		//public byte[] Image { get; set; }
+
+		public string Image { get; set; }
 
 		[Required]
 		public DateTime PeriodStart { get; set; }

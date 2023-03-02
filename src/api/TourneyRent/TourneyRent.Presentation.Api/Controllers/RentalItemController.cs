@@ -24,7 +24,10 @@ namespace TourneyRent.Presentation.Api.Controllers
 		public async Task<ActionResult<RentalItemView>> GetRentalItem(int id)
 		{
 			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
-			
+			if (rentalItem == null) 
+			{
+				return NotFound();
+			}
 
 			var rentalItemView = _mapper.Map<RentalItemView>(rentalItem);
 			return Ok(rentalItemView);
