@@ -19,8 +19,10 @@ namespace TourneyRent.DataLayer.Models
         [Required]
         public string Description { get; set; }
 
-        
-        public List<ApplicationUser> Players{ get; set; }
+        public string CreatorId { get; set; } //DELETE
+
+        public List<TeamMember> Members { get; set; }
+       
 
     }
 }

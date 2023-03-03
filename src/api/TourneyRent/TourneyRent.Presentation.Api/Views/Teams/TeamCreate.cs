@@ -1,4 +1,5 @@
-﻿using TourneyRent.DataLayer.Models;
+﻿using TourneyRent.DataLayer.Enumerators;
+using TourneyRent.DataLayer.Models;
 
 namespace TourneyRent.Presentation.Api.Views.Teams
 {
@@ -8,6 +9,9 @@ namespace TourneyRent.Presentation.Api.Views.Teams
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public string CreatorId { get; set; }
+
 
     }
 }
