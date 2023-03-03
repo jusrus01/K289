@@ -2,9 +2,12 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer;
+using TourneyRent.DataLayer.Enumerators;
 using TourneyRent.DataLayer.Models;
+using TourneyRent.Presentation.Api.Views.TeamMembers;
 using TourneyRent.Presentation.Api.Views.Teams;
 
 namespace TourneyRent.Presentation.Api.Controllers
@@ -87,18 +90,48 @@ namespace TourneyRent.Presentation.Api.Controllers
             return NoContent();
         }
 
-        [HttpPost("{teamId}/players")]
-        public async Task<ActionResult<ApplicationUser>> AddPlayerAsync(int teamId, ApplicationUser player)
+        [HttpPost("{teamId}/members")]
+        public async Task<ActionResult<TeamMemberView>> AddTeamMemberAsync(int teamId, TeamMemberCreate teamMemberCreate)
         {
-            await _teamService.AddPlayerAsync(teamId, player);
-            return CreatedAtAction(nameof(GetPlayerByIdAsync), new { teamId, id = player.Id }, player);
+            var team = await _teamService.GetTeamByIdAsync(teamId);
+            if(team == null)
+            {
+                return NotFound();
+            }
+
+            //if(team.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            //{
+            //    teamMemberCreate.Role = TeamRole.TeamLeader;
+            //}
+
+            var teamMember = _mapper.Map<TeamMember>(teamMemberCreate);
+            teamMember.TeamId = teamId;
+            await _teamService.AddTeamMemberAsync(teamMember);
+            
+            
+
+            var teamMemberRead = _mapper.Map<TeamMemberView>(teamMember);
+            return CreatedAtAction(nameof(GetTeamMemberByIdAsync), new { teamId = teamMember.TeamId, memberId = teamMemberRead.UserId }, teamMemberRead);
         }
 
-        [HttpGet("{teamId}/players/{id}")]
-        public async Task<ActionResult<ApplicationUser>> GetPlayerByIdAsync(int teamId, int id)
+        [HttpGet("{teamId}/members/{memberId}")]
+        public async Task<ActionResult<TeamMemberView>> GetTeamMemberByIdAsync(int teamId, string memberId)
         {
-            var player = _teamService.GetPlayerByIdAsync(teamId, id);
-            return Ok(player);
+            var teamMember = await _teamService.GetTeamMemberByIdAsync(teamId, memberId);
+            if(teamMember == null)
+            {
+                return NotFound();
+            }
+
+            var member = _mapper.Map<TeamMemberView>(teamMember);
+            return Ok(member);
+        }
+
+        [HttpGet("{teamId}/members")]
+        public async Task<ActionResult<List<TeamMemberView>>> GetTeamMembersAsync(int teamId)
+        {
+            var teamMembers = await _teamService.GetTeamMembersAsync(teamId);
+            return Ok(_mapper.Map<List<TeamMemberView>>(teamMembers));
         }
 
     }

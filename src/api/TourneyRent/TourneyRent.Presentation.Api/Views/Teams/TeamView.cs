@@ -10,6 +10,6 @@ namespace TourneyRent.Presentation.Api.Views.Teams
 
         public string Description { get; set; }
 
-        public List<ApplicationUser> Players { get; set; }
+        public List<TeamMember> Members { get; set; }
     }
 }
