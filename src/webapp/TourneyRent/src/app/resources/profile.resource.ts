@@ -11,8 +11,13 @@ export class ProfileResource {
   constructor(private httpClient: HttpClient) {}
 
   getProfile(userId: string): Observable<Profile> {
-    return this.httpClient.get<Profile>(
-      `${API_URL}/account/${userId}`
+    return this.httpClient.get<Profile>(`${API_URL}/account/${userId}`);
+  }
+
+  changeMyProfileImage(imageFormData: FormData): Observable<string> {
+    return this.httpClient.post<string>(
+      `${API_URL}/account/profile/changeMyImage`,
+      imageFormData
     );
   }
 }

@@ -5,6 +5,7 @@ using TourneyRent.Authentication.Models;
 using TourneyRent.Authentication.Services;
 using TourneyRent.BusinessLogic.Models;
 using TourneyRent.BusinessLogic.Services;
+using TourneyRent.Contracts.Models;
 using TourneyRent.Presentation.Api.Views.Account;
 
 namespace TourneyRent.Presentation.Api.Controllers
@@ -49,6 +50,13 @@ namespace TourneyRent.Presentation.Api.Controllers
         public async Task<IActionResult> GetProfile(string id)
         {
             return Ok(_mapper.Map<UserProfileView>(await _accountService.GetProfileAsync(id)));
+        }
+
+        [HttpPost("Profile/ChangeMyImage")]
+        public async Task<IActionResult> ChangeMyProfileImage([FromForm] ChangeMyProfileImageArgsView myProfileChangeArgs)
+        {
+            var assignedImageId = await _accountService.ChangeProfileImageAsync(myProfileChangeArgs);
+            return Ok(new { ImageId = assignedImageId });
         }
 
         [HttpPut]

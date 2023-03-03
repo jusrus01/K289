@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { API_URL } from 'src/app/app.module';
 
@@ -19,7 +19,15 @@ export class ImageComponent {
     this.imageId = null;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
+    this._init();
+  }
+
+  public reload(): void {
+    this._init();
+  }
+
+  private _init(): void {
     if (!this.imageId) {
       return;
     }

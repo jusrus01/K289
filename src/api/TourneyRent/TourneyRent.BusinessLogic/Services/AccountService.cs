@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using TourneyRent.BusinessLogic.Exceptions;
+using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Models;
+using TourneyRent.Contracts.Models;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.DataLayer.Repositories;
 
@@ -10,19 +13,30 @@ namespace TourneyRent.BusinessLogic.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ImageRepository _imageRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountService(
             UserManager<ApplicationUser> userManager,
-            ImageRepository imageRepository)
+            ImageRepository imageRepository,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _imageRepository = imageRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<Guid> ChangeProfileImageAsync(IImageUpload image, string? userId = null)
+        {
+            var resolvedUserId = userId ?? _httpContextAccessor.GetAuthenticatedUserId();
+            var user = await GetUserAsync(resolvedUserId);
+            var uploadedImageId = await _imageRepository.UploadImageAsync(image, user.ImageId ?? Guid.NewGuid());
+            user.ImageId = uploadedImageId;
+            await _userManager.UpdateAsync(user);
+            return uploadedImageId;
+        }
         public async Task<UserProfile> UpdateProfileAsync(UpdateUserProfileArgs updateArgs)
         {
             var user = await GetUserAsync(updateArgs.Id);
-            user.ImageId = await _imageRepository.UploadImageAsync(updateArgs, Guid.Parse(user.Id));
             await _userManager.UpdateAsync(user);
             return new UserProfile(user.FirstName, user.LastName, user.ImageId);
         }
