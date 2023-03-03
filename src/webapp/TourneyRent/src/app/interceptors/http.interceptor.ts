@@ -59,7 +59,10 @@ export class HttpClientInterceptor implements HttpInterceptor {
 
     return next.handle(request.clone({ withCredentials: true })).pipe(
       tap((event) => {
-        if (event instanceof HttpResponse) {
+        if (
+          event instanceof HttpResponse &&
+          (request.method === 'POST' || request.method === 'PUT')
+        ) {
           this.snackBar.openFromComponent(SuccessSnackComponent, {
             duration: 1000,
           });

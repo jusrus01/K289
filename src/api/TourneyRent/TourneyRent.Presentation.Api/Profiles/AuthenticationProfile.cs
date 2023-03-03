@@ -13,7 +13,7 @@ namespace TourneyRent.Presentation.Api.Profiles
 
             CreateMap<CreatedUser, CreatedUserView>();
 
-            CreateMap<UserRoles, UserRolesView>();
+            CreateMap<UserInfo, UserInfoView>();
         }
     }
 }

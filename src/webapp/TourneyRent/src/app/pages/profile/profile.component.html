@@ -1,0 +1,54 @@
+<div class="w-full h-full mt-14 bg-default">
+    <div class="w-full h-96 bg-slate-800 flex items-center sm:justify-end">
+        <span class="text-white text-7xl font-bold mr-48">Profile</span>
+    </div>
+    <div class="relative w-full flex-row">
+        <div class="sm:ml-12 absolute -bottom-20 left-10 flex">
+            <div class="relative">
+                <app-image #profileImage class="absolute" [imageClass]="'rounded-full'"
+                    [containerClass]="'h-0 w-0 sm:h-44 sm:w-44 rounded-full sm:visible'" *ngIf="!isLoading"
+                    [imageId]="profile.imageId"></app-image>
+                <div class="absolute bottom-0 w-full flex justify-center">
+                    <button class="sm:visible invisible ml-[170px]" mat-icon-button *ngIf="isUser"
+                        (click)="imageUpload.click()">
+                        <i class="text-white fa-solid fa-camera"></i>
+                    </button>
+
+                    <input #imageUpload (change)="onFileUpload($event, imageUpload)" type="file" hidden="true"
+                        data-testid="file-upload" />
+                </div>
+            </div>
+            <span class="text-white -ml-10 sm:ml-[180px] mt-[140px]">
+                <mat-spinner *ngIf="isLoading" [color]="'accent'" diameter="20"></mat-spinner>
+                <span *ngIf="!isLoading">
+                    {{profile.firstName}} {{profile.lastName}}
+                </span>
+            </span>
+        </div>
+    </div>
+    <div class="w-full h-24 bg-default">
+    </div>
+    <div class="w-full text-white">
+        <mat-tab-group class="sm:ml-24 sm:mr-24" mat-stretch-tabs="false" [color]="'primary'"
+            [backgroundColor]="'primary'">
+            <mat-tab label="Overview">
+                <div class="h-full p-0 sm:p-3" style="background-color: #28388f;">
+                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
+                    deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
+                    provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum
+                    fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis
+                    est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis
+                    voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis
+                    aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non
+                    recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus
+                    maiores alias consequatur aut perferendis doloribus asperiores repellat.
+                </div>
+            </mat-tab>
+            <mat-tab label="Teams">
+                <div class="h-full p-0 sm:p-3" style="background-color: #28388f;">
+                    You don't belong to any teams yet
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

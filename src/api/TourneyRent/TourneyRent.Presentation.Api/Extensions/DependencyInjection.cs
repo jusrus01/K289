@@ -4,6 +4,7 @@ using TourneyRent.Authentication.Services;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
+using TourneyRent.DataLayer.Repositories;
 
 namespace TourneyRent.Presentation.Api.Extensions
 {
@@ -11,7 +12,10 @@ namespace TourneyRent.Presentation.Api.Extensions
     {
         public static void ConfigureServices(this IServiceCollection services)
         {
+            services.AddScoped<ImageRepository>();
+            services.AddScoped<ImageService>();
             services.AddScoped<AuthenticationService>();
+            services.AddScoped<AccountService>();
             services.AddScoped<TeamRepository>();
             services.AddScoped<TeamService>();
         }
