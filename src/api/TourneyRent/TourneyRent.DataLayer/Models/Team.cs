@@ -19,6 +19,8 @@ namespace TourneyRent.DataLayer.Models
         [Required]
         public string Description { get; set; }
 
-        public ICollection<ApplicationUser> Players { get; set; }
+        public List<TeamMember> Members { get; set; }
+       
+
     }
 }

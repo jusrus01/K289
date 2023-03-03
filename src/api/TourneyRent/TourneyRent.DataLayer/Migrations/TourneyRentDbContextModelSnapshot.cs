@@ -293,6 +293,33 @@ namespace TourneyRent.DataLayer.Migrations
                     b.ToTable("Teams");
                 });
 
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.TeamMember", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TeamMembers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("TourneyRent.DataLayer.Models.ApplicationRole", null)
@@ -347,15 +374,34 @@ namespace TourneyRent.DataLayer.Migrations
             modelBuilder.Entity("TourneyRent.DataLayer.Models.ApplicationUser", b =>
                 {
                     b.HasOne("TourneyRent.DataLayer.Models.Team", "Team")
-                        .WithMany("Players")
+                        .WithMany()
                         .HasForeignKey("TeamId");
 
                     b.Navigation("Team");
                 });
 
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.TeamMember", b =>
+                {
+                    b.HasOne("TourneyRent.DataLayer.Models.Team", "Team")
+                        .WithMany("Members")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Team");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TourneyRent.DataLayer.Models.Team", b =>
                 {
-                    b.Navigation("Players");
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }
