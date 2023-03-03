@@ -24,8 +24,4 @@
     <ProjectReference Include="..\TourneyRent.Contracts\TourneyRent.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>
