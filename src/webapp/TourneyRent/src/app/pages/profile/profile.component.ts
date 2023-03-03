@@ -58,7 +58,9 @@ export class ProfileComponent {
       .changeMyProfileImage(formData)
       .subscribe((resp: any) => {
         this.profile.imageId = resp.imageId;
-        this.profileImage.reload();
+        setTimeout(() => {
+          this.profileImage.reload();
+        });
       });
   }
 }
