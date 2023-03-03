@@ -15,5 +15,7 @@ namespace TourneyRent.DataLayer.Models
         public TeamRole Role { get; set; }
 
         public virtual Team Team { get; set; }
+
+        public ApplicationUser User { get; set; }
     }
 }

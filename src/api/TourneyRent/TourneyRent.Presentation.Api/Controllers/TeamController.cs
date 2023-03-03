@@ -99,10 +99,10 @@ namespace TourneyRent.Presentation.Api.Controllers
                 return NotFound();
             }
 
-            if(team.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-            {
-                teamMemberCreate.Role = TeamRole.TeamLeader;
-            }
+            //if(team.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            //{
+            //    teamMemberCreate.Role = TeamRole.TeamLeader;
+            //}
 
             var teamMember = _mapper.Map<TeamMember>(teamMemberCreate);
             teamMember.TeamId = teamId;
