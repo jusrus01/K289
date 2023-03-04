@@ -64,6 +64,7 @@ import { ShowForAuthenticatedUserDirective } from './common/directives/show-for-
 import { ShowForGuestUserDirective } from './common/directives/show-for-guest-user.directive';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ImageComponent } from './common/image/image.component';
+import { TeamCreateComponent } from './pages/team-create/team-create/team-create.component';
 
 export const API_URL = "http://localhost:5155";
 
@@ -77,7 +78,8 @@ export const API_URL = "http://localhost:5155";
     ShowForAuthenticatedUserDirective,
     ShowForGuestUserDirective,
     ProfileComponent,
-    ImageComponent
+    ImageComponent,
+    TeamCreateComponent
   ],
   imports: [
     BrowserModule,
