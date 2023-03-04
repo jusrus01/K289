@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -19,7 +19,14 @@
   <ItemGroup>
     <ProjectReference Include="..\TourneyRent.Authentication\TourneyRent.Authentication.csproj" />
     <ProjectReference Include="..\TourneyRent.BusinessLogic\TourneyRent.BusinessLogic.csproj" />
+    <ProjectReference Include="..\TourneyRent.Contracts\TourneyRent.Contracts.csproj" />
     <ProjectReference Include="..\TourneyRent.DataLayer\TourneyRent.DataLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="storage\images\2f2c8f88-466a-46a7-973e-2e846effdf24">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

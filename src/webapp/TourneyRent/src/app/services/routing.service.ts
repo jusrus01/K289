@@ -2,6 +2,7 @@ import { Inject, Injectable, Type } from '@angular/core';
 import { Route, Router, ROUTES } from '@angular/router';
 import { HomeComponent } from '../pages/home/home.component';
 import { LoginComponent } from '../pages/login/login.component';
+import { ProfileComponent } from '../pages/profile/profile.component';
 import { RegisterComponent } from '../pages/register/register.component';
 
 @Injectable({
@@ -20,6 +21,10 @@ export class RoutingService {
 
   public goToHome(): void {
     this.navigateToComponent(HomeComponent);
+  }
+
+  public goToProfile(): void {
+    this.navigateToComponent(ProfileComponent);
   }
 
   private navigateToComponent(component: Type<any>): void {

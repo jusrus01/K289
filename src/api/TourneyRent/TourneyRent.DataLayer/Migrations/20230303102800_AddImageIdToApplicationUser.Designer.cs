@@ -12,8 +12,8 @@ using TourneyRent.DataLayer;
 namespace TourneyRent.DataLayer.Migrations
 {
     [DbContext(typeof(TourneyRentDbContext))]
-    [Migration("20230220172143_AddSeedDataForAdministrationRole")]
-    partial class AddSeedDataForAdministrationRole
+    [Migration("20230303102800_AddImageIdToApplicationUser")]
+    partial class AddImageIdToApplicationUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,6 +109,13 @@ namespace TourneyRent.DataLayer.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "2f2c8f88-466a-46a7-973e-2e846effdf24",
+                            RoleId = "bca7c0cf-de3b-441a-9a93-29667a913469"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -159,8 +166,8 @@ namespace TourneyRent.DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "513ee5ae-8d69-4e38-95d4-cacbb4cc24c7",
-                            ConcurrencyStamp = "6b017b9e-f1f0-490d-87aa-233fbf864f1d",
+                            Id = "bca7c0cf-de3b-441a-9a93-29667a913469",
+                            ConcurrencyStamp = "3d887dc2-f10e-4b6a-be3b-4e36870d73f8",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -188,6 +195,9 @@ namespace TourneyRent.DataLayer.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -219,6 +229,9 @@ namespace TourneyRent.DataLayer.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -236,7 +249,77 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("TeamId");
+
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2f2c8f88-466a-46a7-973e-2e846effdf24",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d9613afe-bf71-4011-ab09-10540da12750",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = false,
+                            FirstName = "Vardenis",
+                            LastName = "Pavardenis",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAENlhkWeGcBe8J95nTzkIaLj9eD0pR7vaJ4+89LD2P0HMrraG2ZvpWiBn1+hpn9NA3A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "37QVYJOLLDOSH5MWJSLBOWGDCAXPT2QA",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        });
+                });
+
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.TeamMember", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TeamMembers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -288,6 +371,39 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("TourneyRent.DataLayer.Models.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.TeamMember", b =>
+                {
+                    b.HasOne("TourneyRent.DataLayer.Models.Team", "Team")
+                        .WithMany("Members")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Team");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.Team", b =>
+                {
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

@@ -58,10 +58,12 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {CdkMenuModule} from '@angular/cdk/menu';
 import {DialogModule} from '@angular/cdk/dialog';
 import { HttpClientInterceptor } from './interceptors/http.interceptor';
-import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { RoutingService } from './services/routing.service';
-import { TeamCreateComponent } from './pages/team-create/team-create/team-create.component';
+import { ShowForAuthenticatedUserDirective } from './common/directives/show-for-authenticated-user.directive';
+import { ShowForGuestUserDirective } from './common/directives/show-for-guest-user.directive';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ImageComponent } from './common/image/image.component';
 
 export const API_URL = "http://localhost:5155";
 
@@ -72,7 +74,10 @@ export const API_URL = "http://localhost:5155";
     RegisterComponent,
     NavbarComponent,
     HomeComponent,
-    TeamCreateComponent
+    ShowForAuthenticatedUserDirective,
+    ShowForGuestUserDirective,
+    ProfileComponent,
+    ImageComponent
   ],
   imports: [
     BrowserModule,
