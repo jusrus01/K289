@@ -6,40 +6,44 @@
 </div>
 
 <div class="box mt-16">
+
   <fieldset class="form-fieldset">
+
     <div class="form-panel">
+
       <div class="body">
 
-
         <div class="inline-field">
+
           <span class="lbl">
-            <label class="field-label -required" for="item_name">Team name</label>
+            <label class="field-label -required" for="teamNameInput">Team name</label>
           </span>
+
           <div class="control">
-            <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" name="item[name]" id="item_name">
+            <input maxlength="40" required="required" class="auto-focus form-control" size="58" type="text" id="teamNameInput" [(ngModel)]="teamName">
           </div>
-        </div>
+       </div>
 
         <div class="inline-field">
+
           <span class="lbl">
-            <label class="field-label -required" for="item_description">Description</label>
+            <label class="field-label -required" for="teamDescriptionInput">Description</label>
           </span>
+
           <div class="control">
-            <textarea cols="58" required="required" class="auto-focus form-control" name="item[description]" id="item_description"></textarea>
+            <textarea cols="58" required="required" class="auto-focus form-control" id="teamDescriptionInput" [(ngModel)]="teamDescription"></textarea>
           </div>
-        </div>
 
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="item_listOfMembers">Add members to the team</label>
-          </span>
-          <select class="listOfMembers" id="item_listOfMembers" name="item[listOfMembers]">Select</select>
         </div>
 
         <div class="inline-field cntr">
-          <button class="button sbutton" onclick="createTeamItem()">CREATE</button>
+          <button class="button sbutton" (click)="createTeam()">CREATE</button>
         </div>
+
       </div>
+
     </div>
+
   </fieldset>
+
 </div>

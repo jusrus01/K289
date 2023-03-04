@@ -65,27 +65,33 @@ import { ShowForGuestUserDirective } from './common/directives/show-for-guest-us
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ImageComponent } from './common/image/image.component';
 import { TeamCreateComponent } from './pages/team-create/team-create/team-create.component';
+import { CommonModule } from '@angular/common';
+
 
 export const API_URL = "http://localhost:5155";
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    NavbarComponent,
-    HomeComponent,
-    ShowForAuthenticatedUserDirective,
-    ShowForGuestUserDirective,
-    ProfileComponent,
-    ImageComponent,
-    TeamCreateComponent
+     AppComponent,
+     LoginComponent,
+     RegisterComponent,
+     NavbarComponent,
+     HomeComponent,
+     ShowForAuthenticatedUserDirective,
+     ShowForGuestUserDirective,
+
+  //   ProfileComponent,
+  //   ImageComponent,
+
+     TeamCreateComponent
   ],
+  
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatToolbarModule,

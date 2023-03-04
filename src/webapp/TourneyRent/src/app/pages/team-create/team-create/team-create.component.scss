@@ -74,6 +74,10 @@ fieldset {
   .cntr {
     justify-content: center;
   }
+
+  .lft{
+    transform: translate(300px, -50px);
+  }
   
   .button {
     border: none;
@@ -170,7 +174,9 @@ fieldset {
   .inline-field>.control {
     flex: 0 1 75%;
     width: 75%;
+    margin-left: -70px;
   }
+
   
   .inline-field>.lbl {
     flex: 0 0 25%;
