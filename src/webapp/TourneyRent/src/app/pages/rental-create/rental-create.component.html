@@ -16,7 +16,8 @@
             <label class="field-label -required" for="item_name">Item name</label>
           </span>
           <div class="control">
-            <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" name="item[name]" id="item_name">
+            <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" [(ngModel)]="name" id="item_name">
+            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
           </div>
         </div>
 
@@ -25,7 +26,8 @@
             <label class="field-label -required" for="item_description">Description</label>
           </span>
           <div class="control">
-            <textarea cols="60" required="required" class="auto-focus form-control" name="item[description]" id="item_description"></textarea>
+            <textarea cols="60" required="required" class="auto-focus form-control" [(ngModel)]="description" id="item_description"></textarea>
+            <!-- <textarea cols="60" required="required" class="auto-focus form-control" ng-model="item.description" id="item_description"></textarea> -->
           </div>
         </div>
 
@@ -34,7 +36,8 @@
             <label class="field-label" for="item_image">Upload image</label>
           </span>
           <div class="control">
-            <input maxlength="5" required="required" class="auto-focus form-control" size="5" type="image" alt="select" name="item[image]" id="item_image">
+            <input maxlength="5" required="required" class="auto-focus form-control" size="5" type="image" alt="select" [(ngModel)]="image" id="item_image">
+            <!-- <input maxlength="5" required="required" class="auto-focus form-control" size="5" type="image" alt="select" ng-model="item.image" id="item_image"> -->
           </div>
         </div>
 
@@ -43,7 +46,8 @@
             <label class="field-label -required" for="item_period">Rental period</label>
           </span>
           <div class="control">
-            <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" name="item[period]" id="item_period"> -- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" name="item[period]" id="item_period">
+            <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" [(ngModel)]="periodStart" id="item_period"> -- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" [(ngModel)]="periodEnd" id="item_period">
+            <!-- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" ng-model="item.period1" id="item_period"> -- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" ng-model="item.period2" id="item_period"> -->
           </div>
         </div>
 
@@ -52,12 +56,14 @@
             <label class="field-label -required" for="item_price">Price</label>
           </span>
           <div class="control">
-            <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="number" name="item[price]" id="item_price"> $
+            <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="number" [(ngModel)]="price" id="item_price"> $
+            <!-- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="number" ng-model="item.price" id="item_price"> $ -->
           </div>
         </div>
 
         <div class="inline-field cntr">
-          <button class="button sbutton" onclick="createRentalItem()">CREATE</button>
+          <button class="button sbutton" (click)="submit()">CREATE</button>
+          <!--<button class="button sbutton" ng-click="createRentalItem()">CREATE</button>-->
         </div>
       </div>
     </div>
