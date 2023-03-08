@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TourneyRent.DataLayer;
 
@@ -11,9 +12,10 @@ using TourneyRent.DataLayer;
 namespace TourneyRent.DataLayer.Migrations
 {
     [DbContext(typeof(TourneyRentDbContext))]
-    partial class TourneyRentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230302162024_AddRentalItemTable")]
+    partial class AddRentalItemTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,9 +196,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ImageId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -227,9 +226,6 @@ namespace TourneyRent.DataLayer.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -246,8 +242,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("AspNetUsers", (string)null);
 
@@ -272,55 +266,7 @@ namespace TourneyRent.DataLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.Team", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.TeamMember", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TeamMembers");
-                });
-                
-             modelBuilder.Entity("TourneyRent.DataLayer.Models.RentalItem", b =>
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.RentalItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -403,39 +349,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("TourneyRent.DataLayer.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId");
-
-                    b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.TeamMember", b =>
-                {
-                    b.HasOne("TourneyRent.DataLayer.Models.Team", "Team")
-                        .WithMany("Members")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Team");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.Team", b =>
-                {
-                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

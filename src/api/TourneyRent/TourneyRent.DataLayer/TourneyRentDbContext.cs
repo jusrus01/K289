@@ -16,6 +16,7 @@ namespace TourneyRent.DataLayer
 
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
+        public DbSet<RentalItem> RentalItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

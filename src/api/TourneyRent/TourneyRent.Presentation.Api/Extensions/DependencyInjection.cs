@@ -5,6 +5,7 @@ using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.DataLayer.Repositories;
+using static TourneyRent.DataLayer.RentalItemRepository;
 
 namespace TourneyRent.Presentation.Api.Extensions
 {
@@ -18,7 +19,9 @@ namespace TourneyRent.Presentation.Api.Extensions
             services.AddScoped<AccountService>();
             services.AddScoped<TeamRepository>();
             services.AddScoped<TeamService>();
-        }
+            services.AddScoped<RentalItemRepository>();
+            services.AddScoped<RentalItemService>();
+		    }
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {

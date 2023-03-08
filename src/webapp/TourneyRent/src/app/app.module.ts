@@ -60,12 +60,14 @@ import {DialogModule} from '@angular/cdk/dialog';
 import { HttpClientInterceptor } from './interceptors/http.interceptor';
 import { AuthService } from './services/auth.service';
 import { RoutingService } from './services/routing.service';
+import { RentalCreateComponent } from './pages/rental-create/rental-create.component';
 import { ShowForAuthenticatedUserDirective } from './common/directives/show-for-authenticated-user.directive';
 import { ShowForGuestUserDirective } from './common/directives/show-for-guest-user.directive';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ImageComponent } from './common/image/image.component';
+import { RentalViewComponent } from './pages/rental-view/rental-view.component';
 
-export const API_URL = "http://localhost:5155";
+export const API_URL = "http://localhost:5155"; 
 
 @NgModule({
   declarations: [
@@ -74,10 +76,12 @@ export const API_URL = "http://localhost:5155";
     RegisterComponent,
     NavbarComponent,
     HomeComponent,
+    RentalCreateComponent,
     ShowForAuthenticatedUserDirective,
     ShowForGuestUserDirective,
     ProfileComponent,
-    ImageComponent
+    ImageComponent,
+    RentalViewComponent
   ],
   imports: [
     BrowserModule,
