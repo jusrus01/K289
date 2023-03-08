@@ -8,8 +8,12 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { RentalCreateComponent } from './pages/rental-create/rental-create.component';
 import { RentalViewComponent } from './pages/rental-view/rental-view.component';
+import { TournamentCreateComponent } from './pages/tournaments/tournament-create/tournament-create.component';
+import { TournamentComponent } from './pages/tournaments/tournament/tournament.component';
 
 export const ROUTES: Routes = [
+  { path: 'tournament', component: TournamentComponent, data: { title: 'Tournaments' } },
+  { path: 'tournament/create', component: TournamentCreateComponent, data: { title: 'Create' }, canActivate: [AuthGuard]},
   { path: 'profile', component: ProfileComponent, data: { title: 'Profile' }, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent, data: { title: 'Login' }, canActivate: [GuestGuard] },
   { path: 'register', component: RegisterComponent, data: { title: 'Register' }, canActivate: [GuestGuard] },
