@@ -64,9 +64,11 @@ import { RoutingService } from './services/routing.service';
 import { RentalCreateComponent } from './pages/rental-create/rental-create.component';
 import { ShowForAuthenticatedUserDirective } from './common/directives/show-for-authenticated-user.directive';
 import { ShowForGuestUserDirective } from './common/directives/show-for-guest-user.directive';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ImageComponent } from './common/image/image.component';
 import { RentalViewComponent } from './pages/rental-view/rental-view.component';
 
-export const API_URL = "http://localhost:5155";
+export const API_URL = "http://localhost:5155"; 
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ export const API_URL = "http://localhost:5155";
     RentalCreateComponent,
     ShowForAuthenticatedUserDirective,
     ShowForGuestUserDirective,
+    ProfileComponent,
+    ImageComponent,
     RentalViewComponent
   ],
   imports: [
