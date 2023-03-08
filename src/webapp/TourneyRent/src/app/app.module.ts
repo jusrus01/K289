@@ -58,7 +58,6 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {CdkMenuModule} from '@angular/cdk/menu';
 import {DialogModule} from '@angular/cdk/dialog';
 import { HttpClientInterceptor } from './interceptors/http.interceptor';
-import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { RoutingService } from './services/routing.service';
 import { RentalCreateComponent } from './pages/rental-create/rental-create.component';

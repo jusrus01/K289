@@ -1,7 +1,8 @@
-<nav class="top-0 sticky flex flex-wrap items-center justify-between px-2 py-3 bg-indigo-900">
+<nav class="top-0 sticky flex flex-wrap items-center justify-between px-2 py-3 bg-default">
     <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div class="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start">
-            <a class="cursor-pointer text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white" (mousedown)="goToHome()">
+            <a class="cursor-pointer text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+                (mousedown)="routing.goToHome()">
                 TourneyRent
             </a>
             <button
@@ -15,18 +16,28 @@
                 <!-- Navigation items -->
                 <!-- You can add new links here -->
                 <li class="nav-item">
-                    <a *showForGuestUser class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" (mousedown)="goToRegister()">
+                    <a *showForGuestUser
+                        class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                        (mousedown)="routing.goToRegister()">
                         Register
                     </a>
                 </li>
                 <li *showForGuestUser class="nav-item">
-                    <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" (mousedown)="goToLogin()">
+                    <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                        (mousedown)="routing.goToLogin()">
                         Login
                     </a>
                 </li>
                 <li *showForAuthenticatedUser class="nav-item">
-                    <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" (mousedown)="logout()">
-                        Logout
+                    <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                        (mousedown)="routing.goToProfile()">
+                        <i class="fa-regular fa-user text-lg"></i>
+                    </a>
+                </li>
+                <li *showForAuthenticatedUser class="nav-item">
+                    <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                        (mousedown)="logout()">
+                        <i class="text-lg fa-solid fa-right-from-bracket"></i>
                     </a>
                 </li>
             </ul>

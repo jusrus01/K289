@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Reflection.Emit;
 using TourneyRent.DataLayer.Models;
 
 namespace TourneyRent.DataLayer
@@ -20,6 +21,13 @@ namespace TourneyRent.DataLayer
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Team>()
+                .HasMany(t => t.Members)
+                .WithOne(m => m.Team)
+                .HasForeignKey(m => m.TeamId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

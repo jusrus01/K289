@@ -32,8 +32,9 @@ namespace TourneyRent.Presentation.Api
             builder.Services.ConfigureDatabase(builder.Configuration);
             builder.Services.ConfigureIdentity();
             builder.Services.ConfigureServices();
-            builder.Services.AddControllers(options =>
-                options.Filters.Add<GlobalModelStateValidationFilter>());
+            builder.Services
+                .AddControllers(options =>
+                    options.Filters.Add<GlobalModelStateValidationFilter>());
 
             var app = builder.Build();
             app.UseCors();

@@ -1,3 +1,4 @@
 export interface LoginResponse {
-    roles: string[]
+    roles: string[],
+    userId: string
 }

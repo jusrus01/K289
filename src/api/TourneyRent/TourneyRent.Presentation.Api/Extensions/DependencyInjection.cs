@@ -13,15 +13,15 @@ namespace TourneyRent.Presentation.Api.Extensions
     {
         public static void ConfigureServices(this IServiceCollection services)
         {
+            services.AddScoped<ImageRepository>();
+            services.AddScoped<ImageService>();
             services.AddScoped<AuthenticationService>();
-            services.AddScoped<RentalItemRepository>();
-            services.AddScoped<RentalItemService>();
             services.AddScoped<AccountService>();
             services.AddScoped<TeamRepository>();
             services.AddScoped<TeamService>();
             services.AddScoped<RentalItemRepository>();
             services.AddScoped<RentalItemService>();
-		}
+		    }
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {
