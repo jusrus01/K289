@@ -167,5 +167,19 @@ namespace TourneyRent.Presentation.Api.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{teamId}/members/{memberId}")]
+        public async Task<IActionResult> DeleteTeamMemberAsync(int teamId,string memberId)
+        {
+            var teamMember = await _teamService.GetTeamMemberByIdAsync(teamId, memberId);
+            if (teamMember == null)
+            {
+                return NotFound();
+            }
+
+            await _teamService.RemoveTeamMemberAsync(teamMember);
+
+            return NoContent();
+        }
+
     }
 }
