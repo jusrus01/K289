@@ -23,7 +23,7 @@ namespace TourneyRent.BusinessLogic.Services
 
         public async Task<Team> GetTeamByIdAsync(int id)
         {
-            var userID = _httpContext.GetAuthenticatorUserId();
+            //var userID = _httpContext.GetAuthenticatedUserId();
 
             return await _teamRepository.GetTeamByIdAsync(id);
 
@@ -39,6 +39,8 @@ namespace TourneyRent.BusinessLogic.Services
         public async Task AddTeamAsync(Team team)
         {
             await _teamRepository.AddTeamAsync(team);
+
+        
 
         }
 
@@ -79,6 +81,12 @@ namespace TourneyRent.BusinessLogic.Services
         {
             var teamMembers = await _teamRepository.GetTeamMembersAsync(teamId);
             return teamMembers;
+        }
+
+        public async Task UpdateTeamMemberAsync(TeamMember teamMember)
+        {
+            await _teamRepository.UpdateTeamMemberAsync(teamMember);
+
         }
 
 
