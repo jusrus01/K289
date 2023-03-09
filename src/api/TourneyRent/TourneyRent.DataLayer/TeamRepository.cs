@@ -79,6 +79,14 @@ namespace TourneyRent.DataLayer
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Team>> GetTeamsByUserIdAsync(string userId)
+        {
+           var ids =  await _context.TeamMembers.Where(tm => tm.UserId == userId)
+                .Select(tm => tm.TeamId)
+                .ToListAsync();
+
+            return await _context.Teams.Where(t => ids.Contains(t.Id)).ToListAsync();        }
+
 
     }
 }

@@ -181,5 +181,13 @@ namespace TourneyRent.Presentation.Api.Controllers
             return NoContent();
         }
 
+        [HttpGet("members/{userId}")]
+        public async Task<ActionResult<IEnumerable<TeamView>>> GetTeamsByUserIdAsync(string userId)
+        {
+            var teams = await _teamService.GetTeamsByUserIdAsync(userId);
+            var teamRead = _mapper.Map<IEnumerable<TeamView>>(teams);
+            return Ok(teamRead);
+        }
+
     }
 }
