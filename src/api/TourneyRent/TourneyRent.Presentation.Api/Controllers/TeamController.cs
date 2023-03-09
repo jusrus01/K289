@@ -54,6 +54,10 @@ namespace TourneyRent.Presentation.Api.Controllers
             var team = _mapper.Map<Team>(teamCreate);
             await _teamService.AddTeamAsync(team);
             var teamRead = _mapper.Map<TeamView>(team);
+
+            //team.Members.Add(teamMember);
+            //await _teamService.UpdateTeamAsync(team);
+
             return CreatedAtAction(nameof(GetTeamByIdAsync), new { id = teamRead.Id }, teamRead);
         }
 
@@ -99,6 +103,8 @@ namespace TourneyRent.Presentation.Api.Controllers
                 return NotFound();
             }
 
+            // 
+
             //if(team.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
             //{
             //    teamMemberCreate.Role = TeamRole.TeamLeader;
@@ -108,6 +114,8 @@ namespace TourneyRent.Presentation.Api.Controllers
             teamMember.TeamId = teamId;
             await _teamService.AddTeamMemberAsync(teamMember);
             
+           // team.Members.Add(teamMember);
+           // await _teamService.UpdateTeamAsync(team);
             
 
             var teamMemberRead = _mapper.Map<TeamMemberView>(teamMember);
@@ -132,6 +140,45 @@ namespace TourneyRent.Presentation.Api.Controllers
         {
             var teamMembers = await _teamService.GetTeamMembersAsync(teamId);
             return Ok(_mapper.Map<List<TeamMemberView>>(teamMembers));
+        }
+
+        [HttpPut("{teamId}/members/{memberId}")]
+        public async Task<IActionResult> UpdateTeamMemberAsync(int teamId, string memberId, TeamMemberUpdate teamMemberUpdate)
+        {
+            var teamMember = _mapper.Map<TeamMember>(teamMemberUpdate);
+            teamMember.TeamId = teamId;
+            teamMember.UserId = memberId;
+
+            var tm = await _teamService.GetTeamMemberByIdAsync(teamId, memberId);
+
+            teamMember.Id = tm.Id;
+
+            if (tm == null)
+            {
+                return NotFound();
+            }
+
+            await _teamService.UpdateTeamMemberAsync(teamMember);
+
+            
+
+
+
+            return NoContent();
+        }
+
+        [HttpDelete("{teamId}/members/{memberId}")]
+        public async Task<IActionResult> DeleteTeamMemberAsync(int teamId,string memberId)
+        {
+            var teamMember = await _teamService.GetTeamMemberByIdAsync(teamId, memberId);
+            if (teamMember == null)
+            {
+                return NotFound();
+            }
+
+            await _teamService.RemoveTeamMemberAsync(teamMember);
+
+            return NoContent();
         }
 
     }
