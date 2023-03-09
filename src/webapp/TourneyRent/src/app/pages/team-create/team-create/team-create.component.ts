@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-team-create',
@@ -7,15 +8,15 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./team-create.component.scss']
 })
 export class TeamCreateComponent {
-  teamName: string = '';
-  teamDescription: string = '';
+  Name!: string;
+  Description!: string;
 
   constructor(private http: HttpClient) {}
 
   createTeam() {
     const team = {
-      teamName: this.teamName,
-      teamDescription: this.teamDescription
+      Name: this.Name,
+      Description: this.Description
     };
 
     this.http.post('http://localhost:5155/Team', team).subscribe(response => {

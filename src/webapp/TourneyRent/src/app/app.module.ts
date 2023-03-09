@@ -79,10 +79,8 @@ export const API_URL = "http://localhost:5155";
      HomeComponent,
      ShowForAuthenticatedUserDirective,
      ShowForGuestUserDirective,
-
-  //   ProfileComponent,
-  //   ImageComponent,
-
+     ProfileComponent,
+     ImageComponent,
      TeamCreateComponent
   ],
   

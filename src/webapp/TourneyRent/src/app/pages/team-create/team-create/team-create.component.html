@@ -13,31 +13,18 @@
 
       <div class="body">
 
-        <div class="inline-field">
+        <mat-form-field appearance="fill" class="inline-field">
+          <mat-label>Team name</mat-label>
+          <input matInput maxlength="40" required [(ngModel)]="Name" id="teamNameInput">
+        </mat-form-field>
 
-          <span class="lbl">
-            <label class="field-label -required" for="teamNameInput">Team name</label>
-          </span>
-
-          <div class="control">
-            <input maxlength="40" required="required" class="auto-focus form-control" size="58" type="text" id="teamNameInput" [(ngModel)]="teamName">
-          </div>
-       </div>
-
-        <div class="inline-field">
-
-          <span class="lbl">
-            <label class="field-label -required" for="teamDescriptionInput">Description</label>
-          </span>
-
-          <div class="control">
-            <textarea cols="58" required="required" class="auto-focus form-control" id="teamDescriptionInput" [(ngModel)]="teamDescription"></textarea>
-          </div>
-
-        </div>
+        <mat-form-field appearance="fill" class="inline-field">
+          <mat-label>Description</mat-label>
+          <textarea matInput required [(ngModel)]="Description" id="teamDescriptionInput"></textarea>
+        </mat-form-field>
 
         <div class="inline-field cntr">
-          <button class="button sbutton" (click)="createTeam()">CREATE</button>
+          <button mat-raised-button color="primary" (click)="createTeam()">CREATE</button>
         </div>
 
       </div>

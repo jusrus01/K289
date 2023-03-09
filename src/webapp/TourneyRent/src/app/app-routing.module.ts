@@ -12,7 +12,7 @@ export const ROUTES: Routes = [
   { path: 'profile', component: ProfileComponent, data: { title: 'Profile' }, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent, data: { title: 'Login' }, canActivate: [GuestGuard] },
   { path: 'register', component: RegisterComponent, data: { title: 'Register' }, canActivate: [GuestGuard] },
-  { path: 'team-create', component: TeamCreateComponent, data: {title: 'Team Create'}},
+  { path: 'team/create', component: TeamCreateComponent, data: {title: 'Team Create'}},
   { path: '', component: HomeComponent, data: { title: 'Home' }, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
