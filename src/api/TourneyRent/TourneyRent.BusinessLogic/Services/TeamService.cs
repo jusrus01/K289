@@ -89,6 +89,11 @@ namespace TourneyRent.BusinessLogic.Services
 
         }
 
+        public async Task<IEnumerable<Team>> GetTeamsByUserIdAsync(string userId)
+        {
+            return await _teamRepository.GetTeamsByUserIdAsync(userId);
+        }
+
 
 
 
