@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TourneyRent.BusinessLogic.Exceptions;
+using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 
@@ -12,15 +14,20 @@ namespace TourneyRent.BusinessLogic.Services
     public class TeamService
     {
         private readonly TeamRepository _teamRepository;
-
-        public TeamService(TeamRepository teamRepository)
+        private readonly IHttpContextAccessor _httpContext;
+        public TeamService(TeamRepository teamRepository, IHttpContextAccessor httpContext)
         {
             _teamRepository = teamRepository;
+            _httpContext = httpContext;
         }
 
         public async Task<Team> GetTeamByIdAsync(int id)
         {
+            var userID = _httpContext.GetAuthenticatorUserId();
+
             return await _teamRepository.GetTeamByIdAsync(id);
+
+
 
         }
 

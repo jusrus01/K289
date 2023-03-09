@@ -99,6 +99,8 @@ namespace TourneyRent.Presentation.Api.Controllers
                 return NotFound();
             }
 
+            // 
+
             //if(team.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
             //{
             //    teamMemberCreate.Role = TeamRole.TeamLeader;
