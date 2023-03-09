@@ -19,7 +19,7 @@ namespace TourneyRent.DataLayer
 
        public async Task<Team> GetTeamByIdAsync(int id)
         {
-            return await _context.Teams.Include(t => t.Members).FirstOrDefaultAsync(t => t.Id == id);
+            return await _context.Teams.AsNoTracking().Include(t => t.Members).FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<IEnumerable<Team>> GetAllTeamsAsync()
@@ -61,7 +61,7 @@ namespace TourneyRent.DataLayer
 
         public async Task<TeamMember> GetTeamMemberByIdAsync(int teamId, string memberId)
         {
-            return await _context.TeamMembers
+            return await _context.TeamMembers.AsNoTracking()
                 .FirstOrDefaultAsync(t => t.TeamId == teamId && t.UserId == memberId);
                 
         }
@@ -72,6 +72,20 @@ namespace TourneyRent.DataLayer
                 .Where(tm => tm.TeamId == teamId)
                 .ToListAsync();
         }
+
+        public async Task UpdateTeamMemberAsync(TeamMember teamMember)
+        {
+            _context.Entry(teamMember).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Team>> GetTeamsByUserIdAsync(string userId)
+        {
+           var ids =  await _context.TeamMembers.Where(tm => tm.UserId == userId)
+                .Select(tm => tm.TeamId)
+                .ToListAsync();
+
+            return await _context.Teams.Where(t => ids.Contains(t.Id)).ToListAsync();        }
 
 
     }
