@@ -14,16 +14,15 @@ namespace TourneyRent.BusinessLogic.Services
     public class TeamService
     {
         private readonly TeamRepository _teamRepository;
-        private readonly IHttpContextAccessor _httpContext;
-        public TeamService(TeamRepository teamRepository, IHttpContextAccessor httpContext)
+        
+        public TeamService(TeamRepository teamRepository)
         {
             _teamRepository = teamRepository;
-            _httpContext = httpContext;
+            
         }
 
         public async Task<Team> GetTeamByIdAsync(int id)
         {
-            //var userID = _httpContext.GetAuthenticatedUserId();
 
             return await _teamRepository.GetTeamByIdAsync(id);
 
