@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { RoutingService } from 'src/app/services/routing.service';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatSnackBar, } from '@angular/material/snack-bar';
 import { SuccessSnackComponent } from 'src/app/common/snacks/error/success.snack';
 
 @Component({
@@ -42,10 +41,7 @@ export class TournamentCreateComponent {
     if (!this.createForm.valid) {
       return;
     }
-    this.snackBar.openFromComponent(SuccessSnackComponent, {
-      duration: 1000,
-    });
-    
+
     this.tournamentResource
       .createTournament(this.createForm.value)
       .subscribe(() => this.routing.goToTournaments());
