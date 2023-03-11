@@ -32,7 +32,7 @@ namespace TourneyRent.BusinessLogic.Services
             var uploadedImageId = await _imageRepository.UploadImageAsync(image, user.ImageId ?? Guid.NewGuid());
             user.ImageId = uploadedImageId;
             await _userManager.UpdateAsync(user);
-            return uploadedImageId;
+            return uploadedImageId.Value;
         }
         public async Task<UserProfile> UpdateProfileAsync(UpdateUserProfileArgs updateArgs)
         {

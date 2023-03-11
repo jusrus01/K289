@@ -11,12 +11,14 @@ export class ImageComponent {
   @Input('containerClass') containerClass!: string;
   @Input('imageClass') imageClass!: string;
   @Input('imageId') imageId: string | null;
+  @Input('imageSource') imageSource: string | ArrayBuffer | null;;
 
   public imageUrl: string | null | SafeUrl;
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
     this.imageUrl = null;
     this.imageId = null;
+    this.imageSource = null;
   }
 
   public ngOnInit() {
