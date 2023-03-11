@@ -69,6 +69,7 @@ import { RentalViewComponent } from './pages/rental-view/rental-view.component';
 import { TournamentCreateComponent } from './pages/tournaments/tournament-create/tournament-create.component';
 import { TournamentListComponent } from './pages/tournaments/tournament-list/tournament-list.component';
 import { TournamentComponent } from './pages/tournaments/tournament/tournament.component';
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 
 export const API_URL = 'http://localhost:5155';
 
@@ -148,6 +149,9 @@ export const API_URL = 'http://localhost:5155';
     PortalModule,
     ScrollingModule,
     DialogModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
   ],
   providers: [
     {
