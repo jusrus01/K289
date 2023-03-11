@@ -6,8 +6,6 @@ import {
 } from '@angular/forms';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { RoutingService } from 'src/app/services/routing.service';
-import { MatSnackBar, } from '@angular/material/snack-bar';
-import { SuccessSnackComponent } from 'src/app/common/snacks/error/success.snack';
 
 @Component({
   selector: 'app-tournament-create',
@@ -23,17 +21,13 @@ export class TournamentCreateComponent {
     private formBuilder: FormBuilder,
     private tournamentResource: TournamentResource,
     private routing: RoutingService,
-    private snackBar: MatSnackBar
   ) {
     this.createForm = this.formBuilder.group({
       name: ['', Validators.required],
       startDate: [new Date(), Validators.required],
-      startTime: [new Date(), Validators.required],
       endDate: [new Date(), Validators.required],
-      endTime: [new Date(), Validators.required],
       entryFee: [1, [Validators.required, Validators.min(0), Validators.max(1000)]],
       participantCount: [1, [Validators.required, Validators.min(1), Validators.max(1000)]],
-      pictureFile: null,
     });
   }
 
@@ -42,8 +36,19 @@ export class TournamentCreateComponent {
       return;
     }
 
+    const formData = new FormData();
+    Object.keys(this.createForm.controls).forEach(key => {
+      let val =  this.createForm.get([key])?.value;
+      if (val instanceof Date) {
+        val = val.toUTCString();
+      }
+      formData.append(key, val);
+    });
+
+    formData.append('imageFile', this.pictureFile ?? null);
+
     this.tournamentResource
-      .createTournament(this.createForm.value)
+      .createTournament(formData)
       .subscribe(() => this.routing.goToTournaments());
   }
 

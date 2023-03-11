@@ -10,15 +10,6 @@ export class TournamentResource {
   constructor(private httpClient: HttpClient) {}
 
   public createTournament(data: any): Observable<any> {
-    return this.httpClient.post(`${API_URL}/tournament/create`, {
-      name: data.name,
-      startDate: data.startDate,
-      startTime: data.startTime,
-      endDate: data.endDate,
-      endTime: data.endTime,
-      entryFee: data.entryFee,
-      participantCount: data.participantCount,
-      pictureFile: data.pictureFile,
-    });
+    return this.httpClient.post(`${API_URL}/tournament/create`, data);
   }
 }
