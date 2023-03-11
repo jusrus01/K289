@@ -45,8 +45,6 @@ namespace TourneyRent.Presentation.Api
 
             builder.Services.AddScoped<TeamService>();
 
-            
-
             var app = builder.Build();
             app.UseCors();
             app.UseRouting();

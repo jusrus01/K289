@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Services;
-using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Enumerators;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.Presentation.Api.Views.TeamMembers;

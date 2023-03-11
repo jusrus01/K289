@@ -26,13 +26,23 @@ export class TournamentCreateComponent {
       name: ['', Validators.required],
       startDate: [new Date(), Validators.required],
       endDate: [new Date(), Validators.required],
-      entryFee: [1, [Validators.required, Validators.min(0), Validators.max(1000)]],
-      participantCount: [1, [Validators.required, Validators.min(1), Validators.max(1000)]],
+      entryFee: [1, [Validators.required, Validators.min(0), Validators.max(1000), Validators.pattern(/^[0-9]+(\.[0-9]+)?$/)]],
+      participantCount: [1, [Validators.required, Validators.min(1), Validators.max(1000), Validators.pattern(/^[0-9]*$/)]],
     });
   }
 
   public create(): void {
     if (!this.createForm.valid) {
+      return;
+    }
+
+    const startDate = this.createForm.get(['startDate'])?.value as Date;
+    const endDate =  this.createForm.get(['endDate'])?.value as Date;
+    if (startDate >= endDate && startDate.getTime() >= endDate.getTime()) {
+      return;
+    }
+
+    if (startDate < new Date()) {
       return;
     }
 

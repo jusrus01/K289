@@ -17,6 +17,8 @@ namespace TourneyRent.DataLayer
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<RentalItem> RentalItems { get; set; }
+        
+        public DbSet<Tournament> Tournaments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,9 +29,6 @@ namespace TourneyRent.DataLayer
                 .WithOne(m => m.Team)
                 .HasForeignKey(m => m.TeamId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            
-
 
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

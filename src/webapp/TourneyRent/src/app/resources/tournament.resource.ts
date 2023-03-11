@@ -10,6 +10,6 @@ export class TournamentResource {
   constructor(private httpClient: HttpClient) {}
 
   public createTournament(data: any): Observable<any> {
-    return this.httpClient.post(`${API_URL}/tournament/create`, data);
+    return this.httpClient.post(`${API_URL}/tournament`, data);
   }
 }
