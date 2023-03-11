@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Enumerators;
@@ -20,11 +21,13 @@ namespace TourneyRent.Presentation.Api.Controllers
         private readonly TeamService _teamService;
 
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public TeamController(TeamService teamservice, IMapper mapper)
+        public TeamController(TeamService teamservice, IMapper mapper, IHttpContextAccessor httpContext)
         {
             _teamService = teamservice;
             _mapper = mapper;
+            _httpContext = httpContext;
         }
 
         [HttpGet("{id}")]
@@ -55,8 +58,18 @@ namespace TourneyRent.Presentation.Api.Controllers
             await _teamService.AddTeamAsync(team);
             var teamRead = _mapper.Map<TeamView>(team);
 
-            //team.Members.Add(teamMember);
-            //await _teamService.UpdateTeamAsync(team);
+            var userId = _httpContext.GetAuthenticatedUserId();
+            if (userId != null)
+            {
+                TeamMemberCreate teamMemberCreate = new TeamMemberCreate();
+                teamMemberCreate.UserId = userId;
+                teamMemberCreate.TeamId = team.Id;
+                teamMemberCreate.Role = TeamRole.TeamLeader;
+
+                var teamMember = _mapper.Map<TeamMember>(teamMemberCreate);
+
+                _teamService.AddTeamMemberAsync(teamMember);
+            }
 
             return CreatedAtAction(nameof(GetTeamByIdAsync), new { id = teamRead.Id }, teamRead);
         }
