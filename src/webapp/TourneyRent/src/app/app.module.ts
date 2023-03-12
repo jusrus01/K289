@@ -70,6 +70,7 @@ import { TournamentCreateComponent } from './pages/tournaments/tournament-create
 import { TournamentListComponent } from './pages/tournaments/tournament-list/tournament-list.component';
 import { TournamentComponent } from './pages/tournaments/tournament/tournament.component';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { TournamentItemComponent } from './pages/tournaments/tournament-item/tournament-item.component';
 
 export const API_URL = 'http://localhost:5155';
 
@@ -89,6 +90,7 @@ export const API_URL = 'http://localhost:5155';
     TournamentCreateComponent,
     TournamentListComponent,
     TournamentComponent,
+    TournamentItemComponent,
   ],
   imports: [
     BrowserModule,

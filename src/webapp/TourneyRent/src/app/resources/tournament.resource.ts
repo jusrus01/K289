@@ -9,6 +9,10 @@ import { API_URL } from '../app.module';
 export class TournamentResource {
   constructor(private httpClient: HttpClient) {}
 
+  public getTournament(id: any): Observable<any> {
+    return this.httpClient.get(`${API_URL}/tournament/${id}`);
+  }
+
   public getAllTournaments(): Observable<any> {
     return this.httpClient.get(`${API_URL}/tournament`);
   }
