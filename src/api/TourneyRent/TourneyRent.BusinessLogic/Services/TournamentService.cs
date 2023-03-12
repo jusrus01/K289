@@ -18,6 +18,12 @@ public class TournamentService
         _mapper = mapper;
     }
     
+    public async Task<IEnumerable<TournamentInfo>> GetAllValidAsync()
+    {
+        var tournaments = await _tournamentRepository.GetAsync(x => x.EndDate >= DateTime.UtcNow);
+        return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
+    }
+
     public async Task<TournamentInfo> CreateAsync(CreateTournamentArgs createArgs)
     {
         var imageId = await _imageRepository.UploadImageAsync(createArgs);

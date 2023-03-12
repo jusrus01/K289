@@ -7,5 +7,5 @@ import { RoutingService } from 'src/app/services/routing.service';
   styleUrls: ['./tournament.component.scss'],
 })
 export class TournamentComponent {
-  constructor(public routing: RoutingService) {}
+  constructor() {}
 }
