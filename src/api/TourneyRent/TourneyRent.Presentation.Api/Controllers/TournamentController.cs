@@ -19,7 +19,13 @@ public class TournamentController : ControllerBase
         _mapper = mapper;
         _tournamentService = tournamentService;
     }
-    
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllValidTournaments()
+    {
+        return Ok(await _tournamentService.GetAllValidAsync());
+    }
+
     [Authorize, HttpPost]
     public async Task<IActionResult> CreateTournament([FromForm] CreateTournamentArgsView createArgs)
     {

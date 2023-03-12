@@ -1,1 +1,29 @@
-<p>tournament-list works!</p>
+<div class="mt-14">
+    <div class="w-full bg-default flex items-center justify-center py-16">
+        <span class="text-white text-3xl sm:text-6xl font-bold">TOURNAMENTS</span>
+    </div>
+    <button class="mt-2" mat-raised-button color="primary" (click)="routing.goToTournamentCreate()">Create a new
+        tournament!</button>
+    <div class="w-full flex justify-center">
+        <div class="w-2/3">
+            <div *ngFor="let tournament of tournaments" class="mb-3">
+                <div class="flex">
+                    <app-image #profileImage class="pr-3" [imageClass]="'object-cover rounded-md'"
+                        [containerClass]="'h-0 w-0 sm:h-44 sm:w-44 rounded-full sm:visible'"
+                        [imageId]="tournament.imageId"
+                        [imageSource]="'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='"></app-image>
+                    <div>
+                        <div matListItemTitle class="font-bold text-lg">{{tournament.name}}</div>
+                        <div matListItemLine>Start date: {{tournament.startDate | date:'MMM d, y, h:mm a'}}</div>
+                        <div matListItemLine>End date: {{tournament.endDate | date:'MMM d, y, h:mm a'}}</div>
+                        <div matListItemLine>Entry fee: {{tournament.entryFee <= 0 ? 'Free' : tournament.entryFee}}
+                                €</div>
+                                <div matListItemLine>Participant count: 0/{{tournament.participantCount}}</div>
+                                <div matListItemLine>Status: <span class="text-black">{{getStatus(tournament)}}</span></div>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+            </div>
+        </div>
+    </div>
