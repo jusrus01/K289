@@ -4,6 +4,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { ErrorSnackComponent } from 'src/app/common/snacks/error/error.snack';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { RoutingService } from 'src/app/services/routing.service';
 
@@ -21,6 +23,7 @@ export class TournamentCreateComponent {
     private formBuilder: FormBuilder,
     private tournamentResource: TournamentResource,
     private routing: RoutingService,
+    private snackBar: MatSnackBar
   ) {
     this.createForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -39,10 +42,18 @@ export class TournamentCreateComponent {
     const startDate = this.createForm.get(['startDate'])?.value as Date;
     const endDate =  this.createForm.get(['endDate'])?.value as Date;
     if (startDate >= endDate && startDate.getTime() >= endDate.getTime()) {
+      this.snackBar.openFromComponent(ErrorSnackComponent, {
+        duration: 1500,
+        data: "The start date cannot be after the end date",
+      } as MatSnackBarConfig);
       return;
     }
 
     if (startDate < new Date()) {
+      this.snackBar.openFromComponent(ErrorSnackComponent, {
+        duration: 1500,
+        data: "The start date has to be after today's date",
+      } as MatSnackBarConfig);
       return;
     }
 

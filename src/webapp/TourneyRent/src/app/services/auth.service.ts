@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Subject } from 'rxjs';
+import { ADMINISTRATOR_ROLE } from '../constants';
 import { LoginResponse } from '../models/login/login-response.model';
 
 @Injectable({
@@ -40,6 +41,10 @@ export class AuthService {
   public hasRole(role: string): boolean {
     const userInfo = this.getUserInfo();
     return userInfo.roles.includes(role);
+  }
+
+  public isAdminOrOwner(userId: any): boolean {
+    return this.hasRole(ADMINISTRATOR_ROLE) || this.getAuthUserId() == userId;
   }
 
   private getUserInfo(): LoginResponse {

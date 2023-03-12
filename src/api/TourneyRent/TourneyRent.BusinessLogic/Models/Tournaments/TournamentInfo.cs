@@ -9,7 +9,8 @@ public record TournamentInfo(
     float EntryFee,
     int ParticipantCount,
     Guid? ImageId,
-    int Id) : IImage
+    int Id,
+    string OwnerId) : IImage
 {
     public Guid? ImageId { get; set; } = ImageId;
 }
