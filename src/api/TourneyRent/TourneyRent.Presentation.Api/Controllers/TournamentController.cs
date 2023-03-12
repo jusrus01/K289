@@ -20,6 +20,12 @@ public class TournamentController : ControllerBase
         _tournamentService = tournamentService;
     }
 
+    [Authorize, HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTournament(int id)
+    {
+        return Ok(await _tournamentService.DeleteAsync(id));
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAllValidTournaments(int id)
     {

@@ -70,7 +70,8 @@ import { TournamentCreateComponent } from './pages/tournaments/tournament-create
 import { TournamentListComponent } from './pages/tournaments/tournament-list/tournament-list.component';
 import { TournamentComponent } from './pages/tournaments/tournament/tournament.component';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
-import { TournamentItemComponent } from './pages/tournaments/tournament-item/tournament-item.component';
+import { ConfirmDeleteDialogTemp, TournamentItemComponent } from './pages/tournaments/tournament-item/tournament-item.component';
+import { ShowForAdminUserDirective } from './common/directives/show-for-admin-user.directive';
 
 export const API_URL = 'http://localhost:5155';
 
@@ -84,6 +85,7 @@ export const API_URL = 'http://localhost:5155';
     RentalCreateComponent,
     ShowForAuthenticatedUserDirective,
     ShowForGuestUserDirective,
+    ShowForAdminUserDirective,
     ProfileComponent,
     ImageComponent,
     RentalViewComponent,
@@ -91,6 +93,7 @@ export const API_URL = 'http://localhost:5155';
     TournamentListComponent,
     TournamentComponent,
     TournamentItemComponent,
+    ConfirmDeleteDialogTemp
   ],
   imports: [
     BrowserModule,
@@ -167,7 +170,7 @@ export const API_URL = 'http://localhost:5155';
       },
       multi: true,
       deps: [AuthService, RoutingService, MatSnackBar],
-    },
+    }
   ],
   bootstrap: [AppComponent],
 })

@@ -11,4 +11,7 @@ public class Tournament : IImage
     public float EntryFee { get; set; }
     public int ParticipantCount { get; set; }
     public Guid? ImageId { get; set; }
+
+    public ApplicationUser Owner { get; set; }
+    public string OwnerId { get; set; }
 }

@@ -10,8 +10,8 @@
           <div class="body">
             <!-- Image -->
             <div class="ml-[5%] inline-field mt-0 mb-0">
-                <span class="items-center flex">
-                    <app-image
+              <span class="items-center flex">
+                <app-image
                   [imageId]="tournament.imageId"
                   class="mx-auto py-2"
                   [imageSource]="
@@ -20,7 +20,7 @@
                   [imageClass]="'w-full h-64 object-cover rounded-md'"
                   [containerClass]="'w-full'"
                 ></app-image>
-                  </span>
+              </span>
             </div>
 
             <!-- Name -->
@@ -122,11 +122,19 @@
               </div>
             </div>
             <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex"> </span>
-              <div class="w-full">
+              <div class="w-full flex justify-between">
+                <button
+                  *ngIf="authService.isAdminOrOwner(tournament.ownerId)"
+                  mat-raised-button
+                  color="warn"
+                  class="ml-[5%] mt-2"
+                  (click)="openDialog('0ms', '0ms')"
+                >
+                  Delete
+                </button>
                 <button
                   mat-raised-button
-                  class="w-1/3 float-right mt-2"
+                  class="w-1/3 mt-2"
                   color="primary"
                   (click)="join()"
                 >
