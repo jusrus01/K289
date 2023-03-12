@@ -8,7 +8,8 @@ public record TournamentInfo(
     DateTime EndDate,
     float EntryFee,
     int ParticipantCount,
-    Guid? ImageId) : IImage
+    Guid? ImageId,
+    int Id) : IImage
 {
     public Guid? ImageId { get; set; } = ImageId;
 }

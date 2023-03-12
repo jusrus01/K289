@@ -1,0 +1,142 @@
+<!-- TODO: Add edit -->
+<div class="mt-14">
+  <div class="w-full bg-default flex items-center justify-center py-16">
+    <span class="text-white text-3xl sm:text-6xl font-bold">TOURNAMENT</span>
+  </div>
+  <div class="mx-14 border-slate-900" *ngIf="tournament">
+    <div class="box">
+      <fieldset class="form-fieldset">
+        <div class="form-panel">
+          <div class="body">
+            <!-- Image -->
+            <div class="ml-[5%] inline-field mt-0 mb-0">
+                <span class="items-center flex">
+                    <app-image
+                  [imageId]="tournament.imageId"
+                  class="mx-auto py-2"
+                  [imageSource]="
+                    'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='
+                  "
+                  [imageClass]="'w-full h-64 object-cover rounded-md'"
+                  [containerClass]="'w-full'"
+                ></app-image>
+                  </span>
+            </div>
+
+            <!-- Name -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Tournament name</label>
+              </span>
+              <div class="control">
+                <!-- <mat-form-field appearance="outline" class="w-full mt-2">
+                  <input formControlName="name" type="text" matInput>
+                </mat-form-field> -->
+                {{ tournament.name }}
+              </div>
+            </div>
+            <!-- Start date -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Start date</label>
+              </span>
+              <div class="control">
+                <div class="flex justify-between">
+                  <!-- <mat-form-field class="w-full" appearance="outline">
+                    <input formControlName="startDate" matInput [matDatepicker]="startPicker">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startPicker></mat-datepicker>
+                  </mat-form-field> -->
+                  {{ tournament.startDate | date : "MMM d, y" }}
+                </div>
+              </div>
+            </div>
+            <!-- Start time -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Start time</label>
+              </span>
+              <div class="control">
+                <div class="flex justify-between">
+                  {{ tournament.startDate | date : "h:mm a" }}
+                  <!-- <ngx-mat-timepicker formControlName="startDate" [showSpinners]="true" [stepHour]="1"
+                    [stepMinute]="1" [showSeconds]="false">
+                  </ngx-mat-timepicker> -->
+                </div>
+              </div>
+            </div>
+            <!-- End date -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">End date</label>
+              </span>
+              <div class="control">
+                <div class="flex justify-between">
+                  {{ tournament.endDate | date : "MMM d, y" }}
+                  <!-- <mat-form-field class="w-full" appearance="outline">
+                    <input formControlName="endDate" matInput [matDatepicker]="picker2">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                  </mat-form-field> -->
+                </div>
+              </div>
+            </div>
+            <!-- End time -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">End time</label>
+              </span>
+              <div class="control">
+                <div class="flex justify-between">
+                  {{ tournament.endDate | date : "h:mm a" }}
+                  <!-- <ngx-mat-timepicker formControlName="endDate"  [showSpinners]="true" [stepHour]="1"
+                    [stepMinute]="1" [showSeconds]="false">
+                  </ngx-mat-timepicker> -->
+                </div>
+              </div>
+            </div>
+            <!-- Entry fee -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Entry fee</label>
+              </span>
+              <div class="control">
+                {{ tournament.entryFee }} €
+                <!-- <mat-form-field class="w-full" appearance="outline">
+                  <input [min]="0" [minlength]="0" formControlName="entryFee" class="w-full" type="text" matInput>
+                </mat-form-field> -->
+              </div>
+            </div>
+            <!-- Participants -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Number of participants</label>
+              </span>
+              <div class="control">
+                {{ tournament.participantCount }}
+                <!-- <mat-form-field class="w-full" appearance="outline">
+                  <input formControlName="participantCount" class="w-full" type="text" matInput name="value">
+                </mat-form-field> -->
+              </div>
+            </div>
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex"> </span>
+              <div class="w-full">
+                <button
+                  mat-raised-button
+                  class="w-1/3 float-right mt-2"
+                  color="primary"
+                  (click)="join()"
+                >
+                  Join
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</div>

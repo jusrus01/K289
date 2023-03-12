@@ -39,4 +39,10 @@ public class TournamentService
         await _tournamentRepository.CreateAsync(tournament);
         return _mapper.Map<TournamentInfo>(tournament);
     }
+
+    public async Task<TournamentInfo> GetTournamentByIdAsync(int id)
+    {
+        var tournaments = await _tournamentRepository.GetAsync(x => x.Id == id);
+        return _mapper.Map<TournamentInfo>(tournaments.Single());
+    }
 }

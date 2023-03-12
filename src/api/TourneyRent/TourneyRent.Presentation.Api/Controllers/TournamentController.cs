@@ -20,6 +20,12 @@ public class TournamentController : ControllerBase
         _tournamentService = tournamentService;
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetAllValidTournaments(int id)
+    {
+        return Ok(await _tournamentService.GetTournamentByIdAsync(id));
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAllValidTournaments()
     {
