@@ -12,9 +12,25 @@
             </button>
         </div>
         <div [ngClass]="{'hidden': !showMenu, 'flex': showMenu}" class="lg:flex lg:flex-grow items-center">
+            <ul class="invisible lg:visible lg:w-auto w-0 lg:ml-0 flex flex-col lg:flex-row list-none ml-auto">
+                <!-- Navigation items for the right side -->
+                <li class="nav-item">
+                    <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                        (mousedown)="routing.goToTournaments()">
+                        Tournaments
+                    </a>
+                </li>
+            </ul>
+
             <ul class="flex flex-col lg:flex-row list-none ml-auto">
-                <!-- Navigation items -->
-                <!-- You can add new links here -->
+                <!-- Navigation items for the right side and dropdown menu-->
+                <li class="visible lg:invisible">
+                    <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                        (mousedown)="routing.goToTournaments()">
+                        Tournaments
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a *showForGuestUser
                         class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"

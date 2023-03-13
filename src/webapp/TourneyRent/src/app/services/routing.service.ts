@@ -4,6 +4,8 @@ import { HomeComponent } from '../pages/home/home.component';
 import { LoginComponent } from '../pages/login/login.component';
 import { ProfileComponent } from '../pages/profile/profile.component';
 import { RegisterComponent } from '../pages/register/register.component';
+import { TournamentCreateComponent } from '../pages/tournaments/tournament-create/tournament-create.component';
+import { TournamentComponent } from '../pages/tournaments/tournament/tournament.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,14 @@ import { RegisterComponent } from '../pages/register/register.component';
 export class RoutingService {
   constructor(@Inject(ROUTES) private _routes: Route[][], private _router: Router) {}
   
+  public goToTournamentCreate(): void {
+    this.navigateToComponent(TournamentCreateComponent);
+  }
+
+  public goToTournaments(): void {
+    this.navigateToComponent(TournamentComponent);
+  }
+
   public goToLogin(): void {
     this.navigateToComponent(LoginComponent);
   }

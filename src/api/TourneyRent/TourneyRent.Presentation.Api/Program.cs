@@ -1,5 +1,9 @@
 using AutoMapper;
 using System.Reflection;
+using System.Text.Json.Serialization;
+using TourneyRent.BusinessLogic.Services;
+using TourneyRent.DataLayer;
+using TourneyRent.Presentation.Api.Controllers;
 using TourneyRent.Presentation.Api.Extensions;
 using TourneyRent.Presentation.Api.Filters;
 using TourneyRent.Presentation.Api.Middlewares;
@@ -34,7 +38,12 @@ namespace TourneyRent.Presentation.Api
             builder.Services.ConfigureServices();
             builder.Services
                 .AddControllers(options =>
-                    options.Filters.Add<GlobalModelStateValidationFilter>());
+                    options.Filters.Add<GlobalModelStateValidationFilter>()).AddJsonOptions(opt =>
+                    {
+                        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    });
+
+            builder.Services.AddScoped<TeamService>();
 
             var app = builder.Build();
             app.UseCors();
