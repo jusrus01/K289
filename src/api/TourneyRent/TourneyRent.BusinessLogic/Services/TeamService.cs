@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TourneyRent.BusinessLogic.Exceptions;
+using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 
@@ -12,15 +14,19 @@ namespace TourneyRent.BusinessLogic.Services
     public class TeamService
     {
         private readonly TeamRepository _teamRepository;
-
+        
         public TeamService(TeamRepository teamRepository)
         {
             _teamRepository = teamRepository;
+            
         }
 
         public async Task<Team> GetTeamByIdAsync(int id)
         {
+
             return await _teamRepository.GetTeamByIdAsync(id);
+
+
 
         }
 
@@ -32,6 +38,9 @@ namespace TourneyRent.BusinessLogic.Services
         public async Task AddTeamAsync(Team team)
         {
             await _teamRepository.AddTeamAsync(team);
+
+        
+
         }
 
         public async Task UpdateTeamAsync(Team team)
@@ -46,36 +55,44 @@ namespace TourneyRent.BusinessLogic.Services
 
         }
 
-        public async Task AddPlayerAsync(int teamId, ApplicationUser player)
+        public async Task AddTeamMemberAsync(TeamMember teamMember)
         {
-            var team = await _teamRepository.GetTeamByIdAsync(teamId);
-            if(team == null)
-            {
-                throw new ArgumentException("Team not found.");
-            }
-
-            //player.TeamId = teamId (Jei zaidejas gali tureti tik viena komanda)
-            team.Players.Add(player);
-
-            await _teamRepository.UpdateTeamAsync(team);
+            await _teamRepository.AddTeamMemberAsync(teamMember);
         }
 
-        public async Task<ApplicationUser> GetPlayerByIdAsync(int teamId, int id)
+        public async Task RemoveTeamMemberAsync(TeamMember teamMember)
         {
-            var team = await _teamRepository.GetTeamByIdAsync(teamId);
-            if (team == null)
-            {
-                throw new ArgumentNullException("Team was not found");
-            }
-
-            var player = team.Players.FirstOrDefault(p => Convert.ToInt32(p.Id) == id);
-            if (player == null)
-            {
-                throw new ArgumentNullException("Player was not found");
-            }
-
-            return player;
+            await _teamRepository.RemoveTeamMemberAsync(teamMember);
         }
+
+        public async Task<TeamMember> GetTeamMemberByIdAsync(int teamId, string memberId)
+        {
+            var teamMember = await _teamRepository.GetTeamMemberByIdAsync(teamId,memberId);
+            if (teamMember == null)
+            {
+                throw new ArgumentException($"Team member not found.");
+            }
+
+            return teamMember;
+        }
+
+        public async Task<List<TeamMember>> GetTeamMembersAsync(int teamId)
+        {
+            var teamMembers = await _teamRepository.GetTeamMembersAsync(teamId);
+            return teamMembers;
+        }
+
+        public async Task UpdateTeamMemberAsync(TeamMember teamMember)
+        {
+            await _teamRepository.UpdateTeamMemberAsync(teamMember);
+
+        }
+
+        public async Task<IEnumerable<Team>> GetTeamsByUserIdAsync(string userId)
+        {
+            return await _teamRepository.GetTeamsByUserIdAsync(userId);
+        }
+
 
 
 

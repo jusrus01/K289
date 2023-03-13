@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.idea
+
+.vs
+
+**/**/storage/images
+!**/**/storage/images/.gitkeep

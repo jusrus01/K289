@@ -1,0 +1,14 @@
+<h2 class="mt-16"></h2>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<div class="header-paget">
+    <h4>VIEW RENTAL ITEMS</h4>
+</div>
+
+<div class="container">
+    <ul class="item-list">
+      <li *ngFor="let item of items">
+        {{ item.name }} - {{item.description}} - {{item.image}} - {{item.periodStart}} - {{item.periodEnd}} - {{ item.price }}
+      </li>
+    </ul>
+</div>

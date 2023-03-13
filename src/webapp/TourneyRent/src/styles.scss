@@ -1,3 +1,5 @@
+@use "@angular/material/prebuilt-themes/indigo-pink.css";
+
 html, body {
     height: 100%;
     @apply bg-neutral-50;
@@ -8,3 +10,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-default {
+    background-color: #3f51b5 !important;
+}
