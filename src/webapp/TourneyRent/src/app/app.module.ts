@@ -66,6 +66,7 @@ import { ShowForGuestUserDirective } from './common/directives/show-for-guest-us
 import { TeamAddComponent } from './pages/team-add/team-add.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ImageComponent } from './common/image/image.component';
+import { CommonModule } from '@angular/common';
 import { RentalViewComponent } from './pages/rental-view/rental-view.component';
 import { TournamentCreateComponent } from './pages/tournaments/tournament-create/tournament-create.component';
 import { TournamentListComponent } from './pages/tournaments/tournament-list/tournament-list.component';
@@ -73,11 +74,16 @@ import { TournamentComponent } from './pages/tournaments/tournament/tournament.c
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { ConfirmDeleteDialogTemp, TournamentItemComponent } from './pages/tournaments/tournament-item/tournament-item.component';
 import { ShowForAdminUserDirective } from './common/directives/show-for-admin-user.directive';
+import { TeamComponent } from './pages/teams/team/team.component';
+import { TeamCreateComponent } from './pages/teams/team-create/team-create.component';
+import { TeamListComponent } from './pages/teams/team-list/team-list.component';
+import { TeamItemComponent } from './pages/teams/team-item/team-item.component';
 
 export const API_URL = 'http://localhost:5155';
 
 @NgModule({
   declarations: [
+    TeamCreateComponent,
     AppComponent,
     LoginComponent,
     RegisterComponent,
@@ -95,13 +101,18 @@ export const API_URL = 'http://localhost:5155';
     TournamentListComponent,
     TournamentComponent,
     TournamentItemComponent,
-    ConfirmDeleteDialogTemp
+    ConfirmDeleteDialogTemp,
+    TeamComponent,
+    TeamListComponent,
+    TeamItemComponent
   ],
+  
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatToolbarModule,
