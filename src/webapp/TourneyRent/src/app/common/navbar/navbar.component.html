@@ -20,6 +20,13 @@
                         Tournaments
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                        (mousedown)="routing.goToTeams()">
+                        Teams
+                    </a>
+                </li>
             </ul>
 
             <ul class="flex flex-col lg:flex-row list-none ml-auto">
@@ -28,6 +35,13 @@
                     <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
                         (mousedown)="routing.goToTournaments()">
                         Tournaments
+                    </a>
+                </li>
+
+                <li class="visible lg:invisible">
+                    <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                        (mousedown)="routing.goToTeams()">
+                        Teams
                     </a>
                 </li>
 
