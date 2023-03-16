@@ -1,0 +1,60 @@
+<h2 class="mt-16"></h2>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<div class="header-paget">
+  <h4>RENTAL ITEMS</h4>
+</div>
+
+<div class="w-full flex justify-center mt-3">
+    <div class="w-1/1">
+      <button
+        class="mt-4"
+        mat-raised-button
+        color="primary"
+        (click)="routing.goToRentalCreate()"
+      >
+        Create New
+      </button>
+
+      <button
+      *ngIf="selectedItems.length > 0"
+      class="ml-10 mt-4 dlt-btn"
+      mat-raised-button
+      color="500"
+      (click)="onDelete()"
+    >
+      Delete
+    </button>
+    </div>
+</div>
+
+<div class="w-full flex justify-center mt-3">
+  <table class="br-table">
+    <thead>
+      <tr>
+        <th class="br-table"></th>
+        <th class="br-table">Name</th>
+        <th class="br-table">Image</th>
+        <th class="br-table">Period Start</th>
+        <th class="br-table">Period End</th>
+        <th class="br-table">Price</th>
+        <th class="br-table">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items" [class.selected]="selectedItems.includes(item)" (click)="onSelect(item)">
+        <td><input type="checkbox" class="custom-checkbox" [checked]="selectedItems.includes(item)"></td>
+        <td class="br-table">{{ item.name }}</td>
+        
+        <td class="br-table"><img [src]="item.image" alt="{{ item.name }} image"></td>
+        <td class="br-table">{{ item.periodStart | date : 'medium' }}</td>
+        <td class="br-table">{{ item.periodEnd | date : 'medium' }}</td>
+        <td class="br-table">{{ item.price }}</td>
+        <td class="br-table">
+          <button class="btn-table br-table" (click)="viewDetails(item.id)">Details</button>
+          <button class="btn-table br-table" (click)="editItem(item.id)">Edit</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

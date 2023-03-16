@@ -60,20 +60,23 @@ import { DialogModule } from '@angular/cdk/dialog';
 import { HttpClientInterceptor } from './interceptors/http.interceptor';
 import { AuthService } from './services/auth.service';
 import { RoutingService } from './services/routing.service';
-import { RentalCreateComponent } from './pages/rental-create/rental-create.component';
+import { RentalCreateComponent } from './pages/rentals/rental-create/rental-create.component';
 import { ShowForAuthenticatedUserDirective } from './common/directives/show-for-authenticated-user.directive';
 import { ShowForGuestUserDirective } from './common/directives/show-for-guest-user.directive';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ImageComponent } from './common/image/image.component';
-import { RentalViewComponent } from './pages/rental-view/rental-view.component';
+import { RentalViewComponent } from './pages/rentals/rental-view/rental-view.component';
 import { TournamentCreateComponent } from './pages/tournaments/tournament-create/tournament-create.component';
 import { TournamentListComponent } from './pages/tournaments/tournament-list/tournament-list.component';
 import { TournamentComponent } from './pages/tournaments/tournament/tournament.component';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { ConfirmDeleteDialogTemp, TournamentItemComponent } from './pages/tournaments/tournament-item/tournament-item.component';
 import { ShowForAdminUserDirective } from './common/directives/show-for-admin-user.directive';
+import { RentalComponent } from './pages/rentals/rental/rental.component';
+import { RentalDetailsComponent } from './pages/rentals/rental-details/rental-details.component';
+import { RentalEditComponent } from './pages/rentals/rental-edit/rental-edit.component';
 
-export const API_URL = 'http://localhost:5155';
+export const API_URL = 'http://localhost:5000';
 
 @NgModule({
   declarations: [
@@ -93,7 +96,10 @@ export const API_URL = 'http://localhost:5155';
     TournamentListComponent,
     TournamentComponent,
     TournamentItemComponent,
-    ConfirmDeleteDialogTemp
+    ConfirmDeleteDialogTemp,
+    RentalComponent,
+    RentalDetailsComponent,
+    RentalEditComponent
   ],
   imports: [
     BrowserModule,

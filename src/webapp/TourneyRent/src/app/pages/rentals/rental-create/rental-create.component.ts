@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { RoutingService } from 'src/app/services/routing.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -14,7 +15,7 @@ export class RentalCreateComponent {
   periodEnd: string = '';
   price: number = 0;
 
-constructor(private http: HttpClient) {}
+constructor(private http: HttpClient, public routing: RoutingService) {}
 
   submit() {
     const data = {
@@ -26,7 +27,7 @@ constructor(private http: HttpClient) {}
       price: this.price
     };
 
-    this.http.post('http://localhost:5155/RentalItem', data).subscribe((response) => {
+    this.http.post('http://localhost:5000/RentalItem', data).subscribe((response) => {
       console.log('Data submitted successfully:', response);
     }, (error) => {
       console.error('Error submitting data:', error);

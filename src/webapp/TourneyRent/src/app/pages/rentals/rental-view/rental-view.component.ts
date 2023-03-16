@@ -16,7 +16,7 @@ export class RentalViewComponent {
   }
 
   loadItems() {
-    this.http.get<any[]>('http://localhost:5155/RentalItem').subscribe((response) => {
+    this.http.get<any[]>('http://localhost:5000/RentalItem').subscribe((response) => {
       this.items = response;
     }, (error) => {
       console.error('Error loading items:', error);

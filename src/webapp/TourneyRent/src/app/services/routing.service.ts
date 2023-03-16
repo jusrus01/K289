@@ -6,6 +6,8 @@ import { ProfileComponent } from '../pages/profile/profile.component';
 import { RegisterComponent } from '../pages/register/register.component';
 import { TournamentCreateComponent } from '../pages/tournaments/tournament-create/tournament-create.component';
 import { TournamentComponent } from '../pages/tournaments/tournament/tournament.component';
+import { RentalComponent } from '../pages/rentals/rental/rental.component';
+import { RentalCreateComponent } from '../pages/rentals/rental-create/rental-create.component';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,14 @@ export class RoutingService {
 
   public goToTournaments(): void {
     this.navigateToComponent(TournamentComponent);
+  }
+
+  public goToRental(): void {
+    this.navigateToComponent(RentalComponent);
+  }
+
+  public goToRentalCreate(): void {
+    this.navigateToComponent(RentalCreateComponent);
   }
 
   public goToLogin(): void {

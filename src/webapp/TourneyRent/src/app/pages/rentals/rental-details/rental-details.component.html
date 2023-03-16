@@ -1,0 +1,36 @@
+<h2 class="mt-16"></h2>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<div class="header-paget">
+  <h4>RENTAL ITEM DETAILS</h4>
+</div>
+
+<div class="w-full flex justify-center mt-3">
+    <div class="w-1/1">
+      <button
+        class="mt-4"
+        mat-raised-button
+        color="primary"
+        (click)="routing.goToRental()"
+      >
+        Go back
+      </button>
+    </div>
+  </div>
+
+<div class="cnt">
+    <h2>Name:</h2>
+    <p>{{ item.name }}</p>
+    <br>
+    <h2>Description:</h2>
+    <p>{{ item.description }}</p>
+    <br>
+    <h2>Image:</h2>
+    <img [src]="item.image" alt="{{ item.name }} image">
+    <br>
+    <h2>Time period:</h2>
+    <p>{{ item.periodStart | date:'medium' }} - {{ item.periodEnd | date:'medium' }}</p>
+    <br>
+    <h2>Price: </h2>
+    <p>{{ item.price }}</p>
+</div>

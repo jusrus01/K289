@@ -6,8 +6,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { RentalCreateComponent } from './pages/rental-create/rental-create.component';
-import { RentalViewComponent } from './pages/rental-view/rental-view.component';
+import { RentalComponent } from './pages/rentals/rental/rental.component';
+import { RentalCreateComponent } from './pages/rentals/rental-create/rental-create.component';
+import { RentalViewComponent } from './pages/rentals/rental-view/rental-view.component';
+import { RentalEditComponent } from './pages/rentals/rental-edit/rental-edit.component';
+import { RentalDetailsComponent } from './pages/rentals/rental-details/rental-details.component';
 import { TournamentCreateComponent } from './pages/tournaments/tournament-create/tournament-create.component';
 import { TournamentItemComponent } from './pages/tournaments/tournament-item/tournament-item.component';
 import { TournamentComponent } from './pages/tournaments/tournament/tournament.component';
@@ -19,8 +22,11 @@ export const ROUTES: Routes = [
   { path: 'profile', component: ProfileComponent, data: { title: 'Profile' }, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent, data: { title: 'Login' }, canActivate: [GuestGuard] },
   { path: 'register', component: RegisterComponent, data: { title: 'Register' }, canActivate: [GuestGuard] },
-  { path: 'rental-create', component: RentalCreateComponent, data: { title: 'Rental Create' } },
-  { path: 'rental-view', component: RentalViewComponent, data: { title: 'Rental View' } },
+  { path: 'rental/create', component: RentalCreateComponent, data: { title: 'Rental Create' } },
+  { path: 'rental/view', component: RentalViewComponent, data: { title: 'Rental View' } },
+  { path: 'rental', component: RentalComponent, data: { title: 'Rental' } },
+  { path: 'rental/edit/:id', component: RentalEditComponent, data: { title: 'Rental Edit' } },
+  { path: 'rental/details/:id', component: RentalDetailsComponent, data: { title: 'Rental Details' } },
   { path: '', component: HomeComponent, data: { title: 'Home' }, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
