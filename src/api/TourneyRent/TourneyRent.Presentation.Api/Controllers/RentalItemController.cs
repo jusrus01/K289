@@ -51,5 +51,20 @@ namespace TourneyRent.Presentation.Api.Controllers
 			var itemView = _mapper.Map<RentalItemView>(item);
 			return CreatedAtAction(nameof(GetRentalItem), new { id = itemView.Id }, itemView);
 		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteRentalItemAsync(int id)
+		{
+			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
+			if (rentalItem == null)
+			{
+				return NotFound();
+			}
+
+			await _rentalItemService.DeleteRentalItemAsync(rentalItem);
+
+			return NoContent();
+		}
+
 	}
 }

@@ -1,5 +1,7 @@
-﻿using TourneyRent.DataLayer;
+﻿using TourneyRent.BusinessLogic.Models.Tournaments;
+using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
+using TourneyRent.DataLayer.Repositories;
 
 namespace TourneyRent.BusinessLogic.Services
 {
@@ -25,6 +27,11 @@ namespace TourneyRent.BusinessLogic.Services
 		public async Task CreateRentalItemAsync(RentalItem item)
 		{
 			await _rentalItemRepository.CreateRentalItemAsync(item);
+		}
+		public async Task DeleteRentalItemAsync(RentalItem rentalItem)
+		{
+			await _rentalItemRepository.DeleteRentalItemAsync(rentalItem);
+
 		}
 	}
 }
