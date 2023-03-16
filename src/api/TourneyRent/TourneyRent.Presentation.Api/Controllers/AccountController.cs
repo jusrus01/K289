@@ -65,5 +65,11 @@ namespace TourneyRent.Presentation.Api.Controllers
             var args = _mapper.Map<UpdateUserProfileArgs>(updateArgs);
             return Ok(_mapper.Map<UserProfileView>(await _accountService.UpdateProfileAsync(args)));
         }
+
+        [HttpGet("Search/{search}")]
+        public async Task<IActionResult> GetUsersAsync(string search = null)
+        {
+            return Ok(await _accountService.GetUsersAsync(search));
+        }
     }
 }
