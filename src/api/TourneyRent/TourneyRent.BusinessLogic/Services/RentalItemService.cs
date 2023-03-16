@@ -33,5 +33,10 @@ namespace TourneyRent.BusinessLogic.Services
 			await _rentalItemRepository.DeleteRentalItemAsync(rentalItem);
 
 		}
+		public async Task UpdateTeamAsync(RentalItem rentalItem)
+		{
+			await _rentalItemRepository.UpdateRentalItemAsync(rentalItem);
+
+		}
 	}
 }

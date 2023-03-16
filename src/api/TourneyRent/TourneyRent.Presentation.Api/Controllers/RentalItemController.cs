@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.Presentation.Api.Views.RentalItems;
+using TourneyRent.Presentation.Api.Views.Teams;
 
 namespace TourneyRent.Presentation.Api.Controllers
 {
@@ -62,6 +63,22 @@ namespace TourneyRent.Presentation.Api.Controllers
 			}
 
 			await _rentalItemService.DeleteRentalItemAsync(rentalItem);
+
+			return NoContent();
+		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> UpdateRentalItemAsync(int id, RentalItem rentalUpdate)
+		{
+
+			rentalUpdate.Id = id;
+
+			await _rentalItemService.UpdateTeamAsync(rentalUpdate);
+
+			if (await _rentalItemService.GetRentalItemAsync(id) == null)
+			{
+				return NotFound();
+			}
 
 			return NoContent();
 		}

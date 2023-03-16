@@ -54,5 +54,10 @@ namespace TourneyRent.DataLayer
 			_context.RentalItems.Remove(rentalItem);
 			await _context.SaveChangesAsync();
 		}
+		public async Task UpdateRentalItemAsync(RentalItem rentalItem)
+		{
+			_context.Entry(rentalItem).State = EntityState.Modified;
+			await _context.SaveChangesAsync();
+		}
 	}
 }
