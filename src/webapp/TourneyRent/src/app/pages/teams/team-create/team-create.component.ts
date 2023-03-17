@@ -15,6 +15,7 @@ import { RoutingService } from 'src/app/services/routing.service';
 export class TeamCreateComponent {
 
   public createForm: FormGroup;
+  public members: string[] = ['Titas Bartulis', 'Orestas Jonusas', 'Matas Onaitis', 'Justinas Ruslys', 'Tadas Jutkus']; // Add mocked data here
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,6 +25,7 @@ export class TeamCreateComponent {
     this.createForm = this.formBuilder.group({
       Name: ['', Validators.required],
       Description: ['', Validators.required],
+      Members: [[]]
     });
   }
 
@@ -34,7 +36,8 @@ export class TeamCreateComponent {
   
     const teamData = {
       Name: this.createForm.get('Name')?.value,
-      Description: this.createForm.get('Description')?.value
+      Description: this.createForm.get('Description')?.value,
+      Members: this.createForm.get('Members')?.value
     };
   
     this.teamResource.createTeam(teamData)
