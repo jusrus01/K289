@@ -14,4 +14,12 @@ public class Tournament : IImage
 
     public ApplicationUser Owner { get; set; }
     public string OwnerId { get; set; }
+
+    /// <summary>
+    /// Transaction id that should be the same as the user
+    /// who is creating the tournament
+    /// </summary>
+    public Guid? TransactionId { get; set; }
+
+    public ICollection<TournamentParticipant> Participants { get; set; }
 }
