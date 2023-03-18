@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TourneyRent.DataLayer;
 
@@ -11,9 +12,10 @@ using TourneyRent.DataLayer;
 namespace TourneyRent.DataLayer.Migrations
 {
     [DbContext(typeof(TourneyRentDbContext))]
-    partial class TourneyRentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230318210424_AddUsersToTransaction")]
+    partial class AddUsersToTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,39 +274,6 @@ namespace TourneyRent.DataLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.CalendarIRentalItemEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("AvailableAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("BuyerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid?>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BuyerId");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("CalendarItems");
-                });
-
             modelBuilder.Entity("TourneyRent.DataLayer.Models.RentalItem", b =>
                 {
                     b.Property<int>("Id")
@@ -431,39 +400,9 @@ namespace TourneyRent.DataLayer.Migrations
 
                     b.HasIndex("OwnerId");
 
+                    b.HasIndex("TransactionId");
+
                     b.ToTable("Tournaments");
-                });
-
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.TournamentParticipant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TournamentId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
-
-                    b.HasIndex("TournamentId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Participants");
                 });
 
             modelBuilder.Entity("TourneyRent.DataLayer.Models.Transaction", b =>
@@ -546,25 +485,6 @@ namespace TourneyRent.DataLayer.Migrations
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.CalendarIRentalItemEntry", b =>
-                {
-                    b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TourneyRent.DataLayer.Models.RentalItem", "Item")
-                        .WithMany("AvailableDays")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Buyer");
-
-                    b.Navigation("Item");
-                });
-
             modelBuilder.Entity("TourneyRent.DataLayer.Models.RentalItem", b =>
                 {
                     b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "Owner")
@@ -603,32 +523,13 @@ namespace TourneyRent.DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.TournamentParticipant", b =>
-                {
-                    b.HasOne("TourneyRent.DataLayer.Models.Team", "Team")
+                    b.HasOne("TourneyRent.DataLayer.Models.Transaction", "Transaction")
                         .WithMany()
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TransactionId");
 
-                    b.HasOne("TourneyRent.DataLayer.Models.Tournament", "Tournament")
-                        .WithMany("Participants")
-                        .HasForeignKey("TournamentId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Navigation("Owner");
 
-                    b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "User")
-                        .WithMany("Participation")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Team");
-
-                    b.Navigation("Tournament");
-
-                    b.Navigation("User");
+                    b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("TourneyRent.DataLayer.Models.Transaction", b =>
@@ -644,24 +545,12 @@ namespace TourneyRent.DataLayer.Migrations
 
             modelBuilder.Entity("TourneyRent.DataLayer.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Participation");
-
                     b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.RentalItem", b =>
-                {
-                    b.Navigation("AvailableDays");
                 });
 
             modelBuilder.Entity("TourneyRent.DataLayer.Models.Team", b =>
                 {
                     b.Navigation("Members");
-                });
-
-            modelBuilder.Entity("TourneyRent.DataLayer.Models.Tournament", b =>
-                {
-                    b.Navigation("Participants");
                 });
 #pragma warning restore 612, 618
         }

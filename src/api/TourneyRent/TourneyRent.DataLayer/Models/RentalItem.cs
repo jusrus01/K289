@@ -35,5 +35,7 @@ namespace TourneyRent.DataLayer.Models
 
         public ApplicationUser Owner { get; set; }
         public string OwnerId { get; set; }
-    }
+
+		public ICollection<CalendarIRentalItemEntry> AvailableDays { get; set; }
+	}
 }
