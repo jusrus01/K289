@@ -3,14 +3,17 @@ using TourneyRent.Contracts.Models;
 
 namespace TourneyRent.BusinessLogic.Models.Tournaments;
 
-public record CreateTournamentArgs(
-        string Name,
-        DateTime StartDate,
-        DateTime EndDate,
-        float EntryFee,
-        int ParticipantCount,
-        IFormFile ImageFile)
-    : IImageUpload
+public class CreateTournamentArgs : IImageUpload, ITransactionable
 {
-    public IFormFile ImageFile { get; set; } = ImageFile;
+    public IFormFile ImageFile { get; set; }
+    
+    public string BankAccountName { get; set; }
+    public string BankAccountNumber { get; set; }
+    public string TransactionReason { get; set; }
+    
+    public string Name { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public float EntryFee { get; set; }
+    public int ParticipantCount { get; set; }
 }
