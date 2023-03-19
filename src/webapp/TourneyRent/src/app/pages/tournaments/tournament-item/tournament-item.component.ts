@@ -21,16 +21,31 @@ export class TournamentItemComponent {
 
   public tournament: any;
 
+  private _tournamentId: any;
+
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      this.resource.getTournament(id).subscribe((response) => {
+      this._tournamentId = paramMap.get('id');
+      this.resource.getTournament(this._tournamentId).subscribe((response) => {
         this.tournament = response;
       });
     });
   }
 
-  openDialog(
+  public getParticipantCount(): number {
+    return this.tournament.participants.reduce((x: any) => x + 1, 0);
+  }
+
+  public join(): void {
+    const data = { teamId: null }; // TODO: Update to allow choosing the team that the user is representing
+    this.resource.joinTournament(this._tournamentId, data).subscribe((x) => this.tournament.isJoined = true);
+  }
+
+  public leave(): void {
+    // TODO: Implement on next sprint
+  }
+
+  openDeleteDialog(
     enterAnimationDuration: string,
     exitAnimationDuration: string
   ): void {
@@ -50,10 +65,32 @@ export class TournamentItemComponent {
         .subscribe((x) => this.routing.goToTournaments());
     });
   }
-
-  public join(): void {}
 }
 
+// Join dialog
+// TODD: Export to another component
+// @Component({
+//   template: `<h1 mat-dialog-title>Delete tournament</h1>
+//     <div mat-dialog-content>Are you sure?</div>
+//     <div mat-dialog-actions>
+//       <button
+//         mat-button
+//         mat-dialog-close
+//         cdkFocusInitial
+//         [mat-dialog-close]="true"
+//       >
+//         Confirm
+//       </button>
+//       <button mat-button mat-dialog-close [mat-dialog-close]="false">
+//         Cancel
+//       </button>
+//     </div>`,
+// })
+// export class ConfirmJoinDialog {
+//   constructor(public dialogRef: MatDialogRef<ConfirmJoinDialog>) {}
+// }
+
+// Delete dialog
 @Component({
   template: `<h1 mat-dialog-title>Delete tournament</h1>
     <div mat-dialog-content>Are you sure?</div>

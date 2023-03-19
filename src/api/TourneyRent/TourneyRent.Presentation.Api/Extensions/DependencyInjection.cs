@@ -13,6 +13,7 @@ namespace TourneyRent.Presentation.Api.Extensions
     {
         public static void ConfigureServices(this IServiceCollection services)
         {
+            services.AddScoped<TransactionRepository>();
             services.AddScoped<ImageRepository>();
             services.AddScoped<TournamentRepository>();
             services.AddScoped<TournamentService>();
@@ -54,6 +55,8 @@ namespace TourneyRent.Presentation.Api.Extensions
         {
             services.AddDbContext<TourneyRentDbContext>(options =>
                options.UseSqlServer(configuration.GetConnectionString("Default")));
+
+            services.AddScoped<TransactionExecutor>();
         }
     }
 }

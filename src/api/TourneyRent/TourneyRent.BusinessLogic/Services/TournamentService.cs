@@ -1,7 +1,10 @@
+using System.Xml.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using TourneyRent.BusinessLogic.Exceptions;
 using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Models.Tournaments;
+using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.DataLayer.Repositories;
 
@@ -13,17 +16,26 @@ public class TournamentService
     private readonly ImageRepository _imageRepository;
     private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly TransactionExecutor _executor;
+    private readonly TransactionRepository _transactionRepository;
+    private readonly TeamRepository _teamRepository;
 
     public TournamentService(
         IMapper mapper,
         TournamentRepository tournamentRepository,
         ImageRepository imageRepository,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        TransactionExecutor executor,
+        TransactionRepository transactionRepository,
+        TeamRepository teamRepository)
     {
         _tournamentRepository = tournamentRepository;
         _imageRepository = imageRepository;
         _mapper = mapper;
         _httpContextAccessor = httpContextAccessor;
+        _executor = executor;
+        _transactionRepository = transactionRepository;
+        _teamRepository = teamRepository;
     }
     
     public async Task<TournamentInfo> DeleteAsync(int id)
@@ -60,6 +72,55 @@ public class TournamentService
     public async Task<TournamentInfo> GetTournamentByIdAsync(int id)
     {
         var tournaments = await _tournamentRepository.GetAsync(x => x.Id == id);
-        return _mapper.Map<TournamentInfo>(tournaments.Single());
+        var tournament = tournaments.Single();
+        var tournamentInfo = _mapper.Map<TournamentInfo>(tournament);
+        var userId = _httpContextAccessor.GetAuthenticatedUserId();
+        tournamentInfo.IsJoined = tournament.Participants.Any(x => x.UserId == userId);
+        tournamentInfo.Participants = tournament.Participants
+            .Select(x =>  new TournamentParticipantInfo
+            {
+                UserId = x.UserId
+            })
+            .ToList();
+        return tournamentInfo;
+    }
+
+    public async Task JoinAsync(int tournamentId, int? teamId)
+    {
+        var tournament = await _tournamentRepository.GetSingleOrDefaultAsync(x => x.Id == tournamentId);
+        if (tournament == null)
+        {
+            throw new NotFoundException("Tournament not found");
+        }
+        
+        var userId = _httpContextAccessor.GetAuthenticatedUserId();
+        if (tournament.Participants.Any(x => x.UserId == userId))
+        {
+            throw new TournamentException("User already joined");
+        }
+
+        if (teamId != null)
+        {
+            var team = await _teamRepository.GetTeamByIdAsync(teamId.Value);
+            if (!team.Members.Any(x => x.UserId == userId))
+            {
+                throw new TournamentException("User is not a part of this team");
+            }
+        }
+
+        await _executor.ExecuteAsync(async () =>
+        {
+            var transactionId = await _transactionRepository.CreateAsync(
+                userId,
+                Convert.ToDecimal(tournament.EntryFee));
+            var participant = new TournamentParticipant
+            {
+                TeamId = teamId,
+                UserId = userId,
+                TransactionId = transactionId,
+                TournamentId = tournamentId,
+            };
+            tournament.Participants.Add(participant);
+        });
     }
 }

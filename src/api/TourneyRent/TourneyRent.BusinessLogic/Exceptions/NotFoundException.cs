@@ -2,7 +2,7 @@
 {
     internal class NotFoundException : BaseDomainException
     {
-        public NotFoundException(string errorMessage, Exception? inner)
+        public NotFoundException(string errorMessage, Exception? inner = null)
             :
             base(errorMessage, inner)
         {

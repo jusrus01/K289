@@ -13,9 +13,15 @@ public class TournamentRepository
         _context = context;
     }
 
+    public async Task<Tournament?> GetSingleOrDefaultAsync(Expression<Func<Tournament, bool>> predicate)
+    {
+        return await _context.Tournaments.Include(x => x.Participants).SingleOrDefaultAsync(predicate);
+    }
+    
     public async Task<IEnumerable<Tournament>> GetAsync(Expression<Func<Tournament, bool>> predicate)
     {
         return await _context.Tournaments
+            .Include(x => x.Participants)
             .Where(predicate)
             .ToListAsync();
     }
