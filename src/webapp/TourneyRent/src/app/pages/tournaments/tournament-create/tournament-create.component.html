@@ -41,8 +41,8 @@
               </span>
               <div class="control">
                 <div class="flex justify-between">
-                  <ngx-mat-timepicker formControlName="startDate" [showSpinners]="true" [stepHour]="1"
-                    [stepMinute]="1" [showSeconds]="false">
+                  <ngx-mat-timepicker formControlName="startDate" [showSpinners]="true" [stepHour]="1" [stepMinute]="1"
+                    [showSeconds]="false">
                   </ngx-mat-timepicker>
                 </div>
               </div>
@@ -70,21 +70,10 @@
               </span>
               <div class="control">
                 <div class="flex justify-between">
-                  <ngx-mat-timepicker formControlName="endDate"  [showSpinners]="true" [stepHour]="1"
-                    [stepMinute]="1" [showSeconds]="false">
+                  <ngx-mat-timepicker formControlName="endDate" [showSpinners]="true" [stepHour]="1" [stepMinute]="1"
+                    [showSeconds]="false">
                   </ngx-mat-timepicker>
                 </div>
-              </div>
-            </div>
-            <!-- Entry fee -->
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">Entry fee</label>
-              </span>
-              <div class="control">
-                <mat-form-field class="w-full" appearance="outline">
-                  <input [min]="0" [minlength]="0" formControlName="entryFee" class="w-full" type="text" matInput>
-                </mat-form-field>
               </div>
             </div>
             <!-- Participants -->
@@ -98,6 +87,50 @@
                 </mat-form-field>
               </div>
             </div>
+            <!-- Entry fee -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Entry fee</label>
+              </span>
+              <div class="control">
+                <mat-form-field class="w-full" appearance="outline">
+                  <input [min]="0" [minlength]="0" formControlName="entryFee" class="w-full" type="text" matInput
+                    (change)="onEntryFeeChange()">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Banking details -->
+            <ng-container *ngIf="showBankAccountForm">
+              <mat-divider></mat-divider>
+              <!-- Bank account -->
+              <div class="inline-field mt-5 mb-0">
+                <span class="lbl items-center flex">
+                  <label class="field-label">Bank account</label>
+                </span>
+                <div class="control flex justify-between">
+                  <mat-form-field class="w-2/4" appearance="outline">
+                    <input [min]="0" [minlength]="0" formControlName="bankAccountNumber" class="w-full" type="text" matInput placeholder="e.g. LT121000011101001000">
+                  </mat-form-field>
+                  <mat-form-field class="w-2/5" appearance="outline">
+                    <input [min]="0" [minlength]="0" formControlName="bankAccountName" class="w-full" type="text" matInput placeholder="Name Surname">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- Transaction reason -->
+              <div class="inline-field mt-0 mb-0">
+                <span class="lbl items-center flex">
+                  <label class="field-label">Reason</label>
+                </span>
+                <div class="control">
+                  <mat-form-field class="w-full" appearance="outline">
+                    <input formControlName="transactionReason" class="w-full" type="text" matInput placeholder="Enter custom reason message">
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-divider class="pb-4"></mat-divider>
+            </ng-container>
+
             <!-- Image -->
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">

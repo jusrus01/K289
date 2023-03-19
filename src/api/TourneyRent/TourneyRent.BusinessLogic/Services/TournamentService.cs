@@ -48,7 +48,10 @@ public class TournamentService
             ImageId = imageId,
             Name = createArgs.Name,
             ParticipantCount = createArgs.ParticipantCount,
-            OwnerId = _httpContextAccessor.GetAuthenticatedUserId()
+            OwnerId = _httpContextAccessor.GetAuthenticatedUserId(),
+            BankAccountNumber = createArgs.BankAccountNumber ?? string.Empty,
+            BankAccountName = createArgs.BankAccountName ?? string.Empty,
+            TransactionReason = createArgs.TransactionReason ?? string.Empty
         };
         await _tournamentRepository.CreateAsync(tournament);
         return _mapper.Map<TournamentInfo>(tournament);
