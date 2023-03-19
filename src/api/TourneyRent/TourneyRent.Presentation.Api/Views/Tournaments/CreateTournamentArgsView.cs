@@ -4,11 +4,11 @@ namespace TourneyRent.Presentation.Api.Views.Tournaments;
 
 public class CreateTournamentArgsView
 {
-    public IFormFile ImageFile { get; set; }
-    
-    public string BankAccountName { get; set; }
-    public string BankAccountNumber { get; set; }
-    public string TransactionReason { get; set; }
+    public IFormFile? ImageFile { get; set; }
+
+    public string? BankAccountName { get; set; }
+    public string? BankAccountNumber { get; set; }
+    public string? TransactionReason { get; set; }
     
     [Required]
     public string Name { get; set; }

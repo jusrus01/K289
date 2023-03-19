@@ -19,6 +19,8 @@ export class TournamentCreateComponent {
   public pictureFile!: any;
   public createForm: FormGroup;
 
+  public showBankAccountForm = true;
+
   constructor(
     private formBuilder: FormBuilder,
     private tournamentResource: TournamentResource,
@@ -31,6 +33,9 @@ export class TournamentCreateComponent {
       endDate: [new Date(), Validators.required],
       entryFee: [1, [Validators.required, Validators.min(0), Validators.max(1000), Validators.pattern(/^[0-9]+(\.[0-9]+)?$/)]],
       participantCount: [1, [Validators.required, Validators.min(1), Validators.max(1000), Validators.pattern(/^[0-9]*$/)]],
+      bankAccountName: ['', Validators.required],
+      bankAccountNumber: ['', Validators.required],
+      transactionReason: ['']
     });
   }
 
@@ -71,6 +76,22 @@ export class TournamentCreateComponent {
     this.tournamentResource
       .createTournament(formData)
       .subscribe(() => this.routing.goToTournaments());
+  }
+
+  onEntryFeeChange(): void {
+    const entryFee = this.createForm.get(['entryFee'])?.value;
+    this.showBankAccountForm = entryFee > 0;
+
+    const controlNames = ['bankAccountName', 'bankAccountNumber'];
+    for (const controlName of controlNames) {
+      const control = this.createForm.get(controlName);
+      if (this.showBankAccountForm) {
+        control?.setValidators([Validators.required]);
+      } else {
+        control?.clearValidators();
+      }
+      control?.updateValueAndValidity();
+    }
   }
 
   onFileUpload(event: any, upload: any): void {
