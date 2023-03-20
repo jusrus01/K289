@@ -12,7 +12,7 @@ namespace TourneyRent.Presentation.Api.Extensions
     {
         public static void ConfigureServices(this IServiceCollection services)
         {
-            services.AddScoped<TransactionRepository>();
+            services.AddScoped<PaymentTransactionRepository>();
             services.AddScoped<ImageRepository>();
             services.AddScoped<TournamentRepository>();
             services.AddScoped<TournamentService>();

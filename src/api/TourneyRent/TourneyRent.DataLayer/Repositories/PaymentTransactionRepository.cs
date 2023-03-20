@@ -2,11 +2,11 @@ using TourneyRent.DataLayer.Models;
 
 namespace TourneyRent.DataLayer.Repositories;
 
-public class TransactionRepository
+public class PaymentTransactionRepository
 {
     private readonly TourneyRentDbContext _context;
 
-    public TransactionRepository(TourneyRentDbContext context)
+    public PaymentTransactionRepository(TourneyRentDbContext context)
     {
         _context = context;
     }

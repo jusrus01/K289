@@ -16,7 +16,7 @@ public class TournamentService
     private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly TransactionExecutor _executor;
-    private readonly TransactionRepository _transactionRepository;
+    private readonly PaymentTransactionRepository _paymentTransactionRepository;
     private readonly TeamRepository _teamRepository;
 
     public TournamentService(
@@ -25,7 +25,7 @@ public class TournamentService
         ImageRepository imageRepository,
         IHttpContextAccessor httpContextAccessor,
         TransactionExecutor executor,
-        TransactionRepository transactionRepository,
+        PaymentTransactionRepository paymentTransactionRepository,
         TeamRepository teamRepository)
     {
         _tournamentRepository = tournamentRepository;
@@ -33,7 +33,7 @@ public class TournamentService
         _mapper = mapper;
         _httpContextAccessor = httpContextAccessor;
         _executor = executor;
-        _transactionRepository = transactionRepository;
+        _paymentTransactionRepository = paymentTransactionRepository;
         _teamRepository = teamRepository;
     }
 
@@ -119,7 +119,7 @@ public class TournamentService
 
         await _executor.ExecuteAsync(async () =>
         {
-            var transactionId = await _transactionRepository.CreateAsync(
+            var transactionId = await _paymentTransactionRepository.CreateAsync(
                 userId,
                 Convert.ToDecimal(tournament.EntryFee));
             var participant = new TournamentParticipant
