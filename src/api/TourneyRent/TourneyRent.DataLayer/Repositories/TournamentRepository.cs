@@ -26,26 +26,25 @@ public class TournamentRepository
             .ToListAsync();
     }
 
-    public async Task<Tournament> DeleteAsync(int id)
+    public async Task<Tournament> DeleteAsync(Tournament tournament)
     {
-        var tournamentToDelete = await _context.Tournaments.SingleAsync(x => x.Id == id);
+        _context.Participants.RemoveRange(tournament.Participants);
         var deletedTournament = new Tournament
         {
-            Id = tournamentToDelete.Id,
-            Name = tournamentToDelete.Name,
-            StartDate = tournamentToDelete.StartDate,
-            EndDate = tournamentToDelete.EndDate,
-            EntryFee = tournamentToDelete.EntryFee,
-            ParticipantCount = tournamentToDelete.ParticipantCount,
-            ImageId = tournamentToDelete.ImageId,
-            OwnerId = tournamentToDelete.OwnerId
+            Id = tournament.Id,
+            Name = tournament.Name,
+            StartDate = tournament.StartDate,
+            EndDate = tournament.EndDate,
+            EntryFee = tournament.EntryFee,
+            ParticipantCount = tournament.ParticipantCount,
+            ImageId = tournament.ImageId,
+            OwnerId = tournament.OwnerId
         };
-        _context.Tournaments.Remove(tournamentToDelete);
+        _context.Tournaments.Remove(tournament);
         await _context.SaveChangesAsync();
-        
         return deletedTournament;
     }
-
+    
     public async Task CreateAsync(Tournament tournament)
     {
         await _context.AddAsync(tournament);

@@ -49,7 +49,7 @@
               {{ tournament.entryFee <= 0 ? "Free" : tournament.entryFee }} €
             </div>
             <div matListItemLine>
-              Participant count: 0/{{ tournament.participantCount }}
+              Participant count: {{getParticipantCount(tournament)}}/{{ tournament.participantCount }}
             </div>
             <div matListItemLine>
               Status:

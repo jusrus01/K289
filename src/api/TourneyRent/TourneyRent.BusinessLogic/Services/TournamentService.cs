@@ -1,4 +1,3 @@
-using System.Xml.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using TourneyRent.BusinessLogic.Exceptions;
@@ -37,16 +36,21 @@ public class TournamentService
         _transactionRepository = transactionRepository;
         _teamRepository = teamRepository;
     }
-    
+
     public async Task<TournamentInfo> DeleteAsync(int id)
     {
-        return _mapper.Map<TournamentInfo>(await _tournamentRepository.DeleteAsync(id));
-    }
+        var tournament = await _tournamentRepository.GetSingleOrDefaultAsync(x => x.Id == id);
+        if (tournament == null)
+        {
+            throw new NotFoundException("Tournament not found");
+        }
 
-    public async Task<IEnumerable<TournamentInfo>> GetAllValidAsync()
-    {
-        var tournaments = await _tournamentRepository.GetAsync(x => x.EndDate >= DateTime.UtcNow);
-        return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
+        if (tournament.Participants.Any() && tournament.EntryFee > 0)
+        {
+            throw new TournamentException("Cannot delete tournament that has participants that already payed. Please contact support.");
+        }
+        
+        return _mapper.Map<TournamentInfo>(await _tournamentRepository.DeleteAsync(tournament));
     }
 
     public async Task<TournamentInfo> CreateAsync(CreateTournamentArgs createArgs)
@@ -68,6 +72,12 @@ public class TournamentService
         await _tournamentRepository.CreateAsync(tournament);
         return _mapper.Map<TournamentInfo>(tournament);
     }
+    
+    public async Task<IEnumerable<TournamentInfo>> GetAllValidAsync()
+    {
+        var tournaments = await _tournamentRepository.GetAsync(x => x.EndDate >= DateTime.UtcNow);
+        return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments); // Does not set IsJoined correctly
+    }
 
     public async Task<TournamentInfo> GetTournamentByIdAsync(int id)
     {
@@ -76,12 +86,6 @@ public class TournamentService
         var tournamentInfo = _mapper.Map<TournamentInfo>(tournament);
         var userId = _httpContextAccessor.GetAuthenticatedUserId();
         tournamentInfo.IsJoined = tournament.Participants.Any(x => x.UserId == userId);
-        tournamentInfo.Participants = tournament.Participants
-            .Select(x =>  new TournamentParticipantInfo
-            {
-                UserId = x.UserId
-            })
-            .ToList();
         return tournamentInfo;
     }
 
@@ -91,6 +95,11 @@ public class TournamentService
         if (tournament == null)
         {
             throw new NotFoundException("Tournament not found");
+        }
+
+        if (tournament.Participants.Count == tournament.ParticipantCount)
+        {
+            throw new TournamentException("Tournament is full");
         }
         
         var userId = _httpContextAccessor.GetAuthenticatedUserId();
