@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>Select team you're representing</h1>
+<div mat-dialog-content>
+    <mat-list>
+        <mat-list-item class="hover:bg-slate-100" (click)="selectTeam(null)">None</mat-list-item>
+        <mat-list-item class="hover:bg-slate-100" *ngFor="let team of data" (click)="selectTeam(team.id)">{{team.name}}</mat-list-item>
+    </mat-list>
+</div>

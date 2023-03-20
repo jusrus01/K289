@@ -1,4 +1,6 @@
-﻿using TourneyRent.BusinessLogic.Models.Tournaments;
+using TourneyRent.BusinessLogic.Models.Tournaments;
+using Microsoft.AspNetCore.Http;
+using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.DataLayer.Repositories;
@@ -8,10 +10,12 @@ namespace TourneyRent.BusinessLogic.Services
 	public class RentalItemService
 	{
 		private readonly RentalItemRepository _rentalItemRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-		public RentalItemService (RentalItemRepository rentalItemRepository)
+        public RentalItemService (RentalItemRepository rentalItemRepository, IHttpContextAccessor httpContextAccessor)
 		{
 			_rentalItemRepository = rentalItemRepository;
+			_httpContextAccessor = httpContextAccessor;
 		}
 
 		public async Task<RentalItem> GetRentalItemAsync (int id)
@@ -26,6 +30,7 @@ namespace TourneyRent.BusinessLogic.Services
 
 		public async Task CreateRentalItemAsync(RentalItem item)
 		{
+			item.OwnerId = _httpContextAccessor.GetAuthenticatedUserId();
 			await _rentalItemRepository.CreateRentalItemAsync(item);
 		}
 		public async Task DeleteRentalItemAsync(RentalItem rentalItem)

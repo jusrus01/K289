@@ -2,7 +2,7 @@ using TourneyRent.Contracts.Models;
 
 namespace TourneyRent.DataLayer.Models;
 
-public class Tournament : IImage
+public class Tournament : IImage, ITransactionable
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -14,4 +14,16 @@ public class Tournament : IImage
 
     public ApplicationUser Owner { get; set; }
     public string OwnerId { get; set; }
+
+    /// <summary>
+    /// Transaction id that should be the same as the user
+    /// who is creating the tournament
+    /// </summary>
+    public Guid? TransactionId { get; set; }
+
+    public ICollection<TournamentParticipant> Participants { get; set; }
+    
+    public string BankAccountName { get; set; }
+    public string BankAccountNumber { get; set; }
+    public string TransactionReason { get; set; }
 }

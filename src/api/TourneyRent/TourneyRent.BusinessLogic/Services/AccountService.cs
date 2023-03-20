@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 using TourneyRent.BusinessLogic.Exceptions;
 using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Models;
@@ -60,6 +62,17 @@ namespace TourneyRent.BusinessLogic.Services
             var user = await _userManager.FindByIdAsync(userId);
             EnsureValidUser(user);
             return user;
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetUsersAsync(string search = null)
+        {
+            var users = string.IsNullOrWhiteSpace(search)
+                ? await _userManager.Users.ToListAsync()
+                : await _userManager.Users.Where(u => u.FirstName.Contains(search) || u.LastName.Contains(search)).ToListAsync();
+
+            
+
+            return users;
         }
     }
 }

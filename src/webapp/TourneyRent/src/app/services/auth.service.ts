@@ -47,6 +47,10 @@ export class AuthService {
     return this.hasRole(ADMINISTRATOR_ROLE) || this.getAuthUserId() == userId;
   }
 
+  public isOwner(userId: any): boolean {
+    return this.getAuthUserId() == userId;
+  }
+
   private getUserInfo(): LoginResponse {
     return JSON.parse(
       this.cookieService.get(this.TOKEN_COOKIE_PARAM)

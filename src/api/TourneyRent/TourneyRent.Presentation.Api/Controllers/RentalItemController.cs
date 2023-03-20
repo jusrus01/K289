@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer.Models;
@@ -44,8 +45,8 @@ namespace TourneyRent.Presentation.Api.Controllers
 			return Ok(rentalItemView);
 		}
 
-		[HttpPost]
-		public async Task<ActionResult<RentalItemView>> AddTeam(RentalItemCreate itemCreate)
+		[HttpPost, Authorize]
+		public async Task<ActionResult<RentalItemView>> CreateRentalItem(RentalItemCreate itemCreate)
 		{
 			var item = _mapper.Map<RentalItem>(itemCreate);
 			await _rentalItemService.CreateRentalItemAsync(item);

@@ -65,6 +65,7 @@ import { ShowForAuthenticatedUserDirective } from './common/directives/show-for-
 import { ShowForGuestUserDirective } from './common/directives/show-for-guest-user.directive';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ImageComponent } from './common/image/image.component';
+import { CommonModule } from '@angular/common';
 import { RentalViewComponent } from './pages/rentals/rental-view/rental-view.component';
 import { TournamentCreateComponent } from './pages/tournaments/tournament-create/tournament-create.component';
 import { TournamentListComponent } from './pages/tournaments/tournament-list/tournament-list.component';
@@ -75,11 +76,18 @@ import { ShowForAdminUserDirective } from './common/directives/show-for-admin-us
 import { RentalComponent } from './pages/rentals/rental/rental.component';
 import { RentalDetailsComponent } from './pages/rentals/rental-details/rental-details.component';
 import { RentalEditComponent } from './pages/rentals/rental-edit/rental-edit.component';
+import { TeamComponent } from './pages/teams/team/team.component';
+import { TeamCreateComponent } from './pages/teams/team-create/team-create.component';
+import { TeamListComponent } from './pages/teams/team-list/team-list.component';
+import { TeamItemComponent } from './pages/teams/team-item/team-item.component';
+import { PayProcessingDialog } from './common/dialogs/pay-processing/pay-processing.dialog';
+import { ChooseTeamDialog } from './common/dialogs/choose-team/choose-team.dialog';
 
 export const API_URL = 'http://localhost:5000';
 
 @NgModule({
   declarations: [
+    TeamCreateComponent,
     AppComponent,
     LoginComponent,
     RegisterComponent,
@@ -99,13 +107,20 @@ export const API_URL = 'http://localhost:5000';
     ConfirmDeleteDialogTemp,
     RentalComponent,
     RentalDetailsComponent,
-    RentalEditComponent
+    RentalEditComponent,
+    TeamComponent,
+    TeamListComponent,
+    TeamItemComponent,
+    PayProcessingDialog,
+    ChooseTeamDialog
   ],
+  
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatToolbarModule,

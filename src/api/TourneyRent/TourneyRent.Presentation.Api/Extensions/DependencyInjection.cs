@@ -5,7 +5,6 @@ using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.DataLayer.Repositories;
-using static TourneyRent.DataLayer.RentalItemRepository;
 
 namespace TourneyRent.Presentation.Api.Extensions
 {
@@ -13,6 +12,7 @@ namespace TourneyRent.Presentation.Api.Extensions
     {
         public static void ConfigureServices(this IServiceCollection services)
         {
+            services.AddScoped<PaymentTransactionRepository>();
             services.AddScoped<ImageRepository>();
             services.AddScoped<TournamentRepository>();
             services.AddScoped<TournamentService>();
@@ -54,6 +54,8 @@ namespace TourneyRent.Presentation.Api.Extensions
         {
             services.AddDbContext<TourneyRentDbContext>(options =>
                options.UseSqlServer(configuration.GetConnectionString("Default")));
+
+            services.AddScoped<TransactionExecutor>();
         }
     }
 }

@@ -8,18 +8,13 @@
       <fieldset class="form-fieldset">
         <div class="form-panel">
           <div class="body">
+
             <!-- Image -->
             <div class="ml-[5%] inline-field mt-0 mb-0">
               <span class="items-center flex">
-                <app-image
-                  [imageId]="tournament.imageId"
-                  class="mx-auto py-2"
-                  [imageSource]="
+                <app-image [imageId]="tournament.imageId" class="mx-auto py-2" [imageSource]="
                     'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='
-                  "
-                  [imageClass]="'w-full h-64 object-cover rounded-md'"
-                  [containerClass]="'w-full'"
-                ></app-image>
+                  " [imageClass]="'w-full h-64 object-cover rounded-md'" [containerClass]="'w-full'"></app-image>
               </span>
             </div>
 
@@ -35,6 +30,7 @@
                 {{ tournament.name }}
               </div>
             </div>
+
             <!-- Start date -->
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">
@@ -52,6 +48,7 @@
                 </div>
               </div>
             </div>
+
             <!-- Start time -->
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">
@@ -66,6 +63,7 @@
                 </div>
               </div>
             </div>
+
             <!-- End date -->
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">
@@ -83,6 +81,7 @@
                 </div>
               </div>
             </div>
+
             <!-- End time -->
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">
@@ -97,6 +96,7 @@
                 </div>
               </div>
             </div>
+
             <!-- Entry fee -->
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">
@@ -109,13 +109,14 @@
                 </mat-form-field> -->
               </div>
             </div>
+
             <!-- Participants -->
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">
                 <label class="field-label">Number of participants</label>
               </span>
               <div class="control">
-                {{ tournament.participantCount }}
+                {{getParticipantCount()}}/{{ tournament.participantCount }}
                 <!-- <mat-form-field class="w-full" appearance="outline">
                   <input formControlName="participantCount" class="w-full" type="text" matInput name="value">
                 </mat-form-field> -->
@@ -123,24 +124,19 @@
             </div>
             <div class="inline-field mt-0 mb-0">
               <div class="w-full flex justify-between">
-                <button
-                  *ngIf="authService.isAdminOrOwner(tournament.ownerId)"
-                  mat-raised-button
-                  color="warn"
-                  class="ml-[5%] mt-2"
-                  (click)="openDialog('0ms', '0ms')"
-                >
+                <button *ngIf="authService.isAdminOrOwner(tournament.ownerId)" mat-raised-button color="warn"
+                  class="ml-[5%] mt-2" (click)="openDeleteDialog('0ms', '0ms')">
                   Delete
                 </button>
-                <button
-                  mat-raised-button
-                  class="w-1/3 mt-2"
-                  color="primary"
-                  (click)="join()"
-                >
+              </div>
+              <ng-container *ngIf="!authService.isOwner(tournament.ownerId)">
+                <button *ngIf="!tournament.isJoined && !isFull()" mat-raised-button class="w-1/3 mt-2" color="primary" (click)="join()">
                   Join
                 </button>
-              </div>
+                <button *ngIf="tournament.isJoined" mat-raised-button class="w-1/3 mt-2" color="warn" (click)="leave()">
+                  Leave
+                </button>
+              </ng-container>
             </div>
           </div>
         </div>

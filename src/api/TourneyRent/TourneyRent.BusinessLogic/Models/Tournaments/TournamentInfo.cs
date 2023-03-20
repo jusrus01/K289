@@ -1,16 +1,15 @@
-using TourneyRent.Contracts.Models;
-
 namespace TourneyRent.BusinessLogic.Models.Tournaments;
 
-public record TournamentInfo(
-    string Name,
-    DateTime StartDate,
-    DateTime EndDate,
-    float EntryFee,
-    int ParticipantCount,
-    Guid? ImageId,
-    int Id,
-    string OwnerId) : IImage
+public class TournamentInfo
 {
-    public Guid? ImageId { get; set; } = ImageId;
+    public string Name { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public float EntryFee { get; set; }
+    public int ParticipantCount { get; set; }
+    public Guid? ImageId { get; set; }
+    public int Id { get; set; }
+    public string OwnerId { get; set; }
+    public bool IsJoined { get; set; }
+    public IEnumerable<TournamentParticipantInfo> Participants { get; set; }
 }
