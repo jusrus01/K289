@@ -5,7 +5,6 @@ using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.DataLayer.Repositories;
-using static TourneyRent.DataLayer.RentalItemRepository;
 
 namespace TourneyRent.Presentation.Api.Extensions
 {
