@@ -3,13 +3,6 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
 
 @Component({
   template: ` <span class="error">{{ message }}</span> `,
-  styles: [
-    `
-      .error {
-        color: hotpink;
-      }
-    `,
-  ],
 })
 export class ErrorSnackComponent {
   public message: string;
