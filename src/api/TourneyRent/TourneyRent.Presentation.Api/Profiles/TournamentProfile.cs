@@ -9,6 +9,7 @@ public class TournamentProfile : Profile
 {
     public TournamentProfile()
     {
+        CreateMap<TournamentParticipant, TournamentParticipantInfo>();
         CreateMap<Tournament, TournamentInfo>();
         CreateMap<CreateTournamentArgsView, CreateTournamentArgs>();
     }

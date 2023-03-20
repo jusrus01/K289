@@ -21,6 +21,10 @@ export class TournamentListComponent {
       .subscribe((response) => (this.tournaments = response));
   }
 
+  public getParticipantCount(tournament: any): number {
+    return tournament.participants.reduce((x: any) => x + 1, 0);
+  }
+
   public getStatus(tournament: any): any {
     const tournamentStartDate = new Date(tournament.startDate);
     const currentDate = new Date();
