@@ -5,10 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TourneyRent.Contracts.Models;
 
 namespace TourneyRent.DataLayer.Models
 {
-	public class RentalItem
+	public class RentalItem : IImage, ITransactionable
 	{
 		[Key]
 		public int Id { get; set; }
@@ -19,10 +20,7 @@ namespace TourneyRent.DataLayer.Models
 		[Required]
 		public string Description { get; set; }
 
-		//[Required]
-		//public byte[] Image { get; set; }
-
-		public string Image { get; set; }
+		public Guid? ImageId { get; set; }
 
 		[Required]
 		public DateTime PeriodStart { get; set; }
@@ -37,5 +35,9 @@ namespace TourneyRent.DataLayer.Models
         public string OwnerId { get; set; }
 
 		public ICollection<CalendarIRentalItemEntry> AvailableDays { get; set; }
+
+		public string BankAccountName { get; set; }
+		public string BankAccountNumber { get; set; }
+		public string TransactionReason { get; set; }
 	}
 }
