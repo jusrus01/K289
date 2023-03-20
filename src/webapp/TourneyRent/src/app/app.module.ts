@@ -77,6 +77,8 @@ import { TeamComponent } from './pages/teams/team/team.component';
 import { TeamCreateComponent } from './pages/teams/team-create/team-create.component';
 import { TeamListComponent } from './pages/teams/team-list/team-list.component';
 import { TeamItemComponent } from './pages/teams/team-item/team-item.component';
+import { PayProcessingDialog } from './common/dialogs/pay-processing/pay-processing.dialog';
+import { ChooseTeamDialog } from './common/dialogs/choose-team/choose-team.dialog';
 
 export const API_URL = 'http://localhost:5155';
 
@@ -102,7 +104,9 @@ export const API_URL = 'http://localhost:5155';
     ConfirmDeleteDialogTemp,
     TeamComponent,
     TeamListComponent,
-    TeamItemComponent
+    TeamItemComponent,
+    PayProcessingDialog,
+    ChooseTeamDialog
   ],
   
   imports: [

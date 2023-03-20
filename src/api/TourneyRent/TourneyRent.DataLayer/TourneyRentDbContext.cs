@@ -20,6 +20,12 @@ namespace TourneyRent.DataLayer
         
         public DbSet<Tournament> Tournaments { get; set; }
 
+        public DbSet<Transaction> Transactions { get; set; }
+        
+        public DbSet<TournamentParticipant> Participants { get; set; }
+
+        public DbSet<CalendarIRentalItemEntry> CalendarItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -29,6 +35,16 @@ namespace TourneyRent.DataLayer
                 .WithOne(m => m.Team)
                 .HasForeignKey(m => m.TeamId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<TournamentParticipant>()
+                .HasOne(x => x.Tournament)
+                .WithMany(x => x.Participants)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<CalendarIRentalItemEntry>()
+                .HasOne<RentalItem>(x => x.Item)
+                .WithMany(x => x.AvailableDays)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

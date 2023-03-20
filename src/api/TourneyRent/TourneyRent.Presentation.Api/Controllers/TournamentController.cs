@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ public class TournamentController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAllValidTournaments(int id)
+    public async Task<IActionResult> GetTournament(int id)
     {
         return Ok(await _tournamentService.GetTournamentByIdAsync(id));
     }
@@ -44,5 +45,12 @@ public class TournamentController : ControllerBase
         var args = _mapper.Map<CreateTournamentArgs>(createArgs);
         var createdTournament = await _tournamentService.CreateAsync(args);
         return CreatedAtAction(nameof(CreateTournament), createdTournament);
+    }
+
+    [Authorize, HttpPost("{tournamentId}/Join")]
+    public async Task<IActionResult> JoinTournament([FromRoute] int tournamentId, [FromBody] JoinTournamentArgsView joinArgs)
+    {
+        await _tournamentService.JoinAsync(tournamentId, joinArgs.TeamId);
+        return Ok();
     }
 }

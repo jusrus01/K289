@@ -43,6 +43,7 @@ export class HttpClientInterceptor implements HttpInterceptor {
     this.snackBar.openFromComponent(ErrorSnackComponent, {
       duration: 1500,
       data: err.error.ErrorMessage,
+      panelClass: ['blue-snackbar-error'],
     } as MatSnackBarConfig);
     return of(err.message);
   }
@@ -65,6 +66,7 @@ export class HttpClientInterceptor implements HttpInterceptor {
         ) {
           this.snackBar.openFromComponent(SuccessSnackComponent, {
             duration: 1000,
+            panelClass: ['blue-snackbar'],
           });
         }
       }),
