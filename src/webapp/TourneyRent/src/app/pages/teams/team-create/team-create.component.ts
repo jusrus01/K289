@@ -6,6 +6,8 @@ import {
 } from '@angular/forms';
 import { TeamResource } from 'src/app/resources/team.resource';
 import { RoutingService } from 'src/app/services/routing.service';
+import { HttpClient } from '@angular/common/http';
+import { API_URL } from '../../../app.module';
 
 @Component({
   selector: 'app-team-create',
@@ -15,17 +17,31 @@ import { RoutingService } from 'src/app/services/routing.service';
 export class TeamCreateComponent {
 
   public createForm: FormGroup;
-  public members: string[] = ['Titas Bartulis', 'Orestas Jonusas', 'Matas Onaitis', 'Justinas Ruslys', 'Tadas Jutkus']; // Add mocked data here
+  public members: string[] = [];
+  public availableMembers: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private teamResource: TeamResource,
-    private routing: RoutingService
+    private routing: RoutingService,
+    private http: HttpClient
   ) {
     this.createForm = this.formBuilder.group({
       Name: ['', Validators.required],
       Description: ['', Validators.required],
       Members: [[]]
+    });
+
+    this.getUsers('');
+  }
+
+  public getUsers(search: string): void {
+    const url = `${API_URL}/Account/Search/${search}`;
+    this.http.get(url).subscribe((result: any) => {
+      this.availableMembers = result.map((user: any) => ({
+        id: user.id,
+        name: `${user.firstName} ${user.lastName}`,
+      }));
     });
   }
 
@@ -43,4 +59,9 @@ export class TeamCreateComponent {
     this.teamResource.createTeam(teamData)
       .subscribe(() => this.routing.goToTeams());
   }
+
+  public compareFn(a: any, b: any): boolean {
+    return a && b && a === b;
+  }
+  
 }
