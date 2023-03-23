@@ -8,12 +8,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./rental-create.component.scss']
 })
 export class RentalCreateComponent {
+
+  public pictureSource!: string | ArrayBuffer | null;
+  public pictureFile!: any;
+
   name: string = '';
   description: string = '';
   image: string = '';
   periodStart: string = '';
   periodEnd: string = '';
   price: number = 0;
+  BankAccountName: string = '';
+  BankAccountNumber: string = '';
+  TransactionReason: string = '';
+  imageFile?: File;
 
 constructor(private http: HttpClient, public routing: RoutingService) {}
 
@@ -21,16 +29,26 @@ constructor(private http: HttpClient, public routing: RoutingService) {}
     const data = {
       name: this.name,
       description: this.description,
+      imageFile: this.imageFile,
       image: this.image,
       periodStart: this.periodStart,
       periodEnd: this.periodEnd,
-      price: this.price
+      price: this.price,
+      BankAccountName: this.BankAccountName,
+      BankAccountNumber: this.BankAccountNumber,
+      TransactionReason: this.TransactionReason
     };
 
-    this.http.post('http://localhost:5000/RentalItem', data).subscribe((response) => {
+    this.http.post('http://localhost:5155/RentalItem', data).subscribe((response) => {
       console.log('Data submitted successfully:', response);
     }, (error) => {
       console.error('Error submitting data:', error);
     });
+
+  }
+
+  onImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    this.imageFile = file || undefined;
   }
 }

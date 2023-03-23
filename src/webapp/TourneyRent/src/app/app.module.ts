@@ -83,7 +83,7 @@ import { TeamItemComponent } from './pages/teams/team-item/team-item.component';
 import { PayProcessingDialog } from './common/dialogs/pay-processing/pay-processing.dialog';
 import { ChooseTeamDialog } from './common/dialogs/choose-team/choose-team.dialog';
 
-export const API_URL = 'http://localhost:5000';
+export const API_URL = 'http://localhost:5155';
 
 @NgModule({
   declarations: [

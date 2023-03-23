@@ -74,6 +74,46 @@
           </div>
         </div>
 
+        <div class="inline-field">
+          <span class="lbl">
+            <label class="field-label -required" for="bank_name">Bank account name</label>
+          </span>
+          <div class="control">
+            <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" [(ngModel)]="BankAccountName" id="bank_name">
+            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
+          </div>
+        </div>
+
+        <div class="inline-field">
+          <span class="lbl">
+            <label class="field-label -required" for="bank_number">IBAN number</label>
+          </span>
+          <div class="control">
+            <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" [(ngModel)]="BankAccountNumber" id="bank_number">
+            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
+          </div>
+        </div>
+
+        <div class="inline-field">
+          <span class="lbl">
+            <label class="field-label -required" for="bank_reason">Transaction reason</label>
+          </span>
+          <div class="control">
+            <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" [(ngModel)]="TransactionReason" id="bank_reason">
+            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
+          </div>
+        </div>
+
+        <div class="inline-field">
+          <span class="lbl">
+            <label class="field-label -required" for="imageFile">imagefile</label>
+          </span>
+          <div class="control">
+            <input type="file" id="imageFile" name="imageFile" (change)="onImageSelected($event)" accept=".jpg,.jpeg,.png" required>
+            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
+          </div>
+        </div>
+
         <div class="inline-field cntr">
           <button class="button sbutton" (click)="submit()">CREATE</button>
           <!--<button class="button sbutton" ng-click="createRentalItem()">CREATE</button>-->
