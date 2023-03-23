@@ -19,7 +19,7 @@ namespace TourneyRent.DataLayer.Models
         /// <summary>
         /// Should be the same as Buyers transaction id e.g.
         /// when buying this available day the buyer makes a transaction
-        /// that should have matching ids.
+        /// that should have matching ids.  
         /// </summary>
         public Guid? TransactionId { get; set; }
     }
