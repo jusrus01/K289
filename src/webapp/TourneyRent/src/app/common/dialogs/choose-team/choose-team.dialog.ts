@@ -3,8 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-choose-team',
-  templateUrl: './choose-team.dialog.html',
-  styleUrls: ['./choose-team.dialog.scss']
+  templateUrl: './choose-team.dialog.html'
 })
 export class ChooseTeamDialog {
   constructor(public dialogRef: MatDialogRef<ChooseTeamDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {

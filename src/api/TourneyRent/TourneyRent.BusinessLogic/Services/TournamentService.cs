@@ -91,11 +91,7 @@ public class TournamentService
 
     public async Task JoinAsync(int tournamentId, int? teamId)
     {
-        var tournament = await _tournamentRepository.GetSingleOrDefaultAsync(x => x.Id == tournamentId);
-        if (tournament == null)
-        {
-            throw new NotFoundException("Tournament not found");
-        }
+        var tournament = await GetTournamentAsync(tournamentId);
 
         if (tournament.Participants.Count == tournament.ParticipantCount)
         {
@@ -131,5 +127,37 @@ public class TournamentService
             };
             tournament.Participants.Add(participant);
         });
+    }
+
+    public async Task LeaveAsync(int tournamentId)
+    {
+        var tournament = await GetTournamentAsync(tournamentId);
+        var userId = _httpContextAccessor.GetAuthenticatedUserId();
+        var participant = tournament.Participants.SingleOrDefault(p => p.UserId == userId);
+        if (participant == null)
+        {
+            throw new TournamentException("User is not in the tournament");
+        }
+        
+        await _executor.ExecuteAsync(async () =>
+        {
+            if (participant.TransactionId != null)
+            {
+                await _paymentTransactionRepository.RemoveAsync(participant.TransactionId.Value);
+            }
+            
+            await _tournamentRepository.RemoveParticipantAsync(participant);
+        });
+    }
+
+    private async Task<Tournament?> GetTournamentAsync(int tournamentId)
+    {
+        var tournament = await _tournamentRepository.GetSingleOrDefaultAsync(x => x.Id == tournamentId);
+        if (tournament == null)
+        {
+            throw new NotFoundException("Tournament not found");
+        }
+
+        return tournament;
     }
 }

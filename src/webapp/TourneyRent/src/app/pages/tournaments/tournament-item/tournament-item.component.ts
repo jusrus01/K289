@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { ChooseTeamDialog } from 'src/app/common/dialogs/choose-team/choose-team.dialog';
+import { LeaveTournamentDialog } from 'src/app/common/dialogs/leave-tournament/leave-tournament.dialog';
 import { PayProcessingDialog } from 'src/app/common/dialogs/pay-processing/pay-processing.dialog';
 import { TeamResource } from 'src/app/resources/team.resource';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
@@ -88,12 +89,31 @@ export class TournamentItemComponent {
       .joinTournament(this._tournamentId, data)
       .subscribe((x) => { 
         this.tournament.isJoined = true;
-        this.tournament.participantCount++;
+        // will not work when displaying more info
+        // change if we will need a better representation
+        this.tournament.participants.push({});
       });
   }
 
   public leave(): void {
-    // TODO: Implement on next sprint
+    const dialogRef = this.dialog.open(LeaveTournamentDialog, {
+      width: '600px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      this.resource.leaveTournament(this._tournamentId).subscribe(() => {
+        // will not work if we will display more info later
+        // change if we will need a better representation
+        this.tournament.participants.pop();
+
+        this.tournament.isJoined = false;
+      });      
+    });
   }
 
   public isFull(): boolean {
@@ -122,6 +142,7 @@ export class TournamentItemComponent {
   }
 }
 
+// bad
 // Delete dialog
 @Component({
   template: `<h1 mat-dialog-title>Delete tournament</h1>

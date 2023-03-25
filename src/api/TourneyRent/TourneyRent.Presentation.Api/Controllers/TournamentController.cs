@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +50,13 @@ public class TournamentController : ControllerBase
     public async Task<IActionResult> JoinTournament([FromRoute] int tournamentId, [FromBody] JoinTournamentArgsView joinArgs)
     {
         await _tournamentService.JoinAsync(tournamentId, joinArgs.TeamId);
+        return Ok();
+    }
+
+    [Authorize, HttpPost("{tournamentId}/Leave")]
+    public async Task<IActionResult> LeaveTournament(int tournamentId)
+    {
+        await _tournamentService.LeaveAsync(tournamentId);
         return Ok();
     }
 }
