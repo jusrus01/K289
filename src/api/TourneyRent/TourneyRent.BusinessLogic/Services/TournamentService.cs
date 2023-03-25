@@ -79,6 +79,12 @@ public class TournamentService
         return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments); // Does not set IsJoined correctly
     }
 
+    public async Task<IEnumerable<TournamentInfo>> GetTournamentsAsync(string ownerId)
+    {
+        var tournaments = await _tournamentRepository.GetAsync(t => t.OwnerId == ownerId);
+        return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
+    }
+    
     public async Task<TournamentInfo> GetTournamentByIdAsync(int id)
     {
         var tournaments = await _tournamentRepository.GetAsync(x => x.Id == id);
