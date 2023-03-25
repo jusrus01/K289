@@ -23,4 +23,10 @@ public class PaymentTransactionRepository
         await _context.SaveChangesAsync();
         return id;
     }
+
+    public async Task RemoveAsync(Guid transactionId)
+    {
+        _context.Remove(new Transaction { Id = transactionId });
+        await _context.SaveChangesAsync();
+    }
 }

@@ -53,4 +53,11 @@ public class TournamentController : ControllerBase
         await _tournamentService.JoinAsync(tournamentId, joinArgs.TeamId);
         return Ok();
     }
+
+    [Authorize, HttpPost("{tournamentId}/Leave")]
+    public async Task<IActionResult> LeaveTournament(int tournamentId)
+    {
+        await _tournamentService.LeaveAsync(tournamentId);
+        return Ok();
+    }
 }

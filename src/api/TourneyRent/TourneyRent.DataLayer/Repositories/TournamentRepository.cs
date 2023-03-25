@@ -50,4 +50,10 @@ public class TournamentRepository
         await _context.AddAsync(tournament);
         await _context.SaveChangesAsync();
     }
+
+    public async Task RemoveParticipantAsync(TournamentParticipant participant)
+    {
+        _context.Participants.Remove(participant);
+        await _context.SaveChangesAsync();
+    }
 }
