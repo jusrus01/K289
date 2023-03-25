@@ -28,24 +28,31 @@
     </div>
     <div class="w-full h-24 bg-default">
     </div>
-    <div class="w-full text-white">
-        <mat-tab-group class="sm:ml-24 sm:mr-24" mat-stretch-tabs="false" [color]="'primary'"
+    <div class="w-full h-96 bg-default text-white" *ngIf="!isLoading">
+        <mat-tab-group class="sm:ml-24 sm:mr-24 h-full" mat-stretch-tabs="false" [color]="'primary'"
             [backgroundColor]="'primary'">
-            <mat-tab label="Overview">
-                <div class="h-full p-0 sm:p-3" style="background-color: #28388f;">
-                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                    deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                    provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum
-                    fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis
-                    est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis
-                    voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis
-                    aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non
-                    recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus
-                    maiores alias consequatur aut perferendis doloribus asperiores repellat.
+            <mat-tab label="My tournaments">
+                <div class="p-0 h-80 w-full">
+                    <span *ngIf="!tournaments">You don't have any tournaments yet</span>
+                    <div [routerLink]="['/tournament', tournament.id]" class="align-middle flex border border-indigo-800 w-full h-20 cursor-pointer hover:bg-slate-700 bg-slate-800" *ngFor="let tournament of tournaments">
+                        <app-image style="align-self: center;" [containerClass]="'ml-2 w-16 h-16'" [imageId]="tournament.imageId" [imageSource]="'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='"></app-image>
+                        <div style="align-self: center;" class="ml-2">
+                            {{tournament.name}}
+                        </div>
+                        <div style="align-self: center;" class="ml-auto mr-2 text-right">
+                            {{tournament.status.message}}
+                            <button style="align-self: center;" *ngIf="tournament.status.isReadyForPrize" mat-raised-button color="primary">
+                                Select winner
+                            </button>
+                            <button style="align-self: center;" *ngIf="tournament.status.isReadyForForcedEnd" mat-raised-button color="primary">
+                                Force end
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </mat-tab>
             <mat-tab label="Teams">
-                <div class="h-full p-0 sm:p-3" style="background-color: #28388f;">
+                <div class="h-full p-0 sm:p-3 bg-slate-800">
                     You don't belong to any teams yet
                 </div>
             </mat-tab>

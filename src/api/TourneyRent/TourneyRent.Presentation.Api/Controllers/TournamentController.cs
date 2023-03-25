@@ -59,4 +59,10 @@ public class TournamentController : ControllerBase
         await _tournamentService.LeaveAsync(tournamentId);
         return Ok();
     }
+
+    [Authorize, HttpGet("Owner/{ownerId}")]
+    public async Task<IActionResult> GetOwnerTournaments(string ownerId)
+    {
+        return Ok(await _tournamentService.GetTournamentsAsync(ownerId));
+    }
 }

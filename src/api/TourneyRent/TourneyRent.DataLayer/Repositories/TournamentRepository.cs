@@ -23,6 +23,8 @@ public class TournamentRepository
         return await _context.Tournaments
             .Include(x => x.Participants)
             .Where(predicate)
+            .OrderByDescending(t => t.StartDate)
+            .ThenByDescending(t => t.EndDate)
             .ToListAsync();
     }
 

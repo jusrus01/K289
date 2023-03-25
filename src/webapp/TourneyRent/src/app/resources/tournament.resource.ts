@@ -32,4 +32,8 @@ export class TournamentResource {
   public leaveTournament(id: any): Observable<any> {
     return this.httpClient.post(`${API_URL}/tournament/${id}/Leave`, {});
   }
+
+  public getTournaments(ownerId: any): Observable<any> {
+    return this.httpClient.get(`${API_URL}/tournament/owner/${ownerId}`);
+  }
 }
