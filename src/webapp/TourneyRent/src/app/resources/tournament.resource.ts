@@ -28,4 +28,12 @@ export class TournamentResource {
   public joinTournament(id: any, data: any): Observable<any> {
     return this.httpClient.post(`${API_URL}/tournament/${id}/join`, data);
   }
+
+  public leaveTournament(id: any): Observable<any> {
+    return this.httpClient.post(`${API_URL}/tournament/${id}/Leave`, {});
+  }
+
+  public getTournaments(ownerId: any): Observable<any> {
+    return this.httpClient.get(`${API_URL}/tournament/owner/${ownerId}`);
+  }
 }

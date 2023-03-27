@@ -56,6 +56,7 @@ namespace TourneyRent.Presentation.Api
                 endpoints.MapControllerRoute(
                     name: "DefaultApi",
                     pattern: "{controller}/{action}/{id?}",
+                    // ReSharper disable once Mvc.ControllerNotResolved
                     defaults: new { controller = "Default", action = "Index" });
                 endpoints.MapControllerRoute(
                     name: "errors",

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { RoutingService } from 'src/app/services/routing.service';
+import { TournamentService } from 'src/app/services/tournament.service';
 
 @Component({
   selector: 'app-tournament-list',
@@ -12,7 +13,8 @@ export class TournamentListComponent {
 
   constructor(
     private tournamentResource: TournamentResource,
-    public routing: RoutingService
+    public routing: RoutingService,
+    private tournamentService: TournamentService
   ) {}
 
   ngOnInit() {
@@ -26,14 +28,6 @@ export class TournamentListComponent {
   }
 
   public getStatus(tournament: any): any {
-    const tournamentStartDate = new Date(tournament.startDate);
-    const currentDate = new Date();
-    if (tournamentStartDate > currentDate) {
-      return 'Registration open';
-    }
-
-    if (tournamentStartDate < currentDate) {
-      return 'Registration closed';
-    }
+    return this.tournamentService.getTournamentStatus(tournament).message;
   }
 }

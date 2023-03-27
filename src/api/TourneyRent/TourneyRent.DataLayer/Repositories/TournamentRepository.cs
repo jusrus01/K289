@@ -23,6 +23,8 @@ public class TournamentRepository
         return await _context.Tournaments
             .Include(x => x.Participants)
             .Where(predicate)
+            .OrderByDescending(t => t.StartDate)
+            .ThenByDescending(t => t.EndDate)
             .ToListAsync();
     }
 
@@ -48,6 +50,12 @@ public class TournamentRepository
     public async Task CreateAsync(Tournament tournament)
     {
         await _context.AddAsync(tournament);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RemoveParticipantAsync(TournamentParticipant participant)
+    {
+        _context.Participants.Remove(participant);
         await _context.SaveChangesAsync();
     }
 }

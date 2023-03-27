@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer.Enumerators;

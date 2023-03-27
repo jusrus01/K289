@@ -4,6 +4,7 @@ import { HomeComponent } from '../pages/home/home.component';
 import { LoginComponent } from '../pages/login/login.component';
 import { ProfileComponent } from '../pages/profile/profile.component';
 import { RegisterComponent } from '../pages/register/register.component';
+import { RentalViewComponent } from '../pages/rental-view/rental-view.component';
 import { TeamCreateComponent } from '../pages/teams/team-create/team-create.component';
 import { TeamComponent } from '../pages/teams/team/team.component';
 import { TournamentCreateComponent } from '../pages/tournaments/tournament-create/tournament-create.component';
@@ -15,6 +16,10 @@ import { TournamentComponent } from '../pages/tournaments/tournament/tournament.
 export class RoutingService {
   constructor(@Inject(ROUTES) private _routes: Route[][], private _router: Router) {}
   
+  public goToRental(): void {
+    this.navigateToComponent(RentalViewComponent);
+  }
+
   public goToTournamentCreate(): void {
     this.navigateToComponent(TournamentCreateComponent);
   }
