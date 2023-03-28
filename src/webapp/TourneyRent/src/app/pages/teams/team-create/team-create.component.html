@@ -37,7 +37,7 @@
               <div class="control">
                 <mat-form-field appearance="outline" class="w-full mt-2">
                   <mat-select formControlName="Members" multiple [compareWith]="compareFn">
-                    <mat-option *ngFor="let member of availableMembers" [value]="member">{{ member.firstName }} {{ member.lastName }}</mat-option>
+                    <mat-option *ngFor="let member of availableMembers" [value]="member">{{ member.name }}</mat-option>
                   </mat-select>                  
                 </mat-form-field>
               </div>

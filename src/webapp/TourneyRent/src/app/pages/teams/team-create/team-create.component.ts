@@ -36,7 +36,7 @@ export class TeamCreateComponent {
   }
 
   public getUsers(search: string): void {
-    const url = `${API_URL}/Account/Search/${search}`;
+    const url = `${API_URL}/Account/Search`;
     this.http.get(url).subscribe((result: any) => {
       this.availableMembers = result.map((user: any) => ({
         id: user.id,
@@ -50,14 +50,39 @@ export class TeamCreateComponent {
       return;
     }
   
-    const teamData = {
+    let teamData = {
       Name: this.createForm.get('Name')?.value,
       Description: this.createForm.get('Description')?.value,
-      Members: this.createForm.get('Members')?.value
+      ID: 0
     };
-  
-    this.teamResource.createTeam(teamData)
-      .subscribe(() => this.routing.goToTeams());
+
+    let membersData = {
+      Members: this.createForm.get('Members')?.value
+    }
+
+    this.teamResource.createTeam(teamData).subscribe(
+      (response: any) => {
+        teamData.ID = response.id;
+
+        // for (let i = 0; i < membersData.Members.length; i++) {
+        //   let memberId = membersData.Members[i].id;
+        //   this.teamResource.addTeamMember(teamData.ID, memberId).subscribe(() => this.routing.goToTeams());
+        // }
+
+        for (let i = 0; i < membersData.Members.length; i++) {
+          let teamMemberCreate = {
+            TeamId: teamData.ID,
+            UserId: membersData.Members[i].id,
+            Role: 'Member'
+          }
+          this.teamResource.addTeamMember(teamData.ID, teamMemberCreate).subscribe(() => this.routing.goToTeams());
+         }
+
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    ); 
   }
 
   public compareFn(a: any, b: any): boolean {

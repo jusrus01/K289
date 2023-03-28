@@ -16,4 +16,8 @@ export class TeamResource {
   public getUserTeams(userId: any): Observable<any> {
     return this.httpClient.get(`${API_URL}/Team/Members/${userId}`);
   }
+
+  public addTeamMember(teamId: any, teamMemberCreate: any): Observable<any> {
+    return this.httpClient.post(`${API_URL}/Team/${teamId}/members`, teamMemberCreate);
+  }
 }
