@@ -8,6 +8,7 @@ import { TeamResource } from 'src/app/resources/team.resource';
 import { RoutingService } from 'src/app/services/routing.service';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../../../app.module';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-team-create',
@@ -24,6 +25,7 @@ export class TeamCreateComponent {
     private formBuilder: FormBuilder,
     private teamResource: TeamResource,
     private routing: RoutingService,
+    private authService: AuthService,
     private http: HttpClient
   ) {
     this.createForm = this.formBuilder.group({
@@ -38,12 +40,14 @@ export class TeamCreateComponent {
   public getUsers(search: string): void {
     const url = `${API_URL}/Account/Search`;
     this.http.get(url).subscribe((result: any) => {
-      this.availableMembers = result.map((user: any) => ({
-        id: user.id,
-        name: `${user.firstName} ${user.lastName}`,
-      }));
+      this.availableMembers = result
+        .filter((user: any) => user.id !== this.authService.getAuthUserId())
+        .map((user: any) => ({
+          id: user.id,
+          name: `${user.firstName} ${user.lastName}`
+        }));
     });
-  }
+  }  
 
   public createTeam(): void {
     if (!this.createForm.valid) {
@@ -63,21 +67,14 @@ export class TeamCreateComponent {
     this.teamResource.createTeam(teamData).subscribe(
       (response: any) => {
         teamData.ID = response.id;
-
-        // for (let i = 0; i < membersData.Members.length; i++) {
-        //   let memberId = membersData.Members[i].id;
-        //   this.teamResource.addTeamMember(teamData.ID, memberId).subscribe(() => this.routing.goToTeams());
-        // }
-
-        for (let i = 0; i < membersData.Members.length; i++) {
-          let teamMemberCreate = {
-            TeamId: teamData.ID,
-            UserId: membersData.Members[i].id,
-            Role: 'Member'
-          }
-          this.teamResource.addTeamMember(teamData.ID, teamMemberCreate).subscribe(() => this.routing.goToTeams());
-         }
-
+        for (let i = 0; i < membersData.Members.length; i++) {         
+           let teamMemberCreate = {
+              TeamId: teamData.ID,
+              UserId: membersData.Members[i].id,
+              Role: 'Member'
+            }
+            this.teamResource.addTeamMember(teamData.ID, teamMemberCreate).subscribe(() => this.routing.goToTeams()); 
+        }
       },
       (error: any) => {
         console.log(error);
