@@ -15,3 +15,36 @@
       </div>
     </div>
 </div>
+
+<div class="w-full flex justify-center mt-3">
+  <div class="w-2/3">
+    <div
+      *ngFor="let teamWithMembers of teamsWithMembers"
+      class="mb-3 cursor-pointer hover:bg-slate-100 hover:scale-105 transform transition duration-500"
+      [routerLink]="['/team', teamWithMembers.team.id]"
+    >
+      <div class="flex">
+        <div>
+          <div matListItemTitle class="font-bold text-lg">
+            Name: {{ teamWithMembers.team.name }}
+          </div>
+          <div matListItemLine class="font-bold text-lg">
+            Owner:
+          </div>
+          <div matListItemLine class="font-bold text-lg">
+            Description: {{ teamWithMembers.team.description }}
+          </div>
+             
+          <div class="card-body">
+            <h5 class="font-bold text-lg">Team Members</h5>
+            <ul>
+              <li *ngFor="let member of teamWithMembers.members">{{ member.name }}</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+</div>
