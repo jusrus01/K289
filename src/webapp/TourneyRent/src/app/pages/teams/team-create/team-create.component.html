@@ -29,6 +29,19 @@
                 </mat-form-field>
               </div>
             </div>
+            <!-- Add members-->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Add members</label>
+              </span>
+              <div class="control">
+                <mat-form-field appearance="outline" class="w-full mt-2">
+                  <mat-select formControlName="Members" multiple [compareWith]="compareFn">
+                    <mat-option *ngFor="let member of availableMembers" [value]="member">{{ member.name }}</mat-option>
+                  </mat-select>                  
+                </mat-form-field>
+              </div>
+            </div>
             <!-- Button -->
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">

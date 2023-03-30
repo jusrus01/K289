@@ -65,7 +65,7 @@ namespace TourneyRent.Presentation.Api.Controllers
 
                 var teamMember = _mapper.Map<TeamMember>(teamMemberCreate);
 
-                _teamService.AddTeamMemberAsync(teamMember);
+                await _teamService.AddTeamMemberAsync(teamMember);
             }
 
             return CreatedAtAction(nameof(GetTeamByIdAsync), new { id = teamRead.Id }, teamRead);
