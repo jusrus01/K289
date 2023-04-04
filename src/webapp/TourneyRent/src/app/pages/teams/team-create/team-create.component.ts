@@ -10,22 +10,22 @@ import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../../../app.module';
 import { AuthService } from 'src/app/services/auth.service';
 
-export interface Team {
-  id: number;
-  name: string;
-  description: string;
-}
+// export interface Team {
+//   id: number;
+//   name: string;
+//   description: string;
+// }
 
-export interface Member {
-  id: number;
-  name: string;
-  teamId: number;
-}
+// export interface Member {
+//   id: number;
+//   name: string;
+//   teamId: number;
+// }
 
-export interface TeamWithMembers {
-  team: Team;
-  members: Member[];
-}
+// export interface TeamWithMembers {
+//   team: Team;
+//   members: Member[];
+// }
 
 @Component({
   selector: 'app-team-create',

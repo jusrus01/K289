@@ -9,15 +9,21 @@ export interface Team {
 }
 
 export interface Member {
-  id: number;
-  name: string;
-  email: string;
   teamId: number;
+  userId: number;
+  role: string;
+  profile: Profile;
 }
 
 export interface TeamWithMembers {
   team: Team;
   members: Member[];
+}
+
+export interface Profile {
+  firstName: string;
+  lastName: string;
+  imageId: number;
 }
 
 @Component({
@@ -26,23 +32,31 @@ export interface TeamWithMembers {
   styleUrls: ['./team-list.component.scss']
 })
 export class TeamListComponent implements OnInit {
-  public teams: Team[] = [];
   public teamsWithMembers: TeamWithMembers[] = [];
 
-    constructor(
-      public teamResource: TeamResource,
-      public routing: RoutingService
-    ) {}
+  constructor(
+    public teamResource: TeamResource,
+    public routing: RoutingService
+  ) {}
 
-    ngOnInit() {
-      this.teamResource.getAllTeams().subscribe((teams: Team[]) => {
-        this.teams = teams;
-        for (const team of this.teams) {
-          this.teamResource.getTeamMembers(team.id).subscribe((members: Member[]) => {
-            this.teamsWithMembers.push({ team, members });
+  ngOnInit(): void {
+    this.teamResource.getAllTeams().subscribe((teams: Team[]) => {
+      teams.forEach((team: Team) => {
+        this.teamResource.getTeamMembers(team.id).subscribe((members: Member[]) => {
+          const teamWithMembers: TeamWithMembers = {
+            team: team,
+            members: []
+          };
+          members.forEach((member: Member) => {
+            this.teamResource.getProfile(member.userId).subscribe((profile) => {
+              const memberWithProfile: Member & { profile: Profile } = { ...member, profile };
+              teamWithMembers.members.push(memberWithProfile);
+            });
           });
-        }
+          this.teamsWithMembers.push(teamWithMembers);
+        });
       });
-    }
-    
+    });
+  }
+
 }
