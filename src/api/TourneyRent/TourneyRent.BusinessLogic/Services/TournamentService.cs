@@ -166,4 +166,30 @@ public class TournamentService
 
         return tournament;
     }
+
+    public async Task<TournamentInfo> UpdateTournamentAsync(int id, UpdateTournamentArgs updateArgs)
+    {
+        var tournamentsToUpdate = await _tournamentRepository.GetAsync(x => x.Id == id);
+        var tournamentToUpdate = tournamentsToUpdate.FirstOrDefault();
+
+            if(tournamentToUpdate == null)
+                throw new ArgumentException($"Tournament with ID {id} not found");
+
+            //tournamentToUpdate.Name = updateArgs.Name;
+            //tournamentToUpdate.StartDate = updateArgs.StartDate.ToUniversalTime();
+            //tournamentToUpdate.EndDate = updateArgs.EndDate.ToUniversalTime();
+            //tournamentToUpdate.EntryFee = updateArgs.EntryFee;
+            //tournamentToUpdate.ParticipantCount = updateArgs.ParticipantCount;
+            var imageId = await _imageRepository.UploadImageAsync(updateArgs);
+            tournamentToUpdate.ImageId = imageId;
+
+          var tourney = _mapper.Map(updateArgs, tournamentToUpdate);  
+        
+
+        await _tournamentRepository.UpdateTournamentAsync(id,tournamentToUpdate);
+
+        return _mapper.Map<TournamentInfo>(tournamentToUpdate);
+
+
+    }
 }
