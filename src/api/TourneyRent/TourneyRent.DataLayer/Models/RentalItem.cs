@@ -17,16 +17,10 @@ namespace TourneyRent.DataLayer.Models
 		[Required]
 		public string Name { get; set; }
 
-		[Required]
+		[Required]	
 		public string Description { get; set; }
 
 		public Guid? ImageId { get; set; }
-
-		[Required]
-		public DateTime PeriodStart { get; set; }
-
-		[Required]
-		public DateTime PeriodEnd { get; set; }
 
 		[Required]
 		public int Price { get; set; }

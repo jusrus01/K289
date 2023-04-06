@@ -26,11 +26,10 @@ namespace TourneyRent.DataLayer
 		{
 			return await _context.RentalItems.ToListAsync();
 		}
-		public async Task<int> CreateRentalItemAsync(RentalItem rentalItem)
+		public async Task CreateRentalItemAsync(RentalItem rentalItem)
 		{
 			_context.RentalItems.Add(rentalItem);
 			await _context.SaveChangesAsync();
-			return rentalItem.Id;
 		}
 		/*public async Task<RentalItem> DeleteAsync(int id)
 		{
