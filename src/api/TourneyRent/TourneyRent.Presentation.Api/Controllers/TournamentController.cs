@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourneyRent.BusinessLogic.Models.Tournaments;
 using TourneyRent.BusinessLogic.Services;
+using TourneyRent.DataLayer.Models;
+using TourneyRent.Presentation.Api.Views.Teams;
 using TourneyRent.Presentation.Api.Views.Tournaments;
 
 namespace TourneyRent.Presentation.Api.Controllers;
@@ -64,5 +66,13 @@ public class TournamentController : ControllerBase
     public async Task<IActionResult> GetOwnerTournaments(string ownerId)
     {
         return Ok(await _tournamentService.GetTournamentsAsync(ownerId));
+    }
+
+    [Authorize, HttpPut("{id}")]
+    public async Task<IActionResult> UpdateTournnamentAsync(int id,[FromForm]UpdateTournamentArgsView tournamentArgs)
+    {
+        var args = _mapper.Map<UpdateTournamentArgs>(tournamentArgs);
+        var updatedTournament = await _tournamentService.UpdateTournamentAsync(id, args);
+        return Ok(updatedTournament);
     }
 }

@@ -130,6 +130,7 @@ export class TournamentItemComponent {
       exitAnimationDuration,
     });
 
+
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
@@ -140,7 +141,13 @@ export class TournamentItemComponent {
         .subscribe((x) => this.routing.goToTournaments());
     });
   }
+  openUpdateDialog(): void{
+    this.routing.goToTournamentUpdate();
+  }
 }
+
+
+
 
 // bad
 // Delete dialog
