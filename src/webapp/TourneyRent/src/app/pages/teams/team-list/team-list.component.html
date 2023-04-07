@@ -1,4 +1,4 @@
-<div class="mt-14">
+<!-- <div class="mt-14">
     <div class="w-full bg-default flex items-center justify-center py-16">
       <span class="text-white text-3xl sm:text-6xl font-bold">TEAMS</span>
     </div>
@@ -15,3 +15,82 @@
       </div>
     </div>
 </div>
+
+<div class="w-full flex justify-center mt-3">
+  <div class="w-2/3">
+    <div
+      *ngFor="let teamWithMembers of teamsWithMembers"
+      class="mb-3 cursor-pointer hover:bg-slate-100 hover:scale-105 transform transition duration-500"
+      [routerLink]="['/team', teamWithMembers.team.id]"
+    >
+
+      <div class="flex">
+        <div>
+          <div matListItemTitle class="font-bold text-lg">
+            Name: {{ teamWithMembers.team.name }}
+          </div>
+          <div class="card-body">
+
+            <h5 class="font-bold text-lg">Owner: {{ teamWithMembers.teamLeader?.profile?.firstName }} {{ teamWithMembers.teamLeader?.profile?.lastName }}</h5>
+
+          </div> 
+          <div matListItemLine class="font-bold text-lg">
+            Description: {{ teamWithMembers.team.description }}
+          </div>         
+          <div class="card-body">
+             <ul>
+              <h5 class="font-bold text-lg">Team Members: </h5>
+              <li *ngFor="let member of teamWithMembers.members">
+                <ng-container *ngIf="member.role === 'Member'">
+                  {{ member.profile?.firstName + " " + member.profile?.lastName }}
+                </ng-container>
+              </li>
+            </ul>
+          </div>                   
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+</div> -->
+<div class="mt-14">
+  <div class="w-full bg-default flex items-center justify-center py-16">
+    <h1 class="text-white text-4xl sm:text-6xl font-bold">TEAMS</h1>
+  </div>
+  <div class="w-full flex justify-center mt-8">
+    <div class="w-2/3">
+      <button
+          class="mt-2"
+          mat-raised-button
+          color="primary"
+          (click)="routing.goToTeamsCreate()"
+        >
+          Create a new team!
+        </button>
+
+    </div>
+  </div>
+</div>
+
+<div class="w-full flex justify-center mt-10">
+  <div class="w-2/3">
+    <div *ngFor="let teamWithMembers of teamsWithMembers" class="mb-6 cursor-pointer hover:shadow-xl transition duration-300" [routerLink]="['/team', teamWithMembers.team.id]">
+      <div class="bg-white shadow-lg rounded-lg px-6 py-8">
+        <h2 class="text-lg font-bold team-name">{{ teamWithMembers.team.name }}</h2>
+        <div class="mt-4">
+          <p class="text-md font-bold owner">Owner: {{ teamWithMembers.teamLeader?.profile?.firstName }} {{ teamWithMembers.teamLeader?.profile?.lastName }}</p>
+          <p class="text-md font-bold description">Description: {{ teamWithMembers.team.description }}</p>
+          <ul class="mt-4">
+            <h5 class="font-bold text-base mb-2">Team Members:</h5>
+            <li *ngFor="let member of teamWithMembers.members" class="text-gray-500 text-md">
+              <ng-container *ngIf="member.role === 'Member'">
+                {{ member.profile?.firstName }} {{ member.profile?.lastName }}
+              </ng-container>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

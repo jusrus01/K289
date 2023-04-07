@@ -13,6 +13,14 @@ export class TeamResource {
     return this.httpClient.post(`${API_URL}/Team`, data);
   }
 
+  public getAllTeams(): Observable<any> {
+    return this.httpClient.get(`${API_URL}/Team`);
+  }
+
+  public getTeamMembers(teamId: any): Observable<any> {
+    return this.httpClient.get(`${API_URL}/Team/${teamId}/members`);
+  }
+
   public getUserTeams(userId: any): Observable<any> {
     return this.httpClient.get(`${API_URL}/Team/Members/${userId}`);
   }
