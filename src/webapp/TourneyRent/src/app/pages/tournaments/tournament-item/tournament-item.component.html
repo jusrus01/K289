@@ -2,12 +2,15 @@
   <div class="w-full bg-default flex items-center justify-center py-16">
     <span class="text-white text-3xl sm:text-6xl font-bold">TOURNAMENT</span>
   </div>
+  <div class="bg-default h-16 text-center align-middle items-center justify-center flex" *ngIf="tournament && authService.isAdminOrOwner(tournament.ownerId) && tournamentStatus != null && tournamentStatus.isReadyForPrize">
+    <span class="font-medium text-white">This tournament is over. Please select the winner.</span>
+    <button mat-raised-button class="ml-2" color="accent" (click)="selectWinner()">Select winner!</button>
+  </div>
   <div class="mx-14 border-slate-900" *ngIf="tournament">
     <div class="box">
       <fieldset class="form-fieldset">
         <div class="form-panel">
           <div class="body">
-
             <!-- Image -->
             <div class="ml-[5%] inline-field mt-0 mb-0">
               <span class="items-center flex">

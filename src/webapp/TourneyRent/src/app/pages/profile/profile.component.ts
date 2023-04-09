@@ -58,6 +58,9 @@ export class ProfileComponent {
       })
   }
 
+  selectWinner(tournament: any) {
+    
+  }
 
   onFileUpload(event: any, upload: any): void {
     this.pictureFile = event.target.files[0];

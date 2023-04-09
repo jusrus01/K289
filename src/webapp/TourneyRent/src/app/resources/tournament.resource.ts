@@ -40,4 +40,8 @@ export class TournamentResource {
   public getTournaments(ownerId: any): Observable<any> {
     return this.httpClient.get(`${API_URL}/tournament/owner/${ownerId}`);
   }
+
+  public selectWinner(tournamentId: any, winnerId: any) {
+    return this.httpClient.post(`${API_URL}/tournament/${tournamentId}/winner/${winnerId}`, {});
+  }
 }

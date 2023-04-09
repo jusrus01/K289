@@ -34,4 +34,6 @@ public class Tournament : IImage, ITransactionable
     /// 1st place prize, 2nd place and so on
     /// </summary>
     public ICollection<Prize> Prizes { get; set; }
+    
+    public bool IsWinnerSelected { get; set; }
 }

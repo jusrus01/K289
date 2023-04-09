@@ -16,13 +16,17 @@ public class TournamentRepository
 
     public async Task<Tournament> GetSingleOrDefaultAsync(Expression<Func<Tournament, bool>> predicate)
     {
-        return await _context.Tournaments.Include(x => x.Participants).SingleOrDefaultAsync(predicate);
+        return await _context.Tournaments
+            .Include(x => x.Participants)
+            .ThenInclude(x => x.User)
+            .SingleOrDefaultAsync(predicate);
     }
-    
+
     public async Task<IEnumerable<Tournament>> GetAsync(Expression<Func<Tournament, bool>> predicate)
     {
         return await _context.Tournaments
             .Include(x => x.Participants)
+            .ThenInclude(x => x.User)
             .Include(x => x.Prizes)
             .Where(predicate)
             .OrderByDescending(t => t.StartDate)
@@ -110,6 +114,12 @@ public class TournamentRepository
         await _context.SaveChangesAsync();
 
         return tournamentToUpdate;
+    }
+
+    public async Task UpdateAsync(Tournament tournament)
+    {
+        _context.Update(tournament);
+        await _context.SaveChangesAsync();
     }
 
     public async Task CreateAsync(Tournament tournament)

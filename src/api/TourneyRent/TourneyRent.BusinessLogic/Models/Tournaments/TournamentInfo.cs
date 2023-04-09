@@ -17,6 +17,6 @@ public class TournamentInfo
     public string BankAccountNumber { get; set; }
     public string TransactionReason { get; set; }
     public IEnumerable<TournamentParticipantInfo> Participants { get; set; }
-
+    public bool IsWinnerSelected { get; set; }
     public PrizeInfo Prize { get; set; }
 }
