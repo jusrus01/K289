@@ -1,4 +1,3 @@
-<!-- TODO: Add edit -->
 <div class="mt-14">
   <div class="w-full bg-default flex items-center justify-center py-16">
     <span class="text-white text-3xl sm:text-6xl font-bold">TOURNAMENT</span>
@@ -24,9 +23,6 @@
                 <label class="field-label">Tournament name</label>
               </span>
               <div class="control">
-                <!-- <mat-form-field appearance="outline" class="w-full mt-2">
-                  <input formControlName="name" type="text" matInput>
-                </mat-form-field> -->
                 {{ tournament.name }}
               </div>
             </div>
@@ -38,12 +34,6 @@
               </span>
               <div class="control">
                 <div class="flex justify-between">
-                  <!-- <mat-form-field class="w-full" appearance="outline">
-                    <input formControlName="startDate" matInput [matDatepicker]="startPicker">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
-                    <mat-datepicker #startPicker></mat-datepicker>
-                  </mat-form-field> -->
                   {{ tournament.startDate | date : "MMM d, y" }}
                 </div>
               </div>
@@ -57,9 +47,6 @@
               <div class="control">
                 <div class="flex justify-between">
                   {{ tournament.startDate | date : "h:mm a" }}
-                  <!-- <ngx-mat-timepicker formControlName="startDate" [showSpinners]="true" [stepHour]="1"
-                    [stepMinute]="1" [showSeconds]="false">
-                  </ngx-mat-timepicker> -->
                 </div>
               </div>
             </div>
@@ -72,12 +59,6 @@
               <div class="control">
                 <div class="flex justify-between">
                   {{ tournament.endDate | date : "MMM d, y" }}
-                  <!-- <mat-form-field class="w-full" appearance="outline">
-                    <input formControlName="endDate" matInput [matDatepicker]="picker2">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                  </mat-form-field> -->
                 </div>
               </div>
             </div>
@@ -90,9 +71,6 @@
               <div class="control">
                 <div class="flex justify-between">
                   {{ tournament.endDate | date : "h:mm a" }}
-                  <!-- <ngx-mat-timepicker formControlName="endDate"  [showSpinners]="true" [stepHour]="1"
-                    [stepMinute]="1" [showSeconds]="false">
-                  </ngx-mat-timepicker> -->
                 </div>
               </div>
             </div>
@@ -104,9 +82,6 @@
               </span>
               <div class="control">
                 {{ tournament.entryFee }} €
-                <!-- <mat-form-field class="w-full" appearance="outline">
-                  <input [min]="0" [minlength]="0" formControlName="entryFee" class="w-full" type="text" matInput>
-                </mat-form-field> -->
               </div>
             </div>
 
@@ -117,13 +92,21 @@
               </span>
               <div class="control">
                 {{getParticipantCount()}}/{{ tournament.participantCount }}
-                <!-- <mat-form-field class="w-full" appearance="outline">
-                  <input formControlName="participantCount" class="w-full" type="text" matInput name="value">
-                </mat-form-field> -->
               </div>
             </div>
+
+            <!-- Prize -->
+            <div class="inline-field mt-0 mb-0" *ngIf="tournament.prize">
+              <span class="lbl items-center flex">
+                <label class="field-label">Prize</label>
+              </span>
+              <div class="control">
+                {{tournament.prize.name}}
+              </div>
+            </div>
+
             <div class="inline-field mt-0 mb-0">
-              <div class="w-full flex justify-between">
+              <div class="w-full flex">
                 <button *ngIf="authService.isAdminOrOwner(tournament.ownerId)" mat-raised-button color="warn"
                   class="ml-[5%] mt-2" (click)="openDeleteDialog('0ms', '0ms')">
                   Delete
