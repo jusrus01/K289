@@ -20,5 +20,7 @@ namespace TourneyRent.DataLayer.Models
 
         public int TournamentId { get; set; }
         public Tournament Tournament { get; set; }
+        
+        public bool IsWinner { get; set; }
     }
 }
