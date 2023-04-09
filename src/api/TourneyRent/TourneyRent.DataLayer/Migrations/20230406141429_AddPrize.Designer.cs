@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TourneyRent.DataLayer;
 
@@ -11,9 +12,10 @@ using TourneyRent.DataLayer;
 namespace TourneyRent.DataLayer.Migrations
 {
     [DbContext(typeof(TourneyRentDbContext))]
-    partial class TourneyRentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230406141429_AddPrize")]
+    partial class AddPrize
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,27 +327,7 @@ namespace TourneyRent.DataLayer.Migrations
 
                     b.HasIndex("TournamentId");
 
-                    b.ToTable("Prizes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("16157e63-9308-4a3b-8493-f8b030886da5"),
-                            Description = "Gaming monitor",
-                            Name = "KOORUI 24.5 Inch FHD Gaming Monitor (used)"
-                        },
-                        new
-                        {
-                            Id = new Guid("28d718d3-440f-4110-8af6-a5fa5cdbeb17"),
-                            Description = "Laptop",
-                            Name = "Dell Latitude 3520 Laptop 15.6 (used)"
-                        },
-                        new
-                        {
-                            Id = new Guid("a4642138-fdd9-41db-b408-80cb5a3f7c5b"),
-                            Description = "Gaming monitor",
-                            Name = "DELL Latitude 5490 (used)"
-                        });
+                    b.ToTable("Prize");
                 });
 
             modelBuilder.Entity("TourneyRent.DataLayer.Models.RentalItem", b =>

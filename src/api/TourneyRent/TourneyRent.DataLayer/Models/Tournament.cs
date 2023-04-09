@@ -26,4 +26,12 @@ public class Tournament : IImage, ITransactionable
     public string BankAccountName { get; set; }
     public string BankAccountNumber { get; set; }
     public string TransactionReason { get; set; }
+
+    /// <summary>
+    /// Making one-to-many
+    /// in case we might want to extend this
+    /// and allow adding prizes for different places e.g.
+    /// 1st place prize, 2nd place and so on
+    /// </summary>
+    public ICollection<Prize> Prizes { get; set; }
 }

@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourneyRent.BusinessLogic.Models.Tournaments;
 using TourneyRent.BusinessLogic.Services;
-using TourneyRent.DataLayer.Models;
-using TourneyRent.Presentation.Api.Views.Teams;
 using TourneyRent.Presentation.Api.Views.Tournaments;
 
 namespace TourneyRent.Presentation.Api.Controllers;

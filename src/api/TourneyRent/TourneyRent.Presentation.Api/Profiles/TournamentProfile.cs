@@ -11,10 +11,10 @@ public class TournamentProfile : Profile
     public TournamentProfile()
     {
         CreateMap<TournamentParticipant, TournamentParticipantInfo>();
-        CreateMap<Tournament, TournamentInfo>();
+        CreateMap<Tournament, TournamentInfo>()
+            .ForMember(dest => dest.Prize, opt => opt.MapFrom(i => i.Prizes.FirstOrDefault()));
         CreateMap<CreateTournamentArgsView, CreateTournamentArgs>();
         CreateMap<UpdateTournamentArgs, Tournament>();
         CreateMap<UpdateTournamentArgsView, UpdateTournamentArgs>();
-        
     }
 }

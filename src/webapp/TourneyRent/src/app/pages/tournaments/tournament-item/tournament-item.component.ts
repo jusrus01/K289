@@ -146,9 +146,6 @@ export class TournamentItemComponent {
   }
 }
 
-
-
-
 // bad
 // Delete dialog
 @Component({

@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using TourneyRent.BusinessLogic.Exceptions;
 using TourneyRent.BusinessLogic.Extensions;
+using TourneyRent.BusinessLogic.Models.Prizes;
 using TourneyRent.BusinessLogic.Models.Tournaments;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
@@ -15,9 +16,11 @@ public class TournamentService
     private readonly ImageRepository _imageRepository;
     private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly TransactionExecutor _executor;
     private readonly PaymentTransactionRepository _paymentTransactionRepository;
     private readonly TeamRepository _teamRepository;
+    private readonly PrizeRepository _prizeRepository;
+
+    private readonly TransactionExecutor _executor;
 
     public TournamentService(
         IMapper mapper,
@@ -26,7 +29,8 @@ public class TournamentService
         IHttpContextAccessor httpContextAccessor,
         TransactionExecutor executor,
         PaymentTransactionRepository paymentTransactionRepository,
-        TeamRepository teamRepository)
+        TeamRepository teamRepository,
+        PrizeRepository prizeRepository)
     {
         _tournamentRepository = tournamentRepository;
         _imageRepository = imageRepository;
@@ -35,6 +39,7 @@ public class TournamentService
         _executor = executor;
         _paymentTransactionRepository = paymentTransactionRepository;
         _teamRepository = teamRepository;
+        _prizeRepository = prizeRepository;
     }
 
     public async Task<TournamentInfo> DeleteAsync(int id)
@@ -47,9 +52,10 @@ public class TournamentService
 
         if (tournament.Participants.Any() && tournament.EntryFee > 0)
         {
-            throw new TournamentException("Cannot delete tournament that has participants that already payed. Please contact support.");
+            throw new TournamentException(
+                "Cannot delete tournament that has participants that already payed. Please contact support.");
         }
-        
+
         return _mapper.Map<TournamentInfo>(await _tournamentRepository.DeleteAsync(tournament));
     }
 
@@ -59,20 +65,30 @@ public class TournamentService
         var tournament = new Tournament
         {
             EndDate = createArgs.EndDate,
-            EntryFee = createArgs.EntryFee, 
+            EntryFee = createArgs.EntryFee,
             StartDate = createArgs.StartDate,
             ImageId = imageId,
             Name = createArgs.Name,
             ParticipantCount = createArgs.ParticipantCount,
             OwnerId = _httpContextAccessor.GetAuthenticatedUserId(),
-            BankAccountNumber = createArgs.BankAccountNumber ?? string.Empty,
-            BankAccountName = createArgs.BankAccountName ?? string.Empty,
-            TransactionReason = createArgs.TransactionReason ?? string.Empty
+            BankAccountNumber = createArgs.BankAccountNumber,
+            BankAccountName = createArgs.BankAccountName,
+            TransactionReason = createArgs.TransactionReason,
+            Prizes = new List<Prize>(),
         };
-        await _tournamentRepository.CreateAsync(tournament);
+        var prize = createArgs.PrizeId != null ? await _prizeRepository.GetByIdAsync(createArgs.PrizeId.Value) : null;
+
+        await _executor.ExecuteAsync(async _ =>
+        {
+            if (prize != null)
+            {
+                tournament.Prizes.Add(prize);
+            }
+            await _tournamentRepository.CreateAsync(tournament);
+        });
         return _mapper.Map<TournamentInfo>(tournament);
     }
-    
+
     public async Task<IEnumerable<TournamentInfo>> GetAllValidAsync()
     {
         var tournaments = await _tournamentRepository.GetAsync(x => x.EndDate >= DateTime.UtcNow);
@@ -84,7 +100,7 @@ public class TournamentService
         var tournaments = await _tournamentRepository.GetAsync(t => t.OwnerId == ownerId);
         return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
     }
-    
+
     public async Task<TournamentInfo> GetTournamentByIdAsync(int id)
     {
         var tournaments = await _tournamentRepository.GetAsync(x => x.Id == id);
@@ -103,7 +119,7 @@ public class TournamentService
         {
             throw new TournamentException("Tournament is full");
         }
-        
+
         var userId = _httpContextAccessor.GetAuthenticatedUserId();
         if (tournament.Participants.Any(x => x.UserId == userId))
         {
@@ -119,7 +135,7 @@ public class TournamentService
             }
         }
 
-        await _executor.ExecuteAsync(async () =>
+        await _executor.ExecuteAsync(async _ =>
         {
             var transactionId = await _paymentTransactionRepository.CreateAsync(
                 userId,
@@ -144,14 +160,14 @@ public class TournamentService
         {
             throw new TournamentException("User is not in the tournament");
         }
-        
-        await _executor.ExecuteAsync(async () =>
+
+        await _executor.ExecuteAsync(async _ =>
         {
             if (participant.TransactionId != null)
             {
                 await _paymentTransactionRepository.RemoveAsync(participant.TransactionId.Value);
             }
-            
+
             await _tournamentRepository.RemoveParticipantAsync(participant);
         });
     }
@@ -172,24 +188,22 @@ public class TournamentService
         var tournamentsToUpdate = await _tournamentRepository.GetAsync(x => x.Id == id);
         var tournamentToUpdate = tournamentsToUpdate.FirstOrDefault();
 
-            if(tournamentToUpdate == null)
-                throw new ArgumentException($"Tournament with ID {id} not found");
+        if (tournamentToUpdate == null)
+            throw new ArgumentException($"Tournament with ID {id} not found");
 
-            //tournamentToUpdate.Name = updateArgs.Name;
-            //tournamentToUpdate.StartDate = updateArgs.StartDate.ToUniversalTime();
-            //tournamentToUpdate.EndDate = updateArgs.EndDate.ToUniversalTime();
-            //tournamentToUpdate.EntryFee = updateArgs.EntryFee;
-            //tournamentToUpdate.ParticipantCount = updateArgs.ParticipantCount;
-            var imageId = await _imageRepository.UploadImageAsync(updateArgs);
-            tournamentToUpdate.ImageId = imageId;
+        //tournamentToUpdate.Name = updateArgs.Name;
+        //tournamentToUpdate.StartDate = updateArgs.StartDate.ToUniversalTime();
+        //tournamentToUpdate.EndDate = updateArgs.EndDate.ToUniversalTime();
+        //tournamentToUpdate.EntryFee = updateArgs.EntryFee;
+        //tournamentToUpdate.ParticipantCount = updateArgs.ParticipantCount;
+        var imageId = await _imageRepository.UploadImageAsync(updateArgs);
+        tournamentToUpdate.ImageId = imageId;
 
-          var tourney = _mapper.Map(updateArgs, tournamentToUpdate);  
-        
+        var tourney = _mapper.Map(updateArgs, tournamentToUpdate);
 
-        await _tournamentRepository.UpdateTournamentAsync(id,tournamentToUpdate);
+
+        await _tournamentRepository.UpdateTournamentAsync(id, tournamentToUpdate);
 
         return _mapper.Map<TournamentInfo>(tournamentToUpdate);
-
-
     }
 }
