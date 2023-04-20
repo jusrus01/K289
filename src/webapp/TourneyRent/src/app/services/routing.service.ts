@@ -8,7 +8,6 @@ import { RentalViewComponent } from '../pages/rental-view/rental-view.component'
 import { TeamCreateComponent } from '../pages/teams/team-create/team-create.component';
 import { TeamComponent } from '../pages/teams/team/team.component';
 import { TournamentCreateComponent } from '../pages/tournaments/tournament-create/tournament-create.component';
-import { TournamentUpdateComponent } from '../pages/tournaments/tournament-update/tournament-update.component';
 import { TournamentComponent } from '../pages/tournaments/tournament/tournament.component';
 
 @Injectable({
@@ -23,10 +22,6 @@ export class RoutingService {
 
   public goToTournamentCreate(): void {
     this.navigateToComponent(TournamentCreateComponent);
-  }
-
-  public goToTournamentUpdate(): void {
-    this.navigateToComponent(TournamentUpdateComponent);
   }
 
   public goToTournaments(): void {

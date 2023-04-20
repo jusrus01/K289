@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Reflection.Emit;
 using TourneyRent.DataLayer.Models;
 
 namespace TourneyRent.DataLayer
@@ -18,13 +19,13 @@ namespace TourneyRent.DataLayer
         public DbSet<RentalItem> RentalItems { get; set; }
         
         public DbSet<Tournament> Tournaments { get; set; }
-        public DbSet<Prize> Prizes { get; set; }
+
         public DbSet<Transaction> Transactions { get; set; }
         
         public DbSet<TournamentParticipant> Participants { get; set; }
 
         public DbSet<CalendarIRentalItemEntry> CalendarItems { get; set; }
-        
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

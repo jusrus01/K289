@@ -4,11 +4,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { SelectPrizeDialog } from 'src/app/common/dialogs/select-prize/select-prize.dialog';
 import { ErrorSnackComponent } from 'src/app/common/snacks/error/error.snack';
-import { PrizeResource } from 'src/app/resources/prize.resource';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { RoutingService } from 'src/app/services/routing.service';
 
@@ -18,10 +15,6 @@ import { RoutingService } from 'src/app/services/routing.service';
   styleUrls: ['./tournament-create.component.scss'],
 })
 export class TournamentCreateComponent {
-  public isLoading: boolean;
-  public prizes: any;
-  public selectedPrize: any;
-
   public pictureSource!: string | ArrayBuffer | null;
   public pictureFile!: any;
   public createForm: FormGroup;
@@ -31,12 +24,9 @@ export class TournamentCreateComponent {
   constructor(
     private formBuilder: FormBuilder,
     private tournamentResource: TournamentResource,
-    private prizeResource: PrizeResource,
     private routing: RoutingService,
-    public dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
-    this.isLoading = true;
     this.createForm = this.formBuilder.group({
       name: ['', Validators.required],
       startDate: [new Date(), Validators.required],
@@ -47,13 +37,6 @@ export class TournamentCreateComponent {
       bankAccountNumber: ['', Validators.required],
       transactionReason: ['']
     });
-  }
-
-  ngOnInit() {
-    this.prizeResource.getAvailablePrizes().subscribe(response => {
-      this.prizes = response;
-      this.isLoading = false;
-    })
   }
 
   public create(): void {
@@ -89,7 +72,6 @@ export class TournamentCreateComponent {
     });
 
     formData.append('imageFile', this.pictureFile ?? null);
-    formData.append('prizeId', this.selectedPrize?.id ?? '')
 
     this.tournamentResource
       .createTournament(formData)
@@ -110,18 +92,6 @@ export class TournamentCreateComponent {
       }
       control?.updateValueAndValidity();
     }
-  }
-
-  selectPrize(): any {
-    const dialogRef = this.dialog.open(SelectPrizeDialog, {
-      width: '600px',
-      data: this.prizes,
-      disableClose: true,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.selectedPrize = result;
-    });
   }
 
   onFileUpload(event: any, upload: any): void {

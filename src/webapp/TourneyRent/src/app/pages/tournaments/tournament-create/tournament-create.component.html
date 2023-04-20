@@ -100,21 +100,6 @@
               </div>
             </div>
 
-            <!-- Prize -->
-            <mat-divider></mat-divider>
-            <div class="inline-field mt-5 mb-0" *ngIf="!isLoading">
-              <span class="lbl items-center flex">
-                <label class="field-label">Prize</label>
-              </span>
-              <div class="control flex justify-between mb-2">
-                <button type="button" mat-button class="w-full mb-2" color="primary" (click)="selectPrize()">
-                  <span *ngIf="selectedPrize">{{selectedPrize.name}}</span>
-                  <span class="text-black" *ngIf="!selectedPrize">No prize selected. Choose a prize!</span>
-                </button>
-              </div>
-            </div>
-            <mat-divider *ngIf="!showBankAccountForm"></mat-divider>
-
             <!-- Banking details -->
             <ng-container *ngIf="showBankAccountForm">
               <mat-divider></mat-divider>
@@ -125,12 +110,10 @@
                 </span>
                 <div class="control flex justify-between">
                   <mat-form-field class="w-2/4" appearance="outline">
-                    <input [min]="0" [minlength]="0" formControlName="bankAccountNumber" class="w-full" type="text"
-                      matInput placeholder="e.g. LT121000011101001000">
+                    <input [min]="0" [minlength]="0" formControlName="bankAccountNumber" class="w-full" type="text" matInput placeholder="e.g. LT121000011101001000">
                   </mat-form-field>
                   <mat-form-field class="w-2/5" appearance="outline">
-                    <input [min]="0" [minlength]="0" formControlName="bankAccountName" class="w-full" type="text"
-                      matInput placeholder="Name Surname">
+                    <input [min]="0" [minlength]="0" formControlName="bankAccountName" class="w-full" type="text" matInput placeholder="Name Surname">
                   </mat-form-field>
                 </div>
               </div>
@@ -141,8 +124,7 @@
                 </span>
                 <div class="control">
                   <mat-form-field class="w-full" appearance="outline">
-                    <input formControlName="transactionReason" class="w-full" type="text" matInput
-                      placeholder="Enter custom reason message">
+                    <input formControlName="transactionReason" class="w-full" type="text" matInput placeholder="Enter custom reason message">
                   </mat-form-field>
                 </div>
               </div>

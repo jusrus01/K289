@@ -34,23 +34,19 @@
             <mat-tab label="My tournaments">
                 <div class="p-0 h-80 w-full">
                     <span *ngIf="!tournaments">You don't have any tournaments yet</span>
-                    <div [routerLink]="['/tournament', tournament.id]"
-                        class="align-middle flex border border-indigo-800 w-full h-20 cursor-pointer hover:bg-slate-700 bg-slate-800"
-                        *ngFor="let tournament of tournaments">
-                        <app-image style="align-self: center;" [containerClass]="'ml-2 w-16 h-16'"
-                            [imageId]="tournament.imageId"
-                            [imageSource]="'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='"></app-image>
+                    <div [routerLink]="['/tournament', tournament.id]" class="align-middle flex border border-indigo-800 w-full h-20 cursor-pointer hover:bg-slate-700 bg-slate-800" *ngFor="let tournament of tournaments">
+                        <app-image style="align-self: center;" [containerClass]="'ml-2 w-16 h-16'" [imageId]="tournament.imageId" [imageSource]="'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='"></app-image>
                         <div style="align-self: center;" class="ml-2">
                             {{tournament.name}}
                         </div>
                         <div style="align-self: center;" class="ml-auto mr-2 text-right">
                             {{tournament.status.message}}
-                            <span style="align-self: center; font-style: italic;" *ngIf="tournament.status.isReadyForPrize">
-                                (waiting for winner)
-                            </span>
-                            <span style="align-self: center; font-style: italic;" *ngIf="tournament.status.isReadyForForcedEnd">
-                                (force end is available)
-                            </span>
+                            <button style="align-self: center;" *ngIf="tournament.status.isReadyForPrize" mat-raised-button color="primary">
+                                Select winner
+                            </button>
+                            <button style="align-self: center;" *ngIf="tournament.status.isReadyForForcedEnd" mat-raised-button color="primary">
+                                Force end
+                            </button>
                         </div>
                     </div>
                 </div>

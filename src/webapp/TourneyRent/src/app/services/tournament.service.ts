@@ -15,10 +15,6 @@ export class TournamentService {
     const endDate = new Date(tournament.endDate);
     const currentDate = new Date();
 
-    if (tournament.isWinnerSelected) {
-      return { message: "Winner selected", isReadyForPrize: false, isReadyForForcedEnd: false };
-    }
-
     if (startDate > currentDate) {
       return { message: 'Registration open', isReadyForPrize: false, isReadyForForcedEnd: false };
     }

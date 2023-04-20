@@ -72,26 +72,25 @@
   </div>
 </div>
 
-<div *ngFor="let teamWithMembers of teamsWithMembers" class="mb-6 cursor-pointer hover:shadow-xl transition duration-300" [routerLink]="['/team', teamWithMembers.team.id]">
-  <div class="bg-white shadow-lg rounded-lg px-6 py-8">
-    <h2 class="text-lg font-bold team-name">{{ teamWithMembers.team.name }}</h2>
-    <div class="mt-4">
-      <p class="text-md font-bold owner">Owner: {{ teamWithMembers.teamLeader?.profile?.firstName }} {{ teamWithMembers.teamLeader?.profile?.lastName }}</p>
-      <p class="text-md font-bold description">Description: {{ teamWithMembers.team.description }}</p>
-      <ul class="mt-4">
-        <h5 class="font-bold text-base mb-2">Team Members:</h5>
-        <li *ngFor="let member of teamWithMembers.members" class="text-gray-500 text-md">
-          <ng-container *ngIf="member.role === 'Member'">
-            {{ member.profile?.firstName }} {{ member.profile?.lastName }}
-          </ng-container>
-        </li>
-      </ul>
-      <div *ngFor="let member of teamWithMembers.members">
-        <button *ngIf="member.userId == authService.getAuthUserId()" mat-raised-button color="primary"
-          class="ml-[90%] mt-2" (click)="leaveTeam($event, teamWithMembers.team.id)">Leave</button>
+<div class="w-full flex justify-center mt-10">
+  <div class="w-2/3">
+    <div *ngFor="let teamWithMembers of teamsWithMembers" class="mb-6 cursor-pointer hover:shadow-xl transition duration-300" [routerLink]="['/team', teamWithMembers.team.id]">
+      <div class="bg-white shadow-lg rounded-lg px-6 py-8">
+        <h2 class="text-lg font-bold team-name">{{ teamWithMembers.team.name }}</h2>
+        <div class="mt-4">
+          <p class="text-md font-bold owner">Owner: {{ teamWithMembers.teamLeader?.profile?.firstName }} {{ teamWithMembers.teamLeader?.profile?.lastName }}</p>
+          <p class="text-md font-bold description">Description: {{ teamWithMembers.team.description }}</p>
+          <ul class="mt-4">
+            <h5 class="font-bold text-base mb-2">Team Members:</h5>
+            <li *ngFor="let member of teamWithMembers.members" class="text-gray-500 text-md">
+              <ng-container *ngIf="member.role === 'Member'">
+                {{ member.profile?.firstName }} {{ member.profile?.lastName }}
+              </ng-container>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
 
