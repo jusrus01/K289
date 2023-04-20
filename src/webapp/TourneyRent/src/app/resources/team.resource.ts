@@ -28,8 +28,4 @@ export class TeamResource {
   public addTeamMember(teamId: any, teamMemberCreate: any): Observable<any> {
     return this.httpClient.post(`${API_URL}/Team/${teamId}/members`, teamMemberCreate);
   }
-
-  public removeTeamMember(teamId:any, memberId:any): Observable<any>{
-    return this.httpClient.delete(`${API_URL}/Team/${teamId}/members/${memberId}`);
-  }
 }

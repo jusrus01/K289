@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TeamResource } from 'src/app/resources/team.resource';
 import { RoutingService } from 'src/app/services/routing.service';
 import { ProfileResource } from 'src/app/resources/profile.resource';
-import { AuthService } from 'src/app/services/auth.service';
 
 export interface Team {
   id: number;
@@ -37,17 +36,11 @@ export interface Profile {
 export class TeamListComponent implements OnInit {
   public teamsWithMembers: TeamWithMembers[] = [];
 
-  
-
   constructor(
     public teamResource: TeamResource,
     public routing: RoutingService,
-    public profileResource: ProfileResource,
-    public authService: AuthService
+    public profileResource: ProfileResource
   ) {}
-
-  private userId: any
-  
 
   ngOnInit(): void {
     this.teamResource.getAllTeams().subscribe((teams: Team[]) => {
@@ -65,13 +58,6 @@ export class TeamListComponent implements OnInit {
 
               const teamLeaderWithProfile: Member & { profile: Profile } = { ...member, profile };
 
-              this.userId = this.authService.getAuthUserId();
-              const LeaveButton = false;
-              if(member.userId == this.userId && member.role != "TeamLeader")
-              {
-                const LeaveButton = true;
-              }
-
               if (member.role === "TeamLeader")
               {
                 teamWithMembers.teamLeader = teamLeaderWithProfile;
@@ -85,15 +71,4 @@ export class TeamListComponent implements OnInit {
     console.log(this.teamsWithMembers);
 
   }
-
-  public leaveTeam(event: Event,teamId:any):void{
-
-    event?.stopPropagation();
-    console.log(teamId);
-    console.log(this.authService.getAuthUserId());
-    this.teamResource.removeTeamMember(teamId,this.authService.getAuthUserId()).subscribe(() => this.routing.goToTeams());
-  
-    console.log("Redirected");
-  }
-
 }

@@ -3,14 +3,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { ChooseTeamDialog } from 'src/app/common/dialogs/choose-team/choose-team.dialog';
-import { ChooseWinnerDialog } from 'src/app/common/dialogs/choose-winner/choose-winner.dialog';
 import { LeaveTournamentDialog } from 'src/app/common/dialogs/leave-tournament/leave-tournament.dialog';
 import { PayProcessingDialog } from 'src/app/common/dialogs/pay-processing/pay-processing.dialog';
 import { TeamResource } from 'src/app/resources/team.resource';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoutingService } from 'src/app/services/routing.service';
-import { TournamentService } from 'src/app/services/tournament.service';
 
 @Component({
   selector: 'app-tournament-item',
@@ -24,12 +22,10 @@ export class TournamentItemComponent {
     private teamResource: TeamResource,
     public dialog: MatDialog,
     public authService: AuthService,
-    private routing: RoutingService,
-    private tournamentService: TournamentService
+    private routing: RoutingService
   ) {}
 
   public tournament: any;
-  public tournamentStatus: any;
   public teams: any;
 
   private _tournamentId: any;
@@ -43,7 +39,6 @@ export class TournamentItemComponent {
       this._tournamentId = paramMap.get('id');
       this.resource.getTournament(this._tournamentId).subscribe((response) => {
         this.tournament = response;
-        this.tournamentStatus = this.tournamentService.getTournamentStatus(this.tournament);
       });
     });
   }
@@ -125,26 +120,6 @@ export class TournamentItemComponent {
     return this.getParticipantCount() == this.tournament.participantCount; 
   }
 
-  public selectWinner() {
-    const dialogRef = this.dialog.open(ChooseWinnerDialog, {
-      width: '600px',
-      data: this.tournament.participants,
-      disableClose: true,
-    });
-
-    dialogRef.afterClosed().subscribe((winnerId) => {
-      if (!winnerId) {
-        return;
-      }
-
-      this.resource
-        .selectWinner(this.tournament.id, winnerId)
-        .subscribe(response => {
-          this.tournamentStatus.isReadyForPrize = false;
-        });
-    });
-  }
-
   openDeleteDialog(
     enterAnimationDuration: string,
     exitAnimationDuration: string
@@ -155,7 +130,6 @@ export class TournamentItemComponent {
       exitAnimationDuration,
     });
 
-
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
@@ -165,9 +139,6 @@ export class TournamentItemComponent {
         .deleteTournament(this.tournament.id)
         .subscribe((x) => this.routing.goToTournaments());
     });
-  }
-  openUpdateDialog(): void{
-    this.routing.goToTournamentUpdate();
   }
 }
 
