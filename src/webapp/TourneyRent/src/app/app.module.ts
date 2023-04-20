@@ -80,6 +80,9 @@ import { TeamItemComponent } from './pages/teams/team-item/team-item.component';
 import { PayProcessingDialog } from './common/dialogs/pay-processing/pay-processing.dialog';
 import { ChooseTeamDialog } from './common/dialogs/choose-team/choose-team.dialog';
 import { LeaveTournamentDialog } from './common/dialogs/leave-tournament/leave-tournament.dialog';
+import { TournamentUpdateComponent } from './pages/tournaments/tournament-update/tournament-update.component';
+import { SelectPrizeDialog } from './common/dialogs/select-prize/select-prize.dialog';
+import { ChooseWinnerDialog } from './common/dialogs/choose-winner/choose-winner.dialog';
 
 export const API_URL = 'http://localhost:5155';
 
@@ -108,7 +111,10 @@ export const API_URL = 'http://localhost:5155';
     TeamItemComponent,
     PayProcessingDialog,
     ChooseTeamDialog,
-    LeaveTournamentDialog
+    LeaveTournamentDialog,
+    TournamentUpdateComponent,
+    SelectPrizeDialog,
+    ChooseWinnerDialog
   ],
   
   imports: [

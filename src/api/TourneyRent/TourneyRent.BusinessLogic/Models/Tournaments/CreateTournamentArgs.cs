@@ -6,6 +6,8 @@ namespace TourneyRent.BusinessLogic.Models.Tournaments;
 public class CreateTournamentArgs : IImageUpload, ITransactionable
 {
     public IFormFile ImageFile { get; set; }
+
+    public Guid? PrizeId { get; set; }
     
     public string BankAccountName { get; set; }
     public string BankAccountNumber { get; set; }

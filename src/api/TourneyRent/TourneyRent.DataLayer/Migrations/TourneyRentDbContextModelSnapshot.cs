@@ -191,14 +191,12 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ImageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -284,7 +282,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("BuyerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ItemId")
@@ -305,6 +302,52 @@ namespace TourneyRent.DataLayer.Migrations
                     b.ToTable("CalendarItems");
                 });
 
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.Prize", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TournamentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TournamentId");
+
+                    b.ToTable("Prizes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("239a3846-3852-4e89-99e9-f4d7f066460d"),
+                            Description = "Gaming monitor",
+                            Name = "KOORUI 24.5 Inch FHD Gaming Monitor (used)"
+                        },
+                        new
+                        {
+                            Id = new Guid("f192bf13-861f-4e50-a406-5ffcbeb7278a"),
+                            Description = "Laptop",
+                            Name = "Dell Latitude 3520 Laptop 15.6 (used)"
+                        },
+                        new
+                        {
+                            Id = new Guid("57cb55f2-ec7a-4a47-862e-f08da07fccd7"),
+                            Description = "Gaming monitor",
+                            Name = "DELL Latitude 5490 (used)"
+                        });
+                });
+
             modelBuilder.Entity("TourneyRent.DataLayer.Models.RentalItem", b =>
                 {
                     b.Property<int>("Id")
@@ -318,7 +361,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -326,7 +368,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("PeriodEnd")
@@ -381,7 +422,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -402,11 +442,9 @@ namespace TourneyRent.DataLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("BankAccountName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BankAccountNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
@@ -418,12 +456,13 @@ namespace TourneyRent.DataLayer.Migrations
                     b.Property<Guid?>("ImageId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsWinnerSelected")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ParticipantCount")
@@ -436,7 +475,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TransactionReason")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -454,6 +492,9 @@ namespace TourneyRent.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("IsWinner")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("TeamId")
                         .HasColumnType("int");
 
@@ -464,7 +505,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -488,7 +528,6 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -562,9 +601,7 @@ namespace TourneyRent.DataLayer.Migrations
                 {
                     b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "Buyer")
                         .WithMany()
-                        .HasForeignKey("BuyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BuyerId");
 
                     b.HasOne("TourneyRent.DataLayer.Models.RentalItem", "Item")
                         .WithMany("AvailableDays")
@@ -577,13 +614,20 @@ namespace TourneyRent.DataLayer.Migrations
                     b.Navigation("Item");
                 });
 
+            modelBuilder.Entity("TourneyRent.DataLayer.Models.Prize", b =>
+                {
+                    b.HasOne("TourneyRent.DataLayer.Models.Tournament", "Tournament")
+                        .WithMany("Prizes")
+                        .HasForeignKey("TournamentId");
+
+                    b.Navigation("Tournament");
+                });
+
             modelBuilder.Entity("TourneyRent.DataLayer.Models.RentalItem", b =>
                 {
                     b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });
@@ -598,9 +642,7 @@ namespace TourneyRent.DataLayer.Migrations
 
                     b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Team");
 
@@ -611,9 +653,7 @@ namespace TourneyRent.DataLayer.Migrations
                 {
                     b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });
@@ -632,9 +672,7 @@ namespace TourneyRent.DataLayer.Migrations
 
                     b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "User")
                         .WithMany("Participation")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Team");
 
@@ -647,9 +685,7 @@ namespace TourneyRent.DataLayer.Migrations
                 {
                     b.HasOne("TourneyRent.DataLayer.Models.ApplicationUser", "User")
                         .WithMany("Transactions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -674,6 +710,8 @@ namespace TourneyRent.DataLayer.Migrations
             modelBuilder.Entity("TourneyRent.DataLayer.Models.Tournament", b =>
                 {
                     b.Navigation("Participants");
+
+                    b.Navigation("Prizes");
                 });
 #pragma warning restore 612, 618
         }

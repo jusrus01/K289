@@ -9,12 +9,12 @@ public class TransactionExecutor
         _context = context;
     }
     
-    public async Task ExecuteAsync(Func<Task> transactionTask)
+    public async Task ExecuteAsync(Func<TourneyRentDbContext, Task> transactionTask)
     {
         await using var transaction = await _context.Database.BeginTransactionAsync();
         try
         {
-            await transactionTask();
+            await transactionTask(_context);
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
         }
