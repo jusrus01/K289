@@ -10,6 +10,8 @@ public class CreateTournamentArgsView
     public string? BankAccountNumber { get; set; }
     public string? TransactionReason { get; set; }
     
+    public Guid? PrizeId { get; set; }
+    
     [Required]
     public string Name { get; set; }
     [Required]
