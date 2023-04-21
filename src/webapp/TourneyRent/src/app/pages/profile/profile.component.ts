@@ -6,7 +6,6 @@ import { ProfileResource } from 'src/app/resources/profile.resource';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { AuthService } from 'src/app/services/auth.service';
 import { TournamentService } from 'src/app/services/tournament.service';
-import { TeamComponent } from '../teams/team/team.component';
 
 @Component({
   selector: 'app-profile',
@@ -35,7 +34,6 @@ export class ProfileComponent {
     private authService: AuthService,
     private tournamentResource: TournamentResource,
     private tournamentService: TournamentService,
-    private teamComponent: TeamComponent
   ) {
     this.isLoading = true;
     this.isUser = true; // TODO: Same
@@ -83,6 +81,6 @@ export class ProfileComponent {
         setTimeout(() => {
           this.profileImage.reload();
         });
-      });
+      }); 
   }
 }
