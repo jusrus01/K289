@@ -83,6 +83,9 @@ import { LeaveTournamentDialog } from './common/dialogs/leave-tournament/leave-t
 import { TournamentUpdateComponent } from './pages/tournaments/tournament-update/tournament-update.component';
 import { SelectPrizeDialog } from './common/dialogs/select-prize/select-prize.dialog';
 import { ChooseWinnerDialog } from './common/dialogs/choose-winner/choose-winner.dialog';
+import { RentalCartComponent } from './common/rental-cart/rental-cart.component';
+import { RentalCartAddButtonComponent } from './common/rental-cart/rental-cart-add-button/rental-cart-add-button.component';
+import { AvailableDaysComponent } from './common/dialogs/available-days/available-days.component';
 
 export const API_URL = 'http://localhost:5155';
 
@@ -114,7 +117,10 @@ export const API_URL = 'http://localhost:5155';
     LeaveTournamentDialog,
     TournamentUpdateComponent,
     SelectPrizeDialog,
-    ChooseWinnerDialog
+    ChooseWinnerDialog,
+    RentalCartComponent,
+    RentalCartAddButtonComponent,
+    AvailableDaysComponent
   ],
   
   imports: [

@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Select dates you would like to reserve this item!</h1>
+<div mat-dialog-content>
+    <mat-list>
+        <mat-list-item *ngFor="let date of dates" class="hover:bg-slate-100">
+            <mat-checkbox [checked]="date.isSelected" (change)="date.isSelected = !date.isSelected">
+                {{date.date | date:'mediumDate'}}
+            </mat-checkbox>
+        </mat-list-item>
+        <div class="flex align-middle justify-between">
+            <div class="h-full align-middle my-auto text-sm">Price: {{getTotalPrice()}} €</div>
+            <mat-paginator class="w-1/2 inline-block" [hidePageSize]="true" [length]="data.days.length" (page)="changePage($event)" [pageSize]="5" [pageSizeOptions]="[5, 10, 25]"
+            aria-label="Select page">
+        </mat-paginator>
+        </div>
+        <button mat-button class="w-1/2" (click)="dialogRef.close(null)">Cancel</button>
+        <button mat-raised-button color="primary" (click)="confirm()" class="w-1/2">Confirm</button>
+    </mat-list>
+</div>

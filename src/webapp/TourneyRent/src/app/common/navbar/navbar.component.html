@@ -78,6 +78,11 @@
                     </a>
                 </li>
                 <li *showForAuthenticatedUser class="nav-item">
+                    <a class="cursor-pointer px-3 pt-3 flex items-center text-md uppercase font-bold leading-snug text-white hover:opacity-75">
+                        <app-rental-cart></app-rental-cart>
+                    </a>
+                </li>
+                <li *showForAuthenticatedUser class="nav-item">
                     <a class="cursor-pointer px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
                         (mousedown)="logout()">
                         <i class="text-lg fa-solid fa-right-from-bracket"></i>

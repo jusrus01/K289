@@ -8,7 +8,12 @@
 <div class="container">
     <ul class="item-list">
       <li *ngFor="let item of items">
-        {{ item.name }} - {{item.description}} - {{item.image}} - {{item.periodStart}} - {{item.periodEnd}} - {{ item.price }}
+        <div class="flex justify-between align-middle">
+          <div class="my-auto">
+            {{ item.name }} - {{item.description}} - {{item.image}} - {{item.periodStart}} - {{item.periodEnd}} - {{ item.price }}
+          </div>
+          <app-rental-cart-add-button [item]="item"></app-rental-cart-add-button>
+        </div>
       </li>
     </ul>
 </div>
