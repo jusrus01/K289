@@ -57,7 +57,12 @@
             </mat-tab>
             <mat-tab label="Teams">
                 <div class="h-full p-0 sm:p-3 bg-slate-800">
-                    You don't belong to any teams yet
+                    <span *ngIf="!teams">You don't belong to any teams yet</span>
+                    <div [routerLink]="['/team', team.id]" class="align-middle flex border border-indigo-800 w-full h-20 cursor-pointer hover:bg-slate-700 bg-slate-800" *ngFor="let team of teams">
+                        <div style="align-self: center;" class="ml-2">
+                            {{team.name}}
+                        </div>
+                    </div>
                 </div>
             </mat-tab>
         </mat-tab-group>
