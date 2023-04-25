@@ -44,28 +44,19 @@ namespace TourneyRent.Presentation.Api.Controllers
 				return NotFound();
 			}
 
-			//var rentalItemdDetailedView = _mapper.Map<RentalItemDetailedView>(rentalItem);
-			return Ok(rentalItem);
+			var rentalItemdDetailedView = _mapper.Map<RentalItemDetailedView>(rentalItem);
+			return Ok(rentalItemdDetailedView);
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<RentalItemView>> GetRentalItems()
+		public async Task<IActionResult> GetRentalItems()
 		{
 			var rentalItems = await _rentalItemService.GetRentalItemsAsync();
-
 
 			var rentalItemView = _mapper.Map<IEnumerable<RentalItemView>>(rentalItems);
 			return Ok(rentalItemView);
 		}
 
-		/*[HttpPost, Authorize]
-		public async Task<ActionResult<RentalItemView>> CreateRentalItem(RentalItemCreate itemCreate)
-		{
-			var item = _mapper.Map<RentalItem>(itemCreate);
-			await _rentalItemService.CreateRentalItemAsync(item);
-			var itemView = _mapper.Map<RentalItemView>(item);
-			return CreatedAtAction(nameof(GetRentalItem), new { id = itemView.Id }, itemView);
-		}*/
 		[HttpPost, Authorize]
 		public async Task<IActionResult> CreateRentalItem([FromForm]RentalItemCreate itemCreate)
 		{
@@ -75,7 +66,7 @@ namespace TourneyRent.Presentation.Api.Controllers
 			return CreatedAtAction(nameof(CreateRentalItem), itemView);
 		}
 
-			[HttpDelete("{id}")]
+		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteRentalItemAsync(int id)
 		{
 			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TourneyRent.DataLayer.Models;
@@ -19,12 +20,12 @@ namespace TourneyRent.DataLayer
 
 		public async Task<RentalItem> GetRentalItemAsync(int id)
 		{
-			return await _context.RentalItems.FindAsync(id);
+			return await _context.RentalItems.Include(x => x.AvailableDays).FirstAsync(x => x.Id == id);
 		}
 
 		public async Task<IEnumerable<RentalItem>> GetRentalItemsAsync()
 		{
-			return await _context.RentalItems.ToListAsync();
+			return await _context.RentalItems.Include(x => x.AvailableDays).ToListAsync();
 		}
 		public async Task CreateRentalItemAsync(RentalItem rentalItem)
 		{
