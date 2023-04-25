@@ -13,6 +13,7 @@ import { RentalViewComponent } from './pages/rentals/rental-view/rental-view.com
 import { RentalEditComponent } from './pages/rentals/rental-edit/rental-edit.component';
 import { RentalDetailsComponent } from './pages/rentals/rental-details/rental-details.component';
 import { TournamentCreateComponent } from './pages/tournaments/tournament-create/tournament-create.component';
+import { TournamentUpdateComponent } from './pages/tournaments/tournament-update/tournament-update.component';
 import { TournamentItemComponent } from './pages/tournaments/tournament-item/tournament-item.component';
 import { TournamentComponent } from './pages/tournaments/tournament/tournament.component';
 import { TeamComponent } from './pages/teams/team/team.component';
@@ -20,6 +21,7 @@ import { TeamComponent } from './pages/teams/team/team.component';
 export const ROUTES: Routes = [
   { path: 'tournament/create', component: TournamentCreateComponent, data: { title: 'Create' }, canActivate: [AuthGuard]},
   { path: 'tournament/:id', component: TournamentItemComponent, data: { title: 'Tournament'} },
+  { path: 'tournament/update/:id', component: TournamentUpdateComponent, data: { title: 'Tournament Update'}, canActivate: [AuthGuard]},
   { path: 'tournament', component: TournamentComponent, data: { title: 'Tournaments' } },
   { path: 'profile', component: ProfileComponent, data: { title: 'Profile' }, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent, data: { title: 'Login' }, canActivate: [GuestGuard] },

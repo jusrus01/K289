@@ -3,7 +3,10 @@ import { Component } from '@angular/core';
 import { ImageComponent } from 'src/app/common/image/image.component';
 import { Profile } from 'src/app/models/profiles/profile.model';
 import { ProfileResource } from 'src/app/resources/profile.resource';
+import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { AuthService } from 'src/app/services/auth.service';
+import { TournamentService } from 'src/app/services/tournament.service';
+import { TeamResource } from 'src/app/resources/team.resource';
 
 @Component({
   selector: 'app-profile',
@@ -25,9 +28,15 @@ export class ProfileComponent {
   public pictureSource!: string | ArrayBuffer | null;
   public pictureFile!: any;
 
+  public tournaments: any;
+  public teams: any;
+
   constructor(
     private profileResource: ProfileResource,
-    private authService: AuthService
+    private authService: AuthService,
+    private tournamentResource: TournamentResource,
+    private tournamentService: TournamentService,
+    private teamResource: TeamResource,
   ) {
     this.isLoading = true;
     this.isUser = true; // TODO: Same
@@ -41,6 +50,27 @@ export class ProfileComponent {
         this.profile = profile;
         this.isLoading = false;
       });
+
+    this.tournamentResource
+      .getTournaments(this.authService.getAuthUserId())
+      .subscribe(tournaments => {
+        this.tournaments = tournaments.map((t: any) => ({
+          ...t,
+          status: this.tournamentService.getTournamentStatus(t)
+        }));
+      })
+    
+      this.teamResource
+      .getUserTeams(this.authService.getAuthUserId())
+      .subscribe(teams => {
+        this.teams = teams;
+      });
+    
+
+  }
+
+  selectWinner(tournament: any) {
+    
   }
 
   onFileUpload(event: any, upload: any): void {
@@ -61,6 +91,6 @@ export class ProfileComponent {
         setTimeout(() => {
           this.profileImage.reload();
         });
-      });
+      }); 
   }
 }

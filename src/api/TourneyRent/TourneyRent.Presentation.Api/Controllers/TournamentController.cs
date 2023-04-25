@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +20,8 @@ public class TournamentController : ControllerBase
         _tournamentService = tournamentService;
     }
 
-    [Authorize, HttpDelete("{id}")]
+    [Authorize]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTournament(int id)
     {
         return Ok(await _tournamentService.DeleteAsync(id));
@@ -39,7 +39,8 @@ public class TournamentController : ControllerBase
         return Ok(await _tournamentService.GetAllValidAsync());
     }
 
-    [Authorize, HttpPost]
+    [Authorize]
+    [HttpPost]
     public async Task<IActionResult> CreateTournament([FromForm] CreateTournamentArgsView createArgs)
     {
         var args = _mapper.Map<CreateTournamentArgs>(createArgs);
@@ -47,10 +48,44 @@ public class TournamentController : ControllerBase
         return CreatedAtAction(nameof(CreateTournament), createdTournament);
     }
 
-    [Authorize, HttpPost("{tournamentId}/Join")]
-    public async Task<IActionResult> JoinTournament([FromRoute] int tournamentId, [FromBody] JoinTournamentArgsView joinArgs)
+    [Authorize]
+    [HttpPost("{tournamentId}/Join")]
+    public async Task<IActionResult> JoinTournament([FromRoute] int tournamentId,
+        [FromBody] JoinTournamentArgsView joinArgs)
     {
         await _tournamentService.JoinAsync(tournamentId, joinArgs.TeamId);
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("{tournamentId}/Leave")]
+    public async Task<IActionResult> LeaveTournament(int tournamentId)
+    {
+        await _tournamentService.LeaveAsync(tournamentId);
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpGet("Owner/{ownerId}")]
+    public async Task<IActionResult> GetOwnerTournaments(string ownerId)
+    {
+        return Ok(await _tournamentService.GetTournamentsAsync(ownerId));
+    }
+
+    [Authorize]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateTournament(int id, [FromForm] UpdateTournamentArgsView tournamentArgs)
+    {
+        var args = _mapper.Map<UpdateTournamentArgs>(tournamentArgs);
+        var updatedTournament = await _tournamentService.UpdateTournamentAsync(id, args);
+        return Ok(updatedTournament);
+    }
+
+    [Authorize]
+    [HttpPost("{tournamentId}/Winner/{userId}")]
+    public async Task<IActionResult> SelectWinner(int tournamentId, Guid userId)
+    {
+        await _tournamentService.SelectWinnerAsync(tournamentId, userId);
         return Ok();
     }
 }

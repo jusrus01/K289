@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../app.module';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,10 @@ export class RentalResource {
   deleteItem(itemId: number): Observable<any> {
     const url = `${this.apiUrl}/${itemId}`;
     return this.http.delete(url);
+  }
+
+  public getAvailableDays(rentalId: any): Observable<Date[]> {
+    const url = `${this.apiUrl}/rentalitem/${rentalId}/availableDays`;
+    return this.http.get<Date[]>(url);
   }
 }

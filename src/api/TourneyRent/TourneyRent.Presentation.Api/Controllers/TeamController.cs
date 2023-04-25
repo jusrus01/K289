@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer.Enumerators;
@@ -67,7 +65,7 @@ namespace TourneyRent.Presentation.Api.Controllers
 
                 var teamMember = _mapper.Map<TeamMember>(teamMemberCreate);
 
-                _teamService.AddTeamMemberAsync(teamMember);
+                await _teamService.AddTeamMemberAsync(teamMember);
             }
 
             return CreatedAtAction(nameof(GetTeamByIdAsync), new { id = teamRead.Id }, teamRead);

@@ -71,5 +71,11 @@ namespace TourneyRent.Presentation.Api.Controllers
         {
             return Ok(await _accountService.GetUsersAsync(search));
         }
+
+        [HttpGet("Search")]
+        public async Task<IActionResult> GetUsersAsync()
+        {
+            return Ok(await _accountService.GetUsersAsync(null));
+        }
     }
 }

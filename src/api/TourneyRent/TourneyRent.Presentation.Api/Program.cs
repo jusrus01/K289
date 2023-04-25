@@ -2,6 +2,7 @@ using AutoMapper;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using TourneyRent.BusinessLogic.Services;
+using TourneyRent.Contracts.Options;
 using TourneyRent.DataLayer;
 using TourneyRent.Presentation.Api.Controllers;
 using TourneyRent.Presentation.Api.Extensions;
@@ -25,6 +26,8 @@ namespace TourneyRent.Presentation.Api
             builder.Services.AddAutoMapper(cfg =>
                 cfg.AddProfiles(profiles));
 
+            builder.Services.Configure<MailOptions>(builder.Configuration.GetSection("MailConfiguration"));
+            
             builder.Services.AddCors(options =>
                 options.AddDefaultPolicy(builder =>
                     builder
@@ -56,6 +59,7 @@ namespace TourneyRent.Presentation.Api
                 endpoints.MapControllerRoute(
                     name: "DefaultApi",
                     pattern: "{controller}/{action}/{id?}",
+                    // ReSharper disable once Mvc.ControllerNotResolved
                     defaults: new { controller = "Default", action = "Index" });
                 endpoints.MapControllerRoute(
                     name: "errors",

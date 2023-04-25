@@ -7,34 +7,22 @@ using TourneyRent.DataLayer.Models;
 using TourneyRent.Presentation.Api.Views.RentalItems;
 using TourneyRent.Presentation.Api.Views.Teams;
 
-namespace TourneyRent.Presentation.Api.Controllers
+namespace TourneyRent.Presentation.Api.Controllers;
+
+[Route("RentalItem")]
+[ApiController]
+public class RentalItemController : Controller
 {
-	[Route("RentalItem")]
-	[ApiController]
-	public class RentalItemController : Controller
-	{
-		private readonly RentalItemService _rentalItemService;
+    private readonly RentalItemService _rentalItemService;
 
-		private readonly IMapper _mapper;
+    private readonly IMapper _mapper;
 
-		public RentalItemController (RentalItemService rentalItemService, IMapper mapper)
-		{
-			_rentalItemService = rentalItemService;
-			_mapper = mapper;
-		}
+    public RentalItemController(RentalItemService rentalItemService, IMapper mapper)
+    {
+        _rentalItemService = rentalItemService;
+        _mapper = mapper;
+    }
 
-		/*[HttpGet("{id}")]
-		public async Task<ActionResult<RentalItemView>> GetRentalItem(int id)
-		{
-			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
-			if (rentalItem == null) 
-			{
-				return NotFound();
-			}
-
-			var rentalItemdDetailedView = _mapper.Map<RentalItemDetailedView>(rentalItem);
-			return Ok(rentalItemdDetailedView);
-		}*/
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetRentalItem(int id)
 		{
@@ -97,4 +85,25 @@ namespace TourneyRent.Presentation.Api.Controllers
 		}
 
 	}
+}
+    // TODO: return only dates that can be reserved.
+    // take into account dates that are before current date etc
+    // also sort
+    [HttpGet("{id:int}/AvailableDays")]
+    [Authorize]
+    public ActionResult<IEnumerable<DateTime>> GetAvailableDays(int id)
+    {
+        return new List<DateTime>
+        {
+            DateTime.UtcNow,
+            DateTime.UtcNow.AddDays(1),
+            DateTime.UtcNow.AddDays(10),
+            DateTime.UtcNow,
+            DateTime.UtcNow.AddDays(1),
+            DateTime.UtcNow.AddDays(10),
+            DateTime.UtcNow,
+            DateTime.UtcNow.AddDays(1),
+            DateTime.UtcNow.AddDays(10)
+        };
+    }
 }

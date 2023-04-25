@@ -13,7 +13,23 @@ export class TeamResource {
     return this.httpClient.post(`${API_URL}/Team`, data);
   }
 
+  public getAllTeams(): Observable<any> {
+    return this.httpClient.get(`${API_URL}/Team`);
+  }
+
+  public getTeamMembers(teamId: any): Observable<any> {
+    return this.httpClient.get(`${API_URL}/Team/${teamId}/members`);
+  }
+
   public getUserTeams(userId: any): Observable<any> {
     return this.httpClient.get(`${API_URL}/Team/Members/${userId}`);
+  }
+
+  public addTeamMember(teamId: any, teamMemberCreate: any): Observable<any> {
+    return this.httpClient.post(`${API_URL}/Team/${teamId}/members`, teamMemberCreate);
+  }
+
+  public removeTeamMember(teamId:any, memberId:any): Observable<any>{
+    return this.httpClient.delete(`${API_URL}/Team/${teamId}/members/${memberId}`);
   }
 }

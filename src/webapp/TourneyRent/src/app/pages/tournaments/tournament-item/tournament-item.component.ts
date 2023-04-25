@@ -3,11 +3,14 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { ChooseTeamDialog } from 'src/app/common/dialogs/choose-team/choose-team.dialog';
+import { ChooseWinnerDialog } from 'src/app/common/dialogs/choose-winner/choose-winner.dialog';
+import { LeaveTournamentDialog } from 'src/app/common/dialogs/leave-tournament/leave-tournament.dialog';
 import { PayProcessingDialog } from 'src/app/common/dialogs/pay-processing/pay-processing.dialog';
 import { TeamResource } from 'src/app/resources/team.resource';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoutingService } from 'src/app/services/routing.service';
+import { TournamentService } from 'src/app/services/tournament.service';
 
 @Component({
   selector: 'app-tournament-item',
@@ -21,10 +24,12 @@ export class TournamentItemComponent {
     private teamResource: TeamResource,
     public dialog: MatDialog,
     public authService: AuthService,
-    private routing: RoutingService
+    private routing: RoutingService,
+    private tournamentService: TournamentService
   ) {}
 
   public tournament: any;
+  public tournamentStatus: any;
   public teams: any;
 
   private _tournamentId: any;
@@ -38,6 +43,7 @@ export class TournamentItemComponent {
       this._tournamentId = paramMap.get('id');
       this.resource.getTournament(this._tournamentId).subscribe((response) => {
         this.tournament = response;
+        this.tournamentStatus = this.tournamentService.getTournamentStatus(this.tournament);
       });
     });
   }
@@ -88,16 +94,55 @@ export class TournamentItemComponent {
       .joinTournament(this._tournamentId, data)
       .subscribe((x) => { 
         this.tournament.isJoined = true;
-        this.tournament.participantCount++;
+        // will not work when displaying more info
+        // change if we will need a better representation
+        this.tournament.participants.push({});
       });
   }
 
   public leave(): void {
-    // TODO: Implement on next sprint
+    const dialogRef = this.dialog.open(LeaveTournamentDialog, {
+      width: '600px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      this.resource.leaveTournament(this._tournamentId).subscribe(() => {
+        // will not work if we will display more info later
+        // change if we will need a better representation
+        this.tournament.participants.pop();
+
+        this.tournament.isJoined = false;
+      });      
+    });
   }
 
   public isFull(): boolean {
     return this.getParticipantCount() == this.tournament.participantCount; 
+  }
+
+  public selectWinner() {
+    const dialogRef = this.dialog.open(ChooseWinnerDialog, {
+      width: '600px',
+      data: this.tournament.participants,
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((winnerId) => {
+      if (!winnerId) {
+        return;
+      }
+
+      this.resource
+        .selectWinner(this.tournament.id, winnerId)
+        .subscribe(response => {
+          this.tournamentStatus.isReadyForPrize = false;
+        });
+    });
   }
 
   openDeleteDialog(
@@ -110,6 +155,7 @@ export class TournamentItemComponent {
       exitAnimationDuration,
     });
 
+
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
@@ -120,8 +166,12 @@ export class TournamentItemComponent {
         .subscribe((x) => this.routing.goToTournaments());
     });
   }
+  openUpdateDialog(): void{
+    this.routing.goToTournamentUpdate();
+  }
 }
 
+// bad
 // Delete dialog
 @Component({
   template: `<h1 mat-dialog-title>Delete tournament</h1>
