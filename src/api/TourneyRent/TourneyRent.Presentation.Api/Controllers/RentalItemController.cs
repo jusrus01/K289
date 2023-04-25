@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TourneyRent.BusinessLogic.Models;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer.Models;
+using TourneyRent.Presentation.Api.Views.CalendarItem;
 using TourneyRent.Presentation.Api.Views.RentalItems;
 using TourneyRent.Presentation.Api.Views.Teams;
 
@@ -83,27 +84,24 @@ public class RentalItemController : Controller
 
 			return NoContent();
 		}
+		// TODO: return only dates that can be reserved.
+		// take into account dates that are before current date etc
+		// also sort
+		[HttpGet("{id:int}/AvailableDays")]
+		[Authorize]
+		public async Task<IActionResult> GetAvailableDays(int id)
+		{
+			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
+			if (rentalItem == null)
+			{
+				return NotFound();
+			}
 
+			var calendarItemView = _mapper.Map<CalendarItemView>(rentalItem);
+
+			return Ok(calendarItemView);
 	}
+
 }
-    // TODO: return only dates that can be reserved.
-    // take into account dates that are before current date etc
-    // also sort
-    [HttpGet("{id:int}/AvailableDays")]
-    [Authorize]
-    public ActionResult<IEnumerable<DateTime>> GetAvailableDays(int id)
-    {
-        return new List<DateTime>
-        {
-            DateTime.UtcNow,
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(10),
-            DateTime.UtcNow,
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(10),
-            DateTime.UtcNow,
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(10)
-        };
-    }
-}
+
+    
