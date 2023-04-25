@@ -1,15 +1,41 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_URL } from '../app.module';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class RentalResource {
-  constructor(private httpClient: HttpClient) {}
+  private apiUrl = 'http://localhost:5000/RentalItem';
+
+  constructor(private http: HttpClient) { }
+
+  getItems(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  getItemById(itemId: number): Observable<any> {
+    const url = `${this.apiUrl}/${itemId}`;
+    return this.http.get<any>(url);
+  }
+
+  createItem(item: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, item);
+  }
+
+  updateItem(itemId: number, item: any): Observable<any> {
+    const url = `${this.apiUrl}/${itemId}`;
+    return this.http.put<any>(url, item);
+  }
+
+  deleteItem(itemId: number): Observable<any> {
+    const url = `${this.apiUrl}/${itemId}`;
+    return this.http.delete(url);
+  }
 
   public getAvailableDays(rentalId: any): Observable<Date[]> {
-    return this.httpClient.get<Date[]>(`${API_URL}/rentalitem/${rentalId}/availableDays`);
+    const url = `${this.apiUrl}/rentalitem/${rentalId}/availableDays`;
+    return this.http.get<Date[]>(url);
   }
 }

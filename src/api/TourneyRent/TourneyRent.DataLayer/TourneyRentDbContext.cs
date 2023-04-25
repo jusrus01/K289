@@ -45,6 +45,9 @@ namespace TourneyRent.DataLayer
                 .WithMany(x => x.AvailableDays)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<CalendarIRentalItemEntry>()
+                .Property(x => x.BuyerId).IsRequired(false);
+
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TourneyRent.DataLayer.Models;
@@ -19,18 +20,44 @@ namespace TourneyRent.DataLayer
 
 		public async Task<RentalItem> GetRentalItemAsync(int id)
 		{
-			return await _context.RentalItems.FindAsync(id);
+			return await _context.RentalItems.Include(x => x.AvailableDays).FirstAsync(x => x.Id == id);
 		}
 
 		public async Task<IEnumerable<RentalItem>> GetRentalItemsAsync()
 		{
-			return await _context.RentalItems.ToListAsync();
+			return await _context.RentalItems.Include(x => x.AvailableDays).ToListAsync();
 		}
-		public async Task<int> CreateRentalItemAsync(RentalItem rentalItem)
+		public async Task CreateRentalItemAsync(RentalItem rentalItem)
 		{
 			_context.RentalItems.Add(rentalItem);
 			await _context.SaveChangesAsync();
-			return rentalItem.Id;
+		}
+		/*public async Task<RentalItem> DeleteAsync(int id)
+		{
+			var rentalItemToDelete = await _context.RentalItems.SingleAsync(x => x.Id == id);
+			var deletedRentalItem = new RentalItem
+			{
+				Id = rentalItemToDelete.Id,
+				Image = rentalItemToDelete.Image,
+				PeriodStart = rentalItemToDelete.PeriodStart,
+				PeriodEnd = rentalItemToDelete.PeriodEnd,
+				Description = rentalItemToDelete.Description,
+				Price = rentalItemToDelete.Price
+			};
+			_context.RentalItems.Remove(rentalItemToDelete);
+			await _context.SaveChangesAsync();
+
+			return rentalItemToDelete;
+		}*/
+		public async Task DeleteRentalItemAsync(RentalItem rentalItem)
+		{
+			_context.RentalItems.Remove(rentalItem);
+			await _context.SaveChangesAsync();
+		}
+		public async Task UpdateRentalItemAsync(RentalItem rentalItem)
+		{
+			_context.Entry(rentalItem).State = EntityState.Modified;
+			await _context.SaveChangesAsync();
 		}
 	}
 }

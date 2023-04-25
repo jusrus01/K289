@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TourneyRent.BusinessLogic.Models;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer.Models;
+using TourneyRent.Presentation.Api.Views.CalendarItem;
 using TourneyRent.Presentation.Api.Views.RentalItems;
+using TourneyRent.Presentation.Api.Views.Teams;
 
 namespace TourneyRent.Presentation.Api.Controllers;
 
@@ -21,54 +24,84 @@ public class RentalItemController : Controller
         _mapper = mapper;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<RentalItemView>> GetRentalItem(int id)
-    {
-        var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
-        if (rentalItem == null) return NotFound();
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetRentalItem(int id)
+		{
+			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
+			if (rentalItem == null)
+			{
+				return NotFound();
+			}
 
-        var rentalItemView = _mapper.Map<RentalItemView>(rentalItem);
-        return Ok(rentalItemView);
-    }
+			var rentalItemdDetailedView = _mapper.Map<RentalItemDetailedView>(rentalItem);
+			return Ok(rentalItemdDetailedView);
+		}
 
-    [HttpGet]
-    public async Task<ActionResult<RentalItemView>> GetRentalItems()
-    {
-        var rentalItems = await _rentalItemService.GetRentalItemsAsync();
+		[HttpGet]
+		public async Task<IActionResult> GetRentalItems()
+		{
+			var rentalItems = await _rentalItemService.GetRentalItemsAsync();
 
+			var rentalItemView = _mapper.Map<IEnumerable<RentalItemView>>(rentalItems);
+			return Ok(rentalItemView);
+		}
 
-        var rentalItemView = _mapper.Map<IEnumerable<RentalItemView>>(rentalItems);
-        return Ok(rentalItemView);
-    }
+		[HttpPost, Authorize]
+		public async Task<IActionResult> CreateRentalItem([FromForm]RentalItemCreate itemCreate)
+		{
+			var args = _mapper.Map<CreateRentalItemArgs>(itemCreate);
+			await _rentalItemService.CreateRentalItemAsync(args);
+			var itemView = _mapper.Map<RentalItemDetailedView>(args);
+			return CreatedAtAction(nameof(CreateRentalItem), itemView);
+		}
 
-    [HttpPost]
-    [Authorize]
-    public async Task<ActionResult<RentalItemView>> CreateRentalItem(RentalItemCreate itemCreate)
-    {
-        var item = _mapper.Map<RentalItem>(itemCreate);
-        await _rentalItemService.CreateRentalItemAsync(item);
-        var itemView = _mapper.Map<RentalItemView>(item);
-        return CreatedAtAction(nameof(GetRentalItem), new { id = itemView.Id }, itemView);
-    }
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteRentalItemAsync(int id)
+		{
+			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
+			if (rentalItem == null)
+			{
+				return NotFound();
+			}
 
-    // TODO: return only dates that can be reserved.
-    // take into account dates that are before current date etc
-    // also sort
-    [HttpGet("{id:int}/AvailableDays")]
-    [Authorize]
-    public ActionResult<IEnumerable<DateTime>> GetAvailableDays(int id)
-    {
-        return new List<DateTime>
-        {
-            DateTime.UtcNow,
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(10),
-            DateTime.UtcNow,
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(10),
-            DateTime.UtcNow,
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(10)
-        };
-    }
+			await _rentalItemService.DeleteRentalItemAsync(rentalItem);
+
+			return NoContent();
+		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> UpdateRentalItemAsync(int id, RentalItem rentalUpdate)
+		{
+
+			rentalUpdate.Id = id;
+
+			await _rentalItemService.UpdateTeamAsync(rentalUpdate);
+
+			if (await _rentalItemService.GetRentalItemAsync(id) == null)
+			{
+				return NotFound();
+			}
+
+			return NoContent();
+		}
+		// TODO: return only dates that can be reserved.
+		// take into account dates that are before current date etc
+		// also sort
+		[HttpGet("{id:int}/AvailableDays")]
+		[Authorize]
+		public async Task<IActionResult> GetAvailableDays(int id)
+		{
+			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
+			if (rentalItem == null)
+			{
+				return NotFound();
+			}
+
+			var calendarItemView = _mapper.Map<CalendarItemView>(rentalItem);
+
+			return Ok(calendarItemView);
+	}
+
 }
+
+    
