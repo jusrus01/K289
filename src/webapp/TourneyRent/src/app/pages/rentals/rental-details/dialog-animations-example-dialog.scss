@@ -1,0 +1,53 @@
+/* my-dialog.component.css */
+
+/* Target the dialog title */
+.mat-dialog-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #444444;
+  }
+  
+  /* Target the dialog content */
+  .mat-dialog-content {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #666666;
+  }
+  
+  /* Target the dialog actions */
+  .mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+  }
+  
+  /* Target the "No" button */
+  .mat-dialog-actions button:first-child {
+    background-color: #e0e0e0;
+    color: #444444;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .mat-dialog-actions button:first-child:hover {
+    background-color: #cccccc;
+  }
+  
+  /* Target the "Yes" button */
+  .mat-dialog-actions button:last-child {
+    background-color: #2196f3;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .mat-dialog-actions button:last-child:hover {
+    background-color: #0d8bf3;
+  }
