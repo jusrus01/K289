@@ -48,7 +48,7 @@ namespace TourneyRent.Authentication.Services
             var identityResult = await _userManager.CreateAsync(newUser, registerArgs.Password);
             if (!identityResult.Succeeded)
             {
-                throw new AuthenticationException("Failed to create an account");
+                throw new AuthenticationException("Failed to create an account.");
             }
 
             return new CreatedUser(newUser.Email, newUser.FirstName, newUser.LastName);
