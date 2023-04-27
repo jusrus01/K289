@@ -2,7 +2,7 @@
   "name": "tourney-rent",
   "version": "0.0.0",
   "scripts": {
-    "install": "npm install",
+    "installv2": "npm install",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",

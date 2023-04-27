@@ -18,7 +18,7 @@ jobs:
     - name: w
       run: ls
     - name: Install dependencies
-      run: npm run install --prefix src/webapp/TourneyRent
+      run: npm run installv2 --prefix src/webapp/TourneyRent
 
     - name: Build
       run: npm run build --prefix src/webapp/TourneyRent
