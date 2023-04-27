@@ -1,3 +1,13 @@
+.mat-calendar-body-cell.selected
+{
+  background-color:hwb(224 30% 32%)!important;
+  border-radius: 50%
+}
+.drop-calendar
+{
+  width:30rem
+}
+
 fieldset {
   display: block;
   margin-inline-start: 2px;
@@ -160,14 +170,14 @@ label {
   border-top: 1px solid #3b4151;
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  font-family: "Inter",Arial,Helvetica,sans-serif;
-  font-size: 14px;
-  line-height: 1.428571429;
-  color: #D8D8D8;
-  background-color: #272A33;
-}
+// body {
+//   -webkit-font-smoothing: antialiased;
+//   font-family: "Inter",Arial,Helvetica,sans-serif;
+//   font-size: 14px;
+//   line-height: 1.428571429;
+//   color: #D8D8D8;
+//   background-color: #272A33;
+// }
 
 .box {
     display: flex;
