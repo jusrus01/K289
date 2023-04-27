@@ -330,19 +330,19 @@ namespace TourneyRent.DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("239a3846-3852-4e89-99e9-f4d7f066460d"),
+                            Id = new Guid("e36cbf93-5921-40e4-8743-7e6925115027"),
                             Description = "Gaming monitor",
                             Name = "KOORUI 24.5 Inch FHD Gaming Monitor (used)"
                         },
                         new
                         {
-                            Id = new Guid("f192bf13-861f-4e50-a406-5ffcbeb7278a"),
+                            Id = new Guid("9a4c9370-3e66-41db-8196-70b28f3b4c33"),
                             Description = "Laptop",
                             Name = "Dell Latitude 3520 Laptop 15.6 (used)"
                         },
                         new
                         {
-                            Id = new Guid("57cb55f2-ec7a-4a47-862e-f08da07fccd7"),
+                            Id = new Guid("c33610ee-dd60-4084-a089-78ac15adac00"),
                             Description = "Gaming monitor",
                             Name = "DELL Latitude 5490 (used)"
                         });
@@ -357,11 +357,9 @@ namespace TourneyRent.DataLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("BankAccountName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BankAccountNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -378,17 +376,10 @@ namespace TourneyRent.DataLayer.Migrations
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("PeriodEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("PeriodStart")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<string>("TransactionReason")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

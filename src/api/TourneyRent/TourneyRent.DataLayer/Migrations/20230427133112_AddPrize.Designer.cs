@@ -12,8 +12,8 @@ using TourneyRent.DataLayer;
 namespace TourneyRent.DataLayer.Migrations
 {
     [DbContext(typeof(TourneyRentDbContext))]
-    [Migration("20230408080433_AddMockPrizeData")]
-    partial class AddMockPrizeData
+    [Migration("20230427133112_AddPrize")]
+    partial class AddPrize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -332,19 +332,19 @@ namespace TourneyRent.DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("16157e63-9308-4a3b-8493-f8b030886da5"),
+                            Id = new Guid("e36cbf93-5921-40e4-8743-7e6925115027"),
                             Description = "Gaming monitor",
                             Name = "KOORUI 24.5 Inch FHD Gaming Monitor (used)"
                         },
                         new
                         {
-                            Id = new Guid("28d718d3-440f-4110-8af6-a5fa5cdbeb17"),
+                            Id = new Guid("9a4c9370-3e66-41db-8196-70b28f3b4c33"),
                             Description = "Laptop",
                             Name = "Dell Latitude 3520 Laptop 15.6 (used)"
                         },
                         new
                         {
-                            Id = new Guid("a4642138-fdd9-41db-b408-80cb5a3f7c5b"),
+                            Id = new Guid("c33610ee-dd60-4084-a089-78ac15adac00"),
                             Description = "Gaming monitor",
                             Name = "DELL Latitude 5490 (used)"
                         });
@@ -358,12 +358,18 @@ namespace TourneyRent.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("BankAccountName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankAccountNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -372,14 +378,11 @@ namespace TourneyRent.DataLayer.Migrations
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("PeriodEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("PeriodStart")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Price")
                         .HasColumnType("int");
+
+                    b.Property<string>("TransactionReason")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -458,6 +461,9 @@ namespace TourneyRent.DataLayer.Migrations
                     b.Property<Guid?>("ImageId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsWinnerSelected")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -490,6 +496,9 @@ namespace TourneyRent.DataLayer.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsWinner")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("TeamId")
                         .HasColumnType("int");
