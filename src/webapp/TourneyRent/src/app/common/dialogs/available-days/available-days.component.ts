@@ -33,4 +33,8 @@ export class AvailableDaysComponent {
   getTotalPrice() {
     return this.data.days.filter((i: any) => i.isSelected).length * this.data.price;
   }
+
+  hasDates(dates: any) {
+    return dates?.length > 0;
+  }
 }

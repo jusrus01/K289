@@ -3,6 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Subject } from 'rxjs';
 import { ADMINISTRATOR_ROLE } from '../constants';
 import { LoginResponse } from '../models/login/login-response.model';
+import { RentalCartService } from './rental-cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class AuthService {
 
   public readonly isLoggedIn$: Subject<boolean>;
 
-  constructor(private cookieService: CookieService) {
+  constructor(private cookieService: CookieService, private rentalCartService: RentalCartService) {
     this.isLoggedIn$ = new Subject<boolean>();
   }
 
@@ -21,11 +22,13 @@ export class AuthService {
       this.TOKEN_COOKIE_PARAM,
       JSON.stringify(loginResponse)
     );
+    this.rentalCartService.reset();
     this.isLoggedIn$.next(true);
   }
 
   public logout(): void {
     this.cookieService.delete(this.TOKEN_COOKIE_PARAM);
+    this.rentalCartService.reset();
     this.isLoggedIn$.next(false);
   }
 
