@@ -9,151 +9,140 @@
   <div class="box">
     <fieldset class="form-fieldset">
       <div class="form-panel">
-        <div class="body">
-<div class="w-full flex justify-center mt-3">
-    <div class="w-1/1">
-      <button
-        class="mt-4"
-        mat-raised-button
-        color="primary"
-        (click)="routing.goToRental()"
-      >
-        Go back
-      </button>
-    </div>
-  </div>
+        <div class="body relative">
+          <app-rental-cart-add-button class="absolute right-0 mr-5" *ngIf="item" [item]="item"></app-rental-cart-add-button>
 
-  <div class="ml-[5%] inline-field mt-0 mb-0">
-    <span class="items-center flex">
-      <app-image [imageId]="item.imageId" class="mx-auto py-2" [imageSource]="
+          <div class="ml-[5%] inline-field mt-0 mb-0">
+            <span class="items-center flex">
+              <app-image [imageId]="item.imageId" class="mx-auto py-2" [imageSource]="
           'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='
         " [imageClass]="'w-full h-64 object-cover rounded-md'" [containerClass]="'w-full'"></app-image>
-    </span>
-  </div>
+            </span>
+          </div>
 
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">Item name</label>
-    </span>
-    <div class="control">
-      <!-- <mat-form-field appearance="outline" class="w-full mt-2">
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">Item name</label>
+            </span>
+            <div class="control">
+              <!-- <mat-form-field appearance="outline" class="w-full mt-2">
         <input formControlName="name" type="text" matInput>
       </mat-form-field> -->
-      {{ item.name }}
-    </div>
-  </div>
+              {{ item.name }}
+            </div>
+          </div>
 
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">Description</label>
-    </span>
-    <div class="control">
-      <!-- <mat-form-field appearance="outline" class="w-full mt-2">
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">Description</label>
+            </span>
+            <div class="control">
+              <!-- <mat-form-field appearance="outline" class="w-full mt-2">
         <input formControlName="name" type="text" matInput>
       </mat-form-field> -->
-      {{ item.description }}
-    </div>
-  </div>
+              {{ item.description }}
+            </div>
+          </div>
 
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">Start date</label>
-    </span>
-    <div class="control">
-      <div class="flex justify-between">
-        <!-- <mat-form-field class="w-full" appearance="outline">
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">Start date</label>
+            </span>
+            <div class="control">
+              <div class="flex justify-between">
+                <!-- <mat-form-field class="w-full" appearance="outline">
           <input formControlName="startDate" matInput [matDatepicker]="startPicker">
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
           <mat-datepicker #startPicker></mat-datepicker>
         </mat-form-field> -->
-        {{ item.startDate | date : "MMM d, y" }}
-      </div>
-    </div>
-  </div>
+                {{ item.startDate | date : "MMM d, y" }}
+              </div>
+            </div>
+          </div>
 
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">Start time</label>
-    </span>
-    <div class="control">
-      <div class="flex justify-between">
-        {{ item.startDate | date : "h:mm a" }}
-        <!-- <ngx-mat-timepicker formControlName="startDate" [showSpinners]="true" [stepHour]="1"
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">Start time</label>
+            </span>
+            <div class="control">
+              <div class="flex justify-between">
+                {{ item.startDate | date : "h:mm a" }}
+                <!-- <ngx-mat-timepicker formControlName="startDate" [showSpinners]="true" [stepHour]="1"
           [stepMinute]="1" [showSeconds]="false">
         </ngx-mat-timepicker> -->
-      </div>
-    </div>
-  </div>
+              </div>
+            </div>
+          </div>
 
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">End date</label>
-    </span>
-    <div class="control">
-      <div class="flex justify-between">
-        {{ item.endDate | date : "MMM d, y" }}
-        <!-- <mat-form-field class="w-full" appearance="outline">
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">End date</label>
+            </span>
+            <div class="control">
+              <div class="flex justify-between">
+                {{ item.endDate | date : "MMM d, y" }}
+                <!-- <mat-form-field class="w-full" appearance="outline">
           <input formControlName="endDate" matInput [matDatepicker]="picker2">
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field> -->
-      </div>
-    </div>
-  </div>
+              </div>
+            </div>
+          </div>
 
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">End time</label>
-    </span>
-    <div class="control">
-      <div class="flex justify-between">
-        {{ item.endDate | date : "h:mm a" }}
-        <!-- <ngx-mat-timepicker formControlName="endDate"  [showSpinners]="true" [stepHour]="1"
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">End time</label>
+            </span>
+            <div class="control">
+              <div class="flex justify-between">
+                {{ item.endDate | date : "h:mm a" }}
+                <!-- <ngx-mat-timepicker formControlName="endDate"  [showSpinners]="true" [stepHour]="1"
           [stepMinute]="1" [showSeconds]="false">
         </ngx-mat-timepicker> -->
-      </div>
-    </div>
-  </div>
+              </div>
+            </div>
+          </div>
 
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">Price</label>
-    </span>
-    <div class="control">
-      {{ item.price }} €
-      <!-- <mat-form-field class="w-full" appearance="outline">
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">Price</label>
+            </span>
+            <div class="control">
+              {{ item.price }} €
+              <!-- <mat-form-field class="w-full" appearance="outline">
         <input [min]="0" [minlength]="0" formControlName="entryFee" class="w-full" type="text" matInput>
       </mat-form-field> -->
-    </div>
-  </div>
-  <mat-divider></mat-divider>
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">Bank account name</label>
-    </span>
-    <div class="control">
-      <!-- <mat-form-field appearance="outline" class="w-full mt-2">
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">Bank account name</label>
+            </span>
+            <div class="control">
+              <!-- <mat-form-field appearance="outline" class="w-full mt-2">
         <input formControlName="name" type="text" matInput>
       </mat-form-field> -->
-      {{ item.bankAccountName }}
-    </div>
-  </div>
+              {{ item.bankAccountName }}
+            </div>
+          </div>
 
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">Bank account number</label>
-    </span>
-    <div class="control">
-      <!-- <mat-form-field appearance="outline" class="w-full mt-2">
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">Bank account number</label>
+            </span>
+            <div class="control">
+              <!-- <mat-form-field appearance="outline" class="w-full mt-2">
         <input formControlName="name" type="text" matInput>
       </mat-form-field> -->
-      {{ item.bankAccountNumber }}
-    </div>
-  </div>
+              {{ item.bankAccountNumber }}
+            </div>
+          </div>
 
-  <!-- <button mat-raised-button color="primary" (click)="pay()">Pay</button>
+          <!-- <button mat-raised-button color="primary" (click)="pay()">Pay</button>
     <div class="dialog-container" *ngIf="showDialog">
       <div class="dialog">
         <p>Do you really want to pay for this?</p>
@@ -171,44 +160,37 @@
       </div>
     </div> -->
 
-  <div class="inline-field mt-0 mb-0">
-    <span class="lbl items-center flex">
-      <label class="field-label">Transaction reason</label>
-    </span>
-    <div class="control">
-      <!-- <mat-form-field appearance="outline" class="w-full mt-2">
+          <div class="inline-field mt-0 mb-0">
+            <span class="lbl items-center flex">
+              <label class="field-label">Transaction reason</label>
+            </span>
+            <div class="control">
+              <!-- <mat-form-field appearance="outline" class="w-full mt-2">
         <input formControlName="name" type="text" matInput>
       </mat-form-field> -->
-      {{ item.transactionReason }}
-    </div>
-  </div>
-  <mat-divider></mat-divider>
+              {{ item.transactionReason }}
+            </div>
+          </div>
+          <mat-divider></mat-divider>
 
-  <div class="inline-field mt-0 mb-0">
-    <div class="w-full flex justify-between" >
-      <button
-      mat-raised-button 
-      color="primary"
-      class="ml-[5%] mt-2" 
-      >
-        Edit
-      </button>
+          <div class="inline-field mt-0 mb-0">
+            <div class="w-full flex justify-between">
+              <button mat-raised-button color="primary" class="ml-[5%] mt-2">
+                Edit
+              </button>
 
-      <button mat-raised-button (click)="openDialog('10ms', '10ms')" class="ml-[5%] mt-2" color="yellow">Highlight</button>
-    </div>
+              <button mat-raised-button (click)="openDialog('10ms', '10ms')" class="ml-[5%] mt-2"
+                color="yellow">Highlight</button>
+            </div>
 
-  <div class="inline-field mt-0 mb-0">
-    <div class="w-full flex justify-between">
-      <button
-        mat-raised-button 
-        color="warn"
-        class="ml-[5%] mt-2" 
-        >
-        Delete
-      </button>
-    </div>
+            <div class="inline-field mt-0 mb-0">
+              <div class="w-full flex justify-between">
+                <button mat-raised-button color="warn" class="ml-[5%] mt-2">
+                  Delete
+                </button>
+              </div>
 
-<!-- <div class="cnt">
+              <!-- <div class="cnt">
     <h2>Name:</h2>
     <p>{{ item.name }}</p>
     <br>
@@ -234,6 +216,6 @@
     <p>{{ item.transactionReason }}</p>
 
 </div> -->
-</div>
-</div>
-</div>
+            </div>
+          </div>
+        </div>
