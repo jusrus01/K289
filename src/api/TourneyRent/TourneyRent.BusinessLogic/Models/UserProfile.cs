@@ -3,6 +3,7 @@
 namespace TourneyRent.BusinessLogic.Models
 {
     public record UserProfile(
+        string Email,
         string FirstName,
         string LastName,
         Guid? ImageId)
