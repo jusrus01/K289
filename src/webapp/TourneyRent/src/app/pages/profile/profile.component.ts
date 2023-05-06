@@ -7,6 +7,8 @@ import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { AuthService } from 'src/app/services/auth.service';
 import { TournamentService } from 'src/app/services/tournament.service';
 import { TeamResource } from 'src/app/resources/team.resource';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { EditProfileComponent } from 'src/app/common/dialogs/edit-profile/edit-profile.component';
 
 @Component({
   selector: 'app-profile',
@@ -37,6 +39,7 @@ export class ProfileComponent {
     private tournamentResource: TournamentResource,
     private tournamentService: TournamentService,
     private teamResource: TeamResource,
+    public dialog: MatDialog,
   ) {
     this.isLoading = true;
     this.isUser = true; // TODO: Same
@@ -71,6 +74,12 @@ export class ProfileComponent {
 
   selectWinner(tournament: any) {
     
+  }
+
+  public onEdit(): void{
+    const dialogRef = this.dialog.open(EditProfileComponent, {
+      width: '400px',
+    });
   }
 
   onFileUpload(event: any, upload: any): void {
