@@ -30,34 +30,40 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSave(): void {
+  
     if (this.editProfileForm.valid) {
+      const userId = this.authService.getAuthUserId();
+      
       const formData = this.editProfileForm.value;
-      this.profileResource.getProfile(this.authService.getAuthUserId()).
-      subscribe()
-      this.profileResource.updateProfile(formData)
-        .subscribe(
-          () => {
-            this.snackBar.open('Profile updated successfully', 'Close', {
+      formData.Id = userId;
+  
+      this.profileResource.updateProfile(formData).subscribe(
+        () => {
+          this.snackBar.open('Profile updated successfully', 'Close', {
+            duration: 2000,
+          });
+          
+          this.dialogRef.close(); // Close the dialog
+        },
+        (error) => {
+          if (error && error.error) {
+            this.snackBar.open(`Error updating profile: ${error.error}`, 'Close', {
+              duration: 2000,              
+            });
+            console.log('Error type 1:', error.error);
+          } else if (error) {
+            this.snackBar.open(`Error updating profile: ${error}`, 'Close', {
               duration: 2000,
             });
-            this.dialogRef.close(); // Close the dialog
-          },
-          (error) => {
-            if (error && error.error) {
-              this.snackBar.open(`Error updating profile: ${error.error}`, 'Close', {
-                duration: 2000,
-              });
-            } else if (error) {
-              this.snackBar.open(`Error updating profile: ${error}`, 'Close', {
-                duration: 2000,
-              });
-            } else {
-              this.snackBar.open('Unknown error occurred while updating profile', 'Close', {
-                duration: 2000,
-              });
-            }
+            console.log('Error type 2:', error);
+          } else {
+            this.snackBar.open('Unknown error occurred while updating profile', 'Close', {
+              duration: 2000,
+            });
+            console.log('Error type 3');
           }
-        );
+        }
+      );
     } else {
       this.snackBar.open('Please fill in all required fields', 'Close', {
         duration: 2000,
@@ -65,8 +71,8 @@ export class EditProfileComponent implements OnInit {
     }
   }
   
+
   onCancel(): void {
     this.dialogRef.close(); // Close the dialog
-  }
-  
+  } 
 }

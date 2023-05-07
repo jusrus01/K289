@@ -22,6 +22,6 @@ export class ProfileResource {
   }
 
   updateProfile(updateProfileArgs: any): Observable<any> {
-    return this.httpClient.put(`${API_URL}/update`, updateProfileArgs);
+    return this.httpClient.put(`${API_URL}/account`, updateProfileArgs);
   }
 }
