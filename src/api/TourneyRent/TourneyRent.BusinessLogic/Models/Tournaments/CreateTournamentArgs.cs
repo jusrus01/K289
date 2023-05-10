@@ -19,7 +19,7 @@ public class CreateTournamentArgs : IImageUpload, ITransactionable
     public float EntryFee { get; set; }
     public int ParticipantCount { get; set; }
 
-    public IEnumerable<TournamentReservationArgs> Reservation { get; set; }
+    public IEnumerable<TournamentReservationArgs>? Reservation { get; set; }
     public IFormFile ImageFile { get; set; }
 
     public string BankAccountName { get; set; }

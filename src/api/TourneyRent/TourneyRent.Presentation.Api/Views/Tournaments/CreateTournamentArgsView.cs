@@ -2,12 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TourneyRent.Presentation.Api.Views.Tournaments;
 
-public class TournamentReservationArgsView
-{
-    public int Id { get; set; }
-    public List<DateTime> Days { get; set; } = new();
-}
-
 public class CreateTournamentArgsView
 {
     public IFormFile? ImageFile { get; set; }
