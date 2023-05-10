@@ -3,6 +3,7 @@
 namespace TourneyRent.Presentation.Api.Views.Account
 {
     public record UserProfileView(
+        string Email,
         string FirstName,
         string LastName,
         Guid? ImageId)
