@@ -21,4 +21,5 @@ public class CreateTournamentArgsView
     [Required] public float? EntryFee { get; set; }
 
     [Required] public int? ParticipantCount { get; set; }
+    public string Reservation { get; set; } = "[]"; // Does not map to defined structure from form-data
 }

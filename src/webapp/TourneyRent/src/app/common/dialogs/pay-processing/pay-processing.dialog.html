@@ -1,11 +1,11 @@
 <h1 mat-dialog-title>Pay entry fee</h1>
 <div *ngIf="!isPaying" mat-dialog-content>
     <div>
-        To join the tournamnet you have to pay <b>{{data.entryFee}} €</b> entry fee. 
+        To do this action you have to pay <b>{{data.entryFee}} €</b>. 
         If you press 'yes' you will be transfered to external service that will take care
         of the payment. Are you sure you want to continue? 
     </div>
-    <app-image [containerClass]="'h-32'" [imageClass]="'object-cover'" [imageSource]="'https://newsroom.mastercard.com/wp-content/uploads/2017/08/PayPal-and-Mastercardedit.png'"></app-image>
+    <app-image [containerClass]="'h-32'" [imageClass]="'object-cover'" [imageSource]="'https://www.shutterstock.com/image-vector/people-sending-receiving-money-wireless-260nw-465600824.jpg'"></app-image>
 </div>
 <div *ngIf="isPaying" mat-dialog-content>
     <div class="flex">
