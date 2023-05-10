@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using TourneyRent.Contracts.Models;
 
 namespace TourneyRent.BusinessLogic.Models.Tournaments;
 
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public class TournamentReservationArgs
 {
     public int Id { get; set; }
