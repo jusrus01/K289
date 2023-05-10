@@ -330,19 +330,19 @@ namespace TourneyRent.DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e36cbf93-5921-40e4-8743-7e6925115027"),
+                            Id = new Guid("5019d333-9a5d-4fbc-b691-4ac63b34ba24"),
                             Description = "Gaming monitor",
                             Name = "KOORUI 24.5 Inch FHD Gaming Monitor (used)"
                         },
                         new
                         {
-                            Id = new Guid("9a4c9370-3e66-41db-8196-70b28f3b4c33"),
+                            Id = new Guid("8f2ccee9-34fb-422c-9b47-fb0eecb002dd"),
                             Description = "Laptop",
                             Name = "Dell Latitude 3520 Laptop 15.6 (used)"
                         },
                         new
                         {
-                            Id = new Guid("c33610ee-dd60-4084-a089-78ac15adac00"),
+                            Id = new Guid("f062a606-ac3c-40c2-807e-d13ef2bd1218"),
                             Description = "Gaming monitor",
                             Name = "DELL Latitude 5490 (used)"
                         });
