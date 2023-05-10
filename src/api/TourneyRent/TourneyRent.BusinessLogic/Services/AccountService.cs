@@ -27,7 +27,7 @@ namespace TourneyRent.BusinessLogic.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Guid> ChangeProfileImageAsync(IImageUpload image, string? userId = null)
+        public async Task<Guid> ChangeProfileImageAsync(IImageUpload image, string userId = null)
         {
             var resolvedUserId = userId ?? _httpContextAccessor.GetAuthenticatedUserId();
             var user = await GetUserAsync(resolvedUserId);

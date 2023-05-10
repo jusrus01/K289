@@ -11,16 +11,15 @@ namespace TourneyRent.BusinessLogic.Services;
 
 public class TournamentService
 {
-    private readonly TournamentRepository _tournamentRepository;
-    private readonly ImageRepository _imageRepository;
-    private readonly IMapper _mapper;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly PaymentTransactionRepository _paymentTransactionRepository;
-    private readonly TeamRepository _teamRepository;
-    private readonly PrizeRepository _prizeRepository;
-
     private readonly TransactionExecutor _executor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ImageRepository _imageRepository;
     private readonly MailService _mailService;
+    private readonly IMapper _mapper;
+    private readonly PaymentTransactionRepository _paymentTransactionRepository;
+    private readonly PrizeRepository _prizeRepository;
+    private readonly TeamRepository _teamRepository;
+    private readonly TournamentRepository _tournamentRepository;
 
     public TournamentService(
         IMapper mapper,
@@ -205,7 +204,9 @@ public class TournamentService
             await _tournamentRepository.UpdateAsync(tournament);
         });
 
+#pragma warning disable CS4014
         Task.Run(async () =>
+#pragma warning restore CS4014
         {
             await _mailService.SendEmailAsync(
                 $"Congratulations! You've won the {tournament.Name} tournament!",
