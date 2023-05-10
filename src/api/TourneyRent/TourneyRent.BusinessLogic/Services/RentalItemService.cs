@@ -60,6 +60,8 @@ namespace TourneyRent.BusinessLogic.Services
 				Price = createArgs.Price,
 				AvailableDays = createArgs.CalendarItems.Select(day => new CalendarIRentalItemEntry { AvailableAt = day, Price = createArgs.Price}).ToList(),
 
+				HighlightFee = 0,
+
 				OwnerId = _httpContextAccessor.GetAuthenticatedUserId()
 			};
 
@@ -75,6 +77,21 @@ namespace TourneyRent.BusinessLogic.Services
 		{
 			await _rentalItemRepository.UpdateRentalItemAsync(rentalItem);
 
+		}
+		public async Task UpdateHighlightCostAsync(int id, int? fee)
+		{
+			var rentalItem = await GetRentalItemAsync(id);
+			var userId = _httpContextAccessor.GetAuthenticatedUserId();
+
+			await _executor.ExecuteAsync(async _ =>
+			{
+				var transactionId = await _paymentTransactionRepository.CreateAsync(
+					userId,
+					Convert.ToDecimal(fee));
+
+				rentalItem.HighlightFee += Convert.ToDecimal(fee);
+			});
+			await _rentalItemRepository.UpdateRentalItemAsync(rentalItem);
 		}
 	}
 }
