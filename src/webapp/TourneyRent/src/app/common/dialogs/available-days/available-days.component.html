@@ -20,6 +20,6 @@
         </div>
 
         <button mat-button class="w-1/2" (click)="dialogRef.close(null)">Cancel</button>
-        <button mat-raised-button *ngIf="hasDates(dates)" color="primary" (click)="confirm()" class="w-1/2">Confirm</button>
+        <button mat-raised-button *ngIf="hasDates(dates) && hasSelected()" color="primary" (click)="confirm()" class="w-1/2">Confirm</button>
     </mat-list>
 </div>

@@ -8,6 +8,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class PayProcessingDialog {
   constructor(public dialogRef: MatDialogRef<PayProcessingDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
+  
+    if (data.entryFee <= 0) {
+      this.dialogRef.close(false);  
+    }
   }
 
   public isPaying = false;
