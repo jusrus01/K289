@@ -236,7 +236,9 @@ public class TournamentService
             await _tournamentRepository.UpdateAsync(tournament);
         });
 
+#pragma warning disable CS4014
         Task.Run(async () =>
+#pragma warning restore CS4014
         {
             await _mailService.SendEmailAsync(
                 $"Congratulations! You've won the {tournament.Name} tournament!",
