@@ -18,8 +18,7 @@ namespace TourneyRent.BusinessLogic.Models
 
 		public string Name { get; set; }
 		public string Description { get; set; }
-		public DateTime PeriodStart { get; set; }
-		public DateTime PeriodEnd { get; set; }
+
 		public int Price { get; set; }
 		public List<DateTime> CalendarItems { get; set; }
 	}

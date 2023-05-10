@@ -55,6 +55,7 @@ public class RentalItemController : Controller
 			return CreatedAtAction(nameof(CreateRentalItem), itemView);
 		}
 
+		[Authorize]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteRentalItemAsync(int id)
 		{
@@ -69,6 +70,7 @@ public class RentalItemController : Controller
 			return NoContent();
 		}
 
+		[Authorize]
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateRentalItemAsync(int id, RentalItem rentalUpdate)
 		{
@@ -84,10 +86,19 @@ public class RentalItemController : Controller
 
 			return NoContent();
 		}
-		// TODO: return only dates that can be reserved.
-		// take into account dates that are before current date etc
-		// also sort
-		[HttpGet("{id:int}/AvailableDays")]
+
+		[Authorize]
+		[HttpPut("{id}/highlight")]
+		public async Task<IActionResult> UpdateHighlightCostAsync([FromRoute] int id, [FromBody] RentalItemHighlightFeeView price)
+		{
+			await _rentalItemService.UpdateHighlightCostAsync(id, price.Fee);
+
+			return NoContent();
+		}
+	// TODO: return only dates that can be reserved.
+	// take into account dates that are before current date etc
+	// also sort
+	[HttpGet("{id:int}/AvailableDays")]
 		[Authorize]
 		public async Task<IActionResult> GetAvailableDays(int id)
 		{

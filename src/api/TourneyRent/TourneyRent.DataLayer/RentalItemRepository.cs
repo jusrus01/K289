@@ -25,32 +25,18 @@ namespace TourneyRent.DataLayer
 
 		public async Task<IEnumerable<RentalItem>> GetRentalItemsAsync()
 		{
-			return await _context.RentalItems.Include(x => x.AvailableDays).ToListAsync();
+			return await _context.RentalItems.Include(x => x.AvailableDays).OrderBy(x => x.HighlightFee).ToListAsync();
 		}
 		public async Task CreateRentalItemAsync(RentalItem rentalItem)
 		{
 			_context.RentalItems.Add(rentalItem);
 			await _context.SaveChangesAsync();
 		}
-		/*public async Task<RentalItem> DeleteAsync(int id)
-		{
-			var rentalItemToDelete = await _context.RentalItems.SingleAsync(x => x.Id == id);
-			var deletedRentalItem = new RentalItem
-			{
-				Id = rentalItemToDelete.Id,
-				Image = rentalItemToDelete.Image,
-				PeriodStart = rentalItemToDelete.PeriodStart,
-				PeriodEnd = rentalItemToDelete.PeriodEnd,
-				Description = rentalItemToDelete.Description,
-				Price = rentalItemToDelete.Price
-			};
-			_context.RentalItems.Remove(rentalItemToDelete);
-			await _context.SaveChangesAsync();
 
-			return rentalItemToDelete;
-		}*/
 		public async Task DeleteRentalItemAsync(RentalItem rentalItem)
 		{
+			_context.RemoveRange(rentalItem.AvailableDays);
+			_context.Remove(rentalItem.ImageId);
 			_context.RentalItems.Remove(rentalItem);
 			await _context.SaveChangesAsync();
 		}
