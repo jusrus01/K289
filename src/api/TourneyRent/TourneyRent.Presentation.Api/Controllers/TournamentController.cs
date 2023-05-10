@@ -43,6 +43,7 @@ public class TournamentController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateTournament([FromForm] CreateTournamentArgsView createArgs)
     {
+    
         var args = _mapper.Map<CreateTournamentArgs>(createArgs);
         var createdTournament = await _tournamentService.CreateAsync(args);
         return CreatedAtAction(nameof(CreateTournament), createdTournament);
