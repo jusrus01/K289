@@ -25,7 +25,7 @@ namespace TourneyRent.DataLayer
 
 		public async Task<IEnumerable<RentalItem>> GetRentalItemsAsync()
 		{
-			return await _context.RentalItems.Include(x => x.AvailableDays).OrderBy(x => x.HighlightFee).ToListAsync();
+			return await _context.RentalItems.Include(x => x.AvailableDays).OrderByDescending(x => x.HighlightFee).ToListAsync();
 		}
 		public async Task CreateRentalItemAsync(RentalItem rentalItem)
 		{
@@ -36,7 +36,6 @@ namespace TourneyRent.DataLayer
 		public async Task DeleteRentalItemAsync(RentalItem rentalItem)
 		{
 			_context.RemoveRange(rentalItem.AvailableDays);
-			_context.Remove(rentalItem.ImageId);
 			_context.RentalItems.Remove(rentalItem);
 			await _context.SaveChangesAsync();
 		}
