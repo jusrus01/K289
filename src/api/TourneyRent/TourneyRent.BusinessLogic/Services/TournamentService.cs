@@ -208,7 +208,9 @@ public class TournamentService
         //tournamentToUpdate.EntryFee = updateArgs.EntryFee;
         //tournamentToUpdate.ParticipantCount = updateArgs.ParticipantCount;
         var imageId = await _imageRepository.UploadImageAsync(updateArgs);
-        tournamentToUpdate.ImageId = imageId;
+
+        if(imageId != null)
+            tournamentToUpdate.ImageId = imageId;
 
         var tourney = _mapper.Map(updateArgs, tournamentToUpdate);
 
