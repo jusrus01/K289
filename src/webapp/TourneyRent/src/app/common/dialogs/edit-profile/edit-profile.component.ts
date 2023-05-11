@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class EditProfileComponent implements OnInit {
   editProfileForm!: FormGroup;
+  isFormSubmitted = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,6 +31,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSave(): void {
+    this.isFormSubmitted = true;
   
     if (this.editProfileForm.valid) {
       const userId = this.authService.getAuthUserId();
