@@ -90,6 +90,7 @@ import { RentalCartComponent } from './common/rental-cart/rental-cart.component'
 import { RentalCartAddButtonComponent } from './common/rental-cart/rental-cart-add-button/rental-cart-add-button.component';
 import { AvailableDaysComponent } from './common/dialogs/available-days/available-days.component';
 import { EditProfileComponent } from './common/dialogs/edit-profile/edit-profile.component';
+import { RentalCartItemComponent } from './common/rental-cart/rental-item/rental-cart-item/rental-cart-item.component';
 
 export const API_URL = 'http://localhost:5155';
 
@@ -128,7 +129,8 @@ export const API_URL = 'http://localhost:5155';
     RentalCartComponent,
     RentalCartAddButtonComponent,
     AvailableDaysComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    RentalCartItemComponent
   ],
   
   imports: [

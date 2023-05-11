@@ -21,6 +21,8 @@ export class RentalDetailsComponent implements OnInit {
     const itemId = Number(this.route.snapshot.paramMap.get('id'));
     this.dataService.getItemById(itemId).subscribe((data: any) => {
       this.item = data;
+      // need this for cart
+      this.item.id = itemId;
     });
   }
 

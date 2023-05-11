@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using TourneyRent.BusinessLogic.Models.Tournaments;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.Presentation.Api.Views.Tournaments;
@@ -43,7 +44,12 @@ public class TournamentController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateTournament([FromForm] CreateTournamentArgsView createArgs)
     {
-        var args = _mapper.Map<CreateTournamentArgs>(createArgs);
+        var args = _mapper.Map<CreateTournamentArgs>(
+            createArgs,
+            opt =>
+                opt.AfterMap((_, arg) =>
+                    arg.Reservation =
+                        JsonConvert.DeserializeObject<List<TournamentReservationArgs>>(createArgs.Reservation)));
         var createdTournament = await _tournamentService.CreateAsync(args);
         return CreatedAtAction(nameof(CreateTournament), createdTournament);
     }

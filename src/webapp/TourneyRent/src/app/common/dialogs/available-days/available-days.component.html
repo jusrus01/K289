@@ -6,13 +6,20 @@
                 {{date.date | date:'mediumDate'}}
             </mat-checkbox>
         </mat-list-item>
-        <div class="flex align-middle justify-between">
+        
+        <div class="flex align-middle justify-between" *ngIf="hasDates(dates)">
             <div class="h-full align-middle my-auto text-sm">Price: {{getTotalPrice()}} €</div>
             <mat-paginator class="w-1/2 inline-block" [hidePageSize]="true" [length]="data.days.length" (page)="changePage($event)" [pageSize]="5" [pageSizeOptions]="[5, 10, 25]"
             aria-label="Select page">
         </mat-paginator>
         </div>
+
+        <div class="mb-2" *ngIf="!hasDates(dates)">
+            Sorry, this item cannot be reserved at the moment.
+            There are no available reservation dates.
+        </div>
+
         <button mat-button class="w-1/2" (click)="dialogRef.close(null)">Cancel</button>
-        <button mat-raised-button color="primary" (click)="confirm()" class="w-1/2">Confirm</button>
+        <button mat-raised-button *ngIf="hasDates(dates) && hasSelected()" color="primary" (click)="confirm()" class="w-1/2">Confirm</button>
     </mat-list>
 </div>
