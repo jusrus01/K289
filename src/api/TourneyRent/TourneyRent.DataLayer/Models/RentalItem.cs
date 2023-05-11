@@ -20,6 +20,8 @@ public class RentalItem : IImage, ITransactionable
 
     public Guid? ImageId { get; set; }
 
+    public decimal HighlightFee { get; set; }
+
     public string BankAccountName { get; set; }
     public string BankAccountNumber { get; set; }
     public string TransactionReason { get; set; }
