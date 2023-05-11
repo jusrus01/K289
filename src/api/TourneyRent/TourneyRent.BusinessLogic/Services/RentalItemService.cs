@@ -94,4 +94,14 @@ public class RentalItemService
 		});
 		await _rentalItemRepository.UpdateRentalItemAsync(rentalItem);
 	}
+    public async Task<IEnumerable<DateTime>> GetAvailableDaysAsync(int rentalId)
+    {
+        var item = await _rentalItemRepository.GetRentalItemAsync(rentalId).ConfigureAwait(false);
+        return item?.AvailableDays?
+            .Where(day
+                => day.AvailableAt >= DateTime.UtcNow &&
+                   string.IsNullOrWhiteSpace(day.BuyerId))
+            .Select(day => day.AvailableAt)
+            .ToList() ?? new List<DateTime>();
+    }
 }

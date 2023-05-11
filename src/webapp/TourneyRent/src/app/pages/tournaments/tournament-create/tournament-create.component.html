@@ -7,168 +7,202 @@
       <fieldset class="form-fieldset">
         <div class="form-panel">
           <div class="body">
-            <!-- Name -->
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">Tournament name</label>
-              </span>
-              <div class="control">
-                <mat-form-field appearance="outline" class="w-full mt-2">
-                  <input formControlName="name" type="text" matInput>
-                </mat-form-field>
-              </div>
-            </div>
-            <!-- Start date -->
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">Start date</label>
-              </span>
-              <div class="control">
-                <div class="flex justify-between">
-                  <mat-form-field class="w-full" appearance="outline">
-                    <input formControlName="startDate" matInput [matDatepicker]="startPicker">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
-                    <mat-datepicker #startPicker></mat-datepicker>
-                  </mat-form-field>
+            <mat-stepper [linear]="true" #stepper>
+              <mat-step [stepControl]="createForm">
+                <ng-template matStepLabel>Fill in tournament details</ng-template>
+                <!-- Name -->
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                    <label class="field-label">Tournament name</label>
+                  </span>
+                  <div class="control">
+                    <mat-form-field appearance="outline" class="w-full mt-2">
+                      <input formControlName="name" type="text" matInput>
+                    </mat-form-field>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <!-- Start time -->
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">Start time</label>
-              </span>
-              <div class="control">
-                <div class="flex justify-between">
-                  <ngx-mat-timepicker formControlName="startDate" [showSpinners]="true" [stepHour]="1" [stepMinute]="1"
-                    [showSeconds]="false">
-                  </ngx-mat-timepicker>
+                <!-- Start date -->
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                    <label class="field-label">Start date</label>
+                  </span>
+                  <div class="control">
+                    <div class="flex justify-between">
+                      <mat-form-field class="w-full" appearance="outline">
+                        <input formControlName="startDate" matInput [matDatepicker]="startPicker">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startPicker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <!-- End date -->
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">End date</label>
-              </span>
-              <div class="control">
-                <div class="flex justify-between">
-                  <mat-form-field class="w-full" appearance="outline">
-                    <input formControlName="endDate" matInput [matDatepicker]="picker2">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                  </mat-form-field>
+                <!-- Start time -->
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                    <label class="field-label">Start time</label>
+                  </span>
+                  <div class="control">
+                    <div class="flex justify-between">
+                      <ngx-mat-timepicker formControlName="startDate" [showSpinners]="true" [stepHour]="1"
+                        [stepMinute]="1" [showSeconds]="false">
+                      </ngx-mat-timepicker>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <!-- End time -->
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">End time</label>
-              </span>
-              <div class="control">
-                <div class="flex justify-between">
-                  <ngx-mat-timepicker formControlName="endDate" [showSpinners]="true" [stepHour]="1" [stepMinute]="1"
-                    [showSeconds]="false">
-                  </ngx-mat-timepicker>
+                <!-- End date -->
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                    <label class="field-label">End date</label>
+                  </span>
+                  <div class="control">
+                    <div class="flex justify-between">
+                      <mat-form-field class="w-full" appearance="outline">
+                        <input formControlName="endDate" matInput [matDatepicker]="picker2">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <!-- Participants -->
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">Number of participants</label>
-              </span>
-              <div class="control">
-                <mat-form-field class="w-full" appearance="outline">
-                  <input formControlName="participantCount" class="w-full" type="text" matInput name="value">
-                </mat-form-field>
-              </div>
-            </div>
-            <!-- Entry fee -->
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">Entry fee</label>
-              </span>
-              <div class="control">
-                <mat-form-field class="w-full" appearance="outline">
-                  <input [min]="0" [minlength]="0" formControlName="entryFee" class="w-full" type="text" matInput
-                    (change)="onEntryFeeChange()">
-                </mat-form-field>
-              </div>
-            </div>
+                <!-- End time -->
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                    <label class="field-label">End time</label>
+                  </span>
+                  <div class="control">
+                    <div class="flex justify-between">
+                      <ngx-mat-timepicker formControlName="endDate" [showSpinners]="true" [stepHour]="1"
+                        [stepMinute]="1" [showSeconds]="false">
+                      </ngx-mat-timepicker>
+                    </div>
+                  </div>
+                </div>
+                <!-- Participants -->
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                    <label class="field-label">Number of participants</label>
+                  </span>
+                  <div class="control">
+                    <mat-form-field class="w-full" appearance="outline">
+                      <input formControlName="participantCount" class="w-full" type="text" matInput name="value">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Entry fee -->
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                    <label class="field-label">Entry fee</label>
+                  </span>
+                  <div class="control">
+                    <mat-form-field class="w-full" appearance="outline">
+                      <input [min]="0" [minlength]="0" formControlName="entryFee" class="w-full" type="text" matInput
+                        (change)="onEntryFeeChange()">
+                    </mat-form-field>
+                  </div>
+                </div>
 
-            <!-- Prize -->
-            <mat-divider></mat-divider>
-            <div class="inline-field mt-5 mb-0" *ngIf="!isLoading">
-              <span class="lbl items-center flex">
-                <label class="field-label">Prize</label>
-              </span>
-              <div class="control flex justify-between mb-2">
-                <button type="button" mat-button class="w-full mb-2" color="primary" (click)="selectPrize()">
-                  <span *ngIf="selectedPrize">{{selectedPrize.name}}</span>
-                  <span class="text-black" *ngIf="!selectedPrize">No prize selected. Choose a prize!</span>
-                </button>
-              </div>
-            </div>
-            <mat-divider *ngIf="!showBankAccountForm"></mat-divider>
-
-            <!-- Banking details -->
-            <ng-container *ngIf="showBankAccountForm">
-              <mat-divider></mat-divider>
-              <!-- Bank account -->
-              <div class="inline-field mt-5 mb-0">
-                <span class="lbl items-center flex">
-                  <label class="field-label">Bank account</label>
-                </span>
-                <div class="control flex justify-between">
-                  <mat-form-field class="w-2/4" appearance="outline">
-                    <input [min]="0" [minlength]="0" formControlName="bankAccountNumber" class="w-full" type="text"
-                      matInput placeholder="e.g. LT121000011101001000">
-                  </mat-form-field>
-                  <mat-form-field class="w-2/5" appearance="outline">
-                    <input [min]="0" [minlength]="0" formControlName="bankAccountName" class="w-full" type="text"
-                      matInput placeholder="Name Surname">
-                  </mat-form-field>
+                <!-- Prize -->
+                <mat-divider></mat-divider>
+                <div class="inline-field mt-5 mb-0" *ngIf="!isLoading">
+                  <span class="lbl items-center flex">
+                    <label class="field-label">Prize</label>
+                  </span>
+                  <div class="control flex justify-between mb-2">
+                    <button type="button" mat-button class="w-full mb-2" color="primary" (click)="selectPrize()">
+                      <span *ngIf="selectedPrize">{{selectedPrize.name}}</span>
+                      <span class="text-black" *ngIf="!selectedPrize">No prize selected. Choose a prize!</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <!-- Transaction reason -->
-              <div class="inline-field mt-0 mb-0">
-                <span class="lbl items-center flex">
-                  <label class="field-label">Reason</label>
-                </span>
-                <div class="control">
-                  <mat-form-field class="w-full" appearance="outline">
-                    <input formControlName="transactionReason" class="w-full" type="text" matInput
-                      placeholder="Enter custom reason message">
-                  </mat-form-field>
-                </div>
-              </div>
-              <mat-divider class="pb-4"></mat-divider>
-            </ng-container>
+                <mat-divider *ngIf="!showBankAccountForm"></mat-divider>
 
-            <!-- Image -->
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">Image</label>
-              </span>
-              <div class="control">
-                <input #imageUpload (change)="onFileUpload($event, imageUpload)" type="file" hidden="true">
-                <button mat-button class="w-full mb-2" color="primary" (click)="imageUpload.click()">Upload</button>
-                <app-image *ngIf="pictureSource != null" class="mx-auto py-2" [imageSource]="pictureSource"
-                  [imageClass]="'w-full'" [containerClass]="'w-full'"></app-image>
-              </div>
-            </div>
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-              </span>
-              <div class="w-full">
-                <button mat-raised-button class="w-1/3 float-right mt-2" color="primary"
-                  (click)="create()">Create</button>
-              </div>
-            </div>
+                <!-- Banking details -->
+                <ng-container *ngIf="showBankAccountForm">
+                  <mat-divider></mat-divider>
+                  <!-- Bank account -->
+                  <div class="inline-field mt-5 mb-0">
+                    <span class="lbl items-center flex">
+                      <label class="field-label">Bank account</label>
+                    </span>
+                    <div class="control flex justify-between">
+                      <mat-form-field class="w-2/4" appearance="outline">
+                        <input [min]="0" [minlength]="0" formControlName="bankAccountNumber" class="w-full" type="text"
+                          matInput placeholder="e.g. LT121000011101001000">
+                      </mat-form-field>
+                      <mat-form-field class="w-2/5" appearance="outline">
+                        <input [min]="0" [minlength]="0" formControlName="bankAccountName" class="w-full" type="text"
+                          matInput placeholder="Name Surname">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- Transaction reason -->
+                  <div class="inline-field mt-0 mb-0">
+                    <span class="lbl items-center flex">
+                      <label class="field-label">Reason</label>
+                    </span>
+                    <div class="control">
+                      <mat-form-field class="w-full" appearance="outline">
+                        <input formControlName="transactionReason" class="w-full" type="text" matInput
+                          placeholder="Enter custom reason message">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <mat-divider class="pb-4"></mat-divider>
+                </ng-container>
+
+                <!-- Image -->
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                    <label class="field-label">Image</label>
+                  </span>
+                  <div class="control">
+                    <input #imageUpload (change)="onFileUpload($event, imageUpload)" type="file" hidden="true">
+                    <button mat-button class="w-full mb-2" color="primary" (click)="imageUpload.click()">Upload</button>
+                    <app-image *ngIf="pictureSource != null" class="mx-auto py-2" [imageSource]="pictureSource"
+                      [imageClass]="'w-full'" [containerClass]="'w-full'"></app-image>
+                  </div>
+                </div>
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                  </span>
+                  <div class="w-full">
+                    <button mat-raised-button class="w-1/3 float-right mt-2" color="primary"
+                      matStepperNext>Next</button>
+                  </div>
+                </div>
+              </mat-step>
+              <mat-step [optional]="true">
+                <ng-template matStepContent>
+                  <div *ngFor="let item of rentalItems">
+                    <app-rental-cart-item (click)="selectRental(item.id)" [id]="item.id"></app-rental-cart-item>
+                  </div>
+                  <span *ngIf="rentalItems.length <= 0">Cart is empty</span>
+                  <div class="inline-field mt-0 mb-0">
+                    <span class="lbl float-left flex">
+                    </span>
+                    <div class="w-full">
+                      <button mat-raised-button class="w-1/3 float-right mt-2" color="primary"
+                      matStepperNext>Total: {{total}} €. Proceed</button>
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template matStepLabel>Select items from cart</ng-template>
+              </mat-step>
+
+              <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                <div class="inline-field mt-0 mb-0">
+                  <span class="lbl items-center flex">
+                  </span>
+                  <div class="w-full">
+                    <button mat-raised-button class="w-1/3 float-right mt-2" color="primary"
+                      (click)="create()">Total: {{total}} €. Create</button>
+                  </div>
+                </div>
+              </mat-step>
+            </mat-stepper>
           </div>
         </div>
       </fieldset>

@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using TourneyRent.BusinessLogic.Exceptions;
 using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Models.Tournaments;
@@ -74,9 +75,40 @@ public class TournamentService
         };
         var prize = createArgs.PrizeId != null ? await _prizeRepository.GetByIdAsync(createArgs.PrizeId.Value) : null;
 
-        await _executor.ExecuteAsync(async _ =>
+        await _executor.ExecuteAsync(async context =>
         {
-            if (prize != null) tournament.Prizes.Add(prize);
+            if (prize != null)
+            {
+                tournament.Prizes.Add(prize);
+            }
+
+            // oof
+            foreach (var reservation in createArgs.Reservation)
+            {
+                // TODO: handle better
+                var rentalItem = await context.RentalItems
+                    .Include(i => i.AvailableDays)
+                    .FirstAsync(i => i.Id == reservation.Id);
+                var days = rentalItem.AvailableDays
+                    .Where(i => reservation.Days.Contains(i.AvailableAt))
+                    .ToList();
+
+                if (days.Any(i => !string.IsNullOrWhiteSpace(i.BuyerId)))
+                {
+                    throw new TournamentException("Cannot reserve day. Please clear out your cart and try again.");
+                }
+
+                foreach (var day in days)
+                {
+                    var transactionId =
+                        await _paymentTransactionRepository.CreateAsync(_httpContextAccessor.GetAuthenticatedUserId(),
+                            day.Price);
+                    day.BuyerId = _httpContextAccessor.GetAuthenticatedUserId();
+                    day.TransactionId = transactionId;
+                }
+
+                context.CalendarItems.UpdateRange(days);
+            }
 
             await _tournamentRepository.CreateAsync(tournament);
         });

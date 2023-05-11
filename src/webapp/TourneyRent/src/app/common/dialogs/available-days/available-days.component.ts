@@ -31,6 +31,15 @@ export class AvailableDaysComponent {
   }
 
   getTotalPrice() {
-    return this.data.days.filter((i: any) => i.isSelected).length * this.data.price;
+    const price = this.data.days.filter((i: any) => i.isSelected).length * this.data.price;
+    return !isNaN(price) ? price : 0;
+  }
+
+  hasDates(dates: any) {
+    return dates?.length > 0;
+  }
+
+  hasSelected() {
+    return this.data?.days?.find((day: any) => day.isSelected) != undefined;
   }
 }

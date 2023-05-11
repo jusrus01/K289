@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -16,5 +15,4 @@
         <ProjectReference Include="..\TourneyRent.Contracts\TourneyRent.Contracts.csproj"/>
         <ProjectReference Include="..\TourneyRent.DataLayer\TourneyRent.DataLayer.csproj"/>
     </ItemGroup>
-
 </Project>

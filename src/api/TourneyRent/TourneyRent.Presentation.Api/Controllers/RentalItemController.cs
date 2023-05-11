@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TourneyRent.BusinessLogic.Models;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer.Models;
-using TourneyRent.Presentation.Api.Views.CalendarItem;
 using TourneyRent.Presentation.Api.Views.RentalItems;
-using TourneyRent.Presentation.Api.Views.Teams;
 
 namespace TourneyRent.Presentation.Api.Controllers;
 
@@ -14,16 +12,15 @@ namespace TourneyRent.Presentation.Api.Controllers;
 [ApiController]
 public class RentalItemController : Controller
 {
-    private readonly RentalItemService _rentalItemService;
-
     private readonly IMapper _mapper;
+    private readonly RentalItemService _rentalItemService;
 
     public RentalItemController(RentalItemService rentalItemService, IMapper mapper)
     {
         _rentalItemService = rentalItemService;
         _mapper = mapper;
     }
-
+    
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetRentalItem(int id)
 		{
@@ -92,23 +89,11 @@ public class RentalItemController : Controller
 
 			return NoContent();
 		}
-	// TODO: return only dates that can be reserved.
-	// take into account dates that are before current date etc
-	// also sort
-		[HttpGet("{id:int}/AvailableDays"), Authorize]
-		public async Task<IActionResult> GetAvailableDays(int id)
-		{
-			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
-			if (rentalItem == null)
-			{
-				return NotFound();
-			}
 
-			var calendarItemView = _mapper.Map<CalendarItemView>(rentalItem);
-
-			return Ok(calendarItemView);
-	}
-
+    [HttpGet("{id:int}/AvailableDays")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<DateTime>>> GetAvailableDays(int id)
+    {
+        return Ok(await _rentalItemService.GetAvailableDaysAsync(id).ConfigureAwait(false));
+    }
 }
-
-    
