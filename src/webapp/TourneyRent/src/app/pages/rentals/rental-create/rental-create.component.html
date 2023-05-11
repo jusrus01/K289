@@ -54,7 +54,7 @@
             </button>
             <mat-menu #appMenu="matMenu" class="drop-calendar" >
               <div (click)="$event.stopPropagation()">
-                <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateClass]="isSelected" [(ngModel)]="availableAt"></mat-calendar>
+                <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateClass]="isSelected"></mat-calendar>
               </div>
             </mat-menu>
             <pre>

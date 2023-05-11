@@ -41,15 +41,16 @@ export class RentalCreateComponent {
   name: string = '';
   description: string = '';
   // imag: string = '';
-  periodStart: string = '2023-03-08 00:00:00.0000000';
-  periodEnd: string = '2023-03-09 00:00:00.0000000';
+  //periodStart: string = '2023-03-08 00:00:00.0000000';
+  //periodEnd: string = '2023-03-09 00:00:00.0000000';
   price: number = 0;
   bankAccountName: string = '';
   bankAccountNumber: string = '';
   transactionReason: string = '';
-  availableAt: string[] = [];
+  //availableAt: string[] = [];
   ownerId: string = '2f2c8f88-466a-46a7-973e-2e846effdf24';
   imageId: string ='0288E19F-CDA1-4423-AD01-2C057CF428E6';
+  //calendarItems?: Date[] = [];
   // image?: File;
   // imagestring: string = 'aa';
 
@@ -61,18 +62,19 @@ constructor(private http: HttpClient, public routing: RoutingService) {}
       Description: this.description,
       // imageFile: this.image,
       // image: this.imagestring,
-      PeriodStart: this.periodStart,
-      PeriodEnd: this.periodEnd,
+      //PeriodStart: this.periodStart,
+      //PeriodEnd: this.periodEnd,
       Price: this.price,
       BankAccountName: this.bankAccountName,
       BankAccountNumber: this.bankAccountNumber,
       TransactionReason: this.transactionReason,
       //availableAt: this.availableAt,
-      OwnerId: this.ownerId,
-      ImageId: this.imageId
+      //OwnerId: this.ownerId,
+      ImageFile: this.imageId,
+      CalendarItems: this.daysSelected
     };
 
-    this.http.post('http://localhost:5155/RentalItem', data).subscribe((response) => {
+    this.http.post('http://localhost:5000/RentalItem', data).subscribe((response) => {
       console.log('Data submitted successfully:', response);
     }, (error) => {
       console.error('Error submitting data:', error);
