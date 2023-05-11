@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TourneyRent.BusinessLogic.Models;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer.Models;
-using TourneyRent.Presentation.Api.Views.CalendarItem;
 using TourneyRent.Presentation.Api.Views.RentalItems;
-using TourneyRent.Presentation.Api.Views.Teams;
 
 namespace TourneyRent.Presentation.Api.Controllers;
 
@@ -14,16 +12,15 @@ namespace TourneyRent.Presentation.Api.Controllers;
 [ApiController]
 public class RentalItemController : Controller
 {
-    private readonly RentalItemService _rentalItemService;
-
     private readonly IMapper _mapper;
+    private readonly RentalItemService _rentalItemService;
 
     public RentalItemController(RentalItemService rentalItemService, IMapper mapper)
     {
         _rentalItemService = rentalItemService;
         _mapper = mapper;
     }
-
+    
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetRentalItem(int id)
 		{
@@ -55,7 +52,7 @@ public class RentalItemController : Controller
 			return CreatedAtAction(nameof(CreateRentalItem), itemView);
 		}
 
-		[HttpDelete("{id}")]
+		[HttpDelete("{id}"), Authorize]
 		public async Task<IActionResult> DeleteRentalItemAsync(int id)
 		{
 			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
@@ -69,7 +66,7 @@ public class RentalItemController : Controller
 			return NoContent();
 		}
 
-		[HttpPut("{id}")]
+		[HttpPut("{id}"), Authorize]
 		public async Task<IActionResult> UpdateRentalItemAsync(int id, RentalItem rentalUpdate)
 		{
 
@@ -84,24 +81,19 @@ public class RentalItemController : Controller
 
 			return NoContent();
 		}
-		// TODO: return only dates that can be reserved.
-		// take into account dates that are before current date etc
-		// also sort
-		[HttpGet("{id:int}/AvailableDays")]
-		[Authorize]
-		public async Task<IActionResult> GetAvailableDays(int id)
+
+		[HttpPut("{id}/highlight"), Authorize]
+		public async Task<IActionResult> UpdateHighlightCostAsync([FromRoute] int id, [FromBody] RentalItemHighlightFeeView price)
 		{
-			var rentalItem = await _rentalItemService.GetRentalItemAsync(id);
-			if (rentalItem == null)
-			{
-				return NotFound();
-			}
+			await _rentalItemService.UpdateHighlightCostAsync(id, price.Fee);
 
-			var calendarItemView = _mapper.Map<CalendarItemView>(rentalItem);
+			return NoContent();
+		}
 
-			return Ok(calendarItemView);
-	}
-
+    [HttpGet("{id:int}/AvailableDays")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<DateTime>>> GetAvailableDays(int id)
+    {
+        return Ok(await _rentalItemService.GetAvailableDaysAsync(id).ConfigureAwait(false));
+    }
 }
-
-    
