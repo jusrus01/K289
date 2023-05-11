@@ -60,7 +60,9 @@ public class RentalItemService
             AvailableDays = createArgs.CalendarItems.Select(day => new CalendarIRentalItemEntry
                 { AvailableAt = day, Price = createArgs.Price }).ToList(),
 
-            OwnerId = _httpContextAccessor.GetAuthenticatedUserId()
+			HighlightFee = 0,
+
+			OwnerId = _httpContextAccessor.GetAuthenticatedUserId()
         };
 
         await _rentalItemRepository.CreateRentalItemAsync(rentalItem);
@@ -77,6 +79,21 @@ public class RentalItemService
         await _rentalItemRepository.UpdateRentalItemAsync(rentalItem);
     }
 
+	public async Task UpdateHighlightCostAsync(int id, decimal? fee)
+	{
+		var rentalItem = await GetRentalItemAsync(id);
+		var userId = _httpContextAccessor.GetAuthenticatedUserId();
+
+		await _executor.ExecuteAsync(async _ =>
+		{
+			var transactionId = await _paymentTransactionRepository.CreateAsync(
+				userId,
+				Convert.ToDecimal(fee));
+
+			rentalItem.HighlightFee += Convert.ToDecimal(fee);
+		});
+		await _rentalItemRepository.UpdateRentalItemAsync(rentalItem);
+	}
     public async Task<IEnumerable<DateTime>> GetAvailableDaysAsync(int rentalId)
     {
         var item = await _rentalItemRepository.GetRentalItemAsync(rentalId).ConfigureAwait(false);
