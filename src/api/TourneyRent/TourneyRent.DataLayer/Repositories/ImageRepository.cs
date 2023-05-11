@@ -1,33 +1,33 @@
 ﻿using TourneyRent.Contracts;
 using TourneyRent.Contracts.Models;
 
-namespace TourneyRent.DataLayer.Repositories
+namespace TourneyRent.DataLayer.Repositories;
+
+public class ImageRepository
 {
-    public class ImageRepository
+    private const string Storage = Constants.ImageStorage;
+
+    public byte[] GetImageBytes(string imageFileName)
     {
-        private const string Storage = Constants.ImageStorage;
+        // return File.ReadAllBytes($"{Storage}/{imageFileName}");
+        return new byte[] { };
+    }
 
-        public byte[] GetImageBytes(string imageFileName)
+    public async Task<Guid?> UploadImageAsync(IImageUpload image, Guid? assingId = null)
+    {
+        try
         {
-            return File.ReadAllBytes($"{Storage}/{imageFileName}");
+            var fileName = assingId ?? Guid.NewGuid();
+            using (var stream = new FileStream($"{Storage}/{fileName}", FileMode.Create))
+            {
+                await image.ImageFile.CopyToAsync(stream);
+            }
+
+            return fileName;
         }
-
-        public async Task<Guid?> UploadImageAsync(IImageUpload image, Guid? assingId = null)
+        catch
         {
-            try
-            {
-                var fileName = assingId ?? Guid.NewGuid();
-                using (var stream = new FileStream($"{Storage}/{fileName}", FileMode.Create))
-                {
-                    await image.ImageFile.CopyToAsync(stream);
-                }
-
-                return fileName;
-            }
-            catch
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

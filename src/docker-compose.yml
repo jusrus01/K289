@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  sqldata:
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5433:1433"
+    image: mcr.microsoft.com/mssql/server:2019-latest
+  api:
+    image: stopthecap
+    environment:
+      - ENV=Production
+      - ConnectionString=Server=sqldata;Database=TourneyRent;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
+    ports:
+      - "6379:6379"
+    build:
+      context: api\TourneyRent
+      dockerfile: TourneyRent.Presentation.Api\Dockerfile
+    restart: on-failure
+    depends_on:
+      - sqldata
+
+
+  # webspa:
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Production
+  #     - ASPNETCORE_URLS=http://0.0.0.0:80
+  #     - IdentityUrl=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5105
+  #     - PurchaseUrl=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5202
+  #     - IdentityUrlHC=http://identity-api/hc
+  #     - UseCustomizationData=True
+  #     - ApplicationInsights__InstrumentationKey=${INSTRUMENTATION_KEY}
+  #     - OrchestratorType=${ORCHESTRATOR_TYPE}
+  #     - SignalrHubUrl=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5202
+  #   ports:
+  #     - "5104:80"
+
+  # webspa:
+  #   image: ${REGISTRY:-eshop}/webspa:${PLATFORM:-linux}-${TAG:-latest}
+  #   build:
+  #     context: .
+  #     dockerfile: Web/WebSPA/Dockerfile
+  #     args:
+  #       NODE_IMAGE: ${NODE_IMAGE:-node:16-bullseye}
+  #   depends_on:
+  #     - webshoppingagg
+  #     - webshoppingapigw

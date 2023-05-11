@@ -4,24 +4,26 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="12.0.1"/>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0"/>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.13">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.14"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.14" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TourneyRent.Authentication\TourneyRent.Authentication.csproj"/>
-        <ProjectReference Include="..\TourneyRent.BusinessLogic\TourneyRent.BusinessLogic.csproj"/>
-        <ProjectReference Include="..\TourneyRent.Contracts\TourneyRent.Contracts.csproj"/>
-        <ProjectReference Include="..\TourneyRent.DataLayer\TourneyRent.DataLayer.csproj"/>
+        <ProjectReference Include="..\TourneyRent.Authentication\TourneyRent.Authentication.csproj" />
+        <ProjectReference Include="..\TourneyRent.BusinessLogic\TourneyRent.BusinessLogic.csproj" />
+        <ProjectReference Include="..\TourneyRent.Contracts\TourneyRent.Contracts.csproj" />
+        <ProjectReference Include="..\TourneyRent.DataLayer\TourneyRent.DataLayer.csproj" />
     </ItemGroup>
 
     <ItemGroup>

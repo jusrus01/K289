@@ -1,10 +1,10 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.Contracts.Options;
 using TourneyRent.DataLayer;
-using TourneyRent.Presentation.Api.Controllers;
 using TourneyRent.Presentation.Api.Extensions;
 using TourneyRent.Presentation.Api.Filters;
 using TourneyRent.Presentation.Api.Middlewares;
@@ -27,7 +27,7 @@ namespace TourneyRent.Presentation.Api
                 cfg.AddProfiles(profiles));
 
             builder.Services.Configure<MailOptions>(builder.Configuration.GetSection("MailConfiguration"));
-            
+
             builder.Services.AddCors(options =>
                 options.AddDefaultPolicy(builder =>
                     builder
@@ -36,7 +36,7 @@ namespace TourneyRent.Presentation.Api
                         .AllowAnyMethod()
                         .SetIsOriginAllowed(isAllowed => true)));
 
-            builder.Services.ConfigureDatabase(builder.Configuration);
+            builder.Services.ConfigureDatabase(builder);
             builder.Services.ConfigureIdentity();
             builder.Services.ConfigureServices();
             builder.Services
@@ -66,6 +66,21 @@ namespace TourneyRent.Presentation.Api
                     pattern: "error/{action}/",
                     defaults: new { action = "NotFound" });
             });
+
+
+            Console.WriteLine("Started");
+            Console.WriteLine(builder.Configuration["ENV"]);
+            if (builder.Configuration["ENV"] == "Production")
+            {
+                using (var scope = app.Services.CreateScope())
+                {
+                    Console.WriteLine("Trying to initialize database");
+                    var db = scope.ServiceProvider.GetRequiredService<TourneyRentDbContext>();
+                    db.Database.Migrate();
+                    Console.WriteLine("Database initialized");
+                }
+            }
+
             app.Run();
         }
     }

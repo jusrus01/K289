@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TourneyRent.Authentication.Services;
 using TourneyRent.BusinessLogic.Services;
@@ -53,10 +54,21 @@ namespace TourneyRent.Presentation.Api.Extensions
             .AddDefaultTokenProviders();
         }
 
-        public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureDatabase(this IServiceCollection services, WebApplicationBuilder builder)
         {
-            services.AddDbContext<TourneyRentDbContext>(options =>
-               options.UseSqlServer(configuration.GetConnectionString("Default")));
+            if (builder.Configuration["ENV"] != "Production")
+            {
+                services.AddDbContext<TourneyRentDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+            }
+            else
+            {
+                services.AddDbContext<TourneyRentDbContext>(options =>
+                        options.UseSqlServer(builder.Configuration["ConnectionString"], sqlOptions => {
+                            sqlOptions.MigrationsAssembly(typeof(Program).GetTypeInfo().Assembly.GetName().Name);
+                            //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                        }));
+            }
 
             services.AddScoped<TransactionExecutor>();
         }
