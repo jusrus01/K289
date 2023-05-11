@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using TourneyRent.BusinessLogic.Exceptions;
 using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Models.Tournaments;
@@ -11,16 +12,15 @@ namespace TourneyRent.BusinessLogic.Services;
 
 public class TournamentService
 {
-    private readonly TournamentRepository _tournamentRepository;
-    private readonly ImageRepository _imageRepository;
-    private readonly IMapper _mapper;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly PaymentTransactionRepository _paymentTransactionRepository;
-    private readonly TeamRepository _teamRepository;
-    private readonly PrizeRepository _prizeRepository;
-
     private readonly TransactionExecutor _executor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ImageRepository _imageRepository;
     private readonly MailService _mailService;
+    private readonly IMapper _mapper;
+    private readonly PaymentTransactionRepository _paymentTransactionRepository;
+    private readonly PrizeRepository _prizeRepository;
+    private readonly TeamRepository _teamRepository;
+    private readonly TournamentRepository _tournamentRepository;
 
     public TournamentService(
         IMapper mapper,
@@ -75,9 +75,40 @@ public class TournamentService
         };
         var prize = createArgs.PrizeId != null ? await _prizeRepository.GetByIdAsync(createArgs.PrizeId.Value) : null;
 
-        await _executor.ExecuteAsync(async _ =>
+        await _executor.ExecuteAsync(async context =>
         {
-            if (prize != null) tournament.Prizes.Add(prize);
+            if (prize != null)
+            {
+                tournament.Prizes.Add(prize);
+            }
+
+            // oof
+            foreach (var reservation in createArgs.Reservation)
+            {
+                // TODO: handle better
+                var rentalItem = await context.RentalItems
+                    .Include(i => i.AvailableDays)
+                    .FirstAsync(i => i.Id == reservation.Id);
+                var days = rentalItem.AvailableDays
+                    .Where(i => reservation.Days.Contains(i.AvailableAt))
+                    .ToList();
+
+                if (days.Any(i => !string.IsNullOrWhiteSpace(i.BuyerId)))
+                {
+                    throw new TournamentException("Cannot reserve day. Please clear out your cart and try again.");
+                }
+
+                foreach (var day in days)
+                {
+                    var transactionId =
+                        await _paymentTransactionRepository.CreateAsync(_httpContextAccessor.GetAuthenticatedUserId(),
+                            day.Price);
+                    day.BuyerId = _httpContextAccessor.GetAuthenticatedUserId();
+                    day.TransactionId = transactionId;
+                }
+
+                context.CalendarItems.UpdateRange(days);
+            }
 
             await _tournamentRepository.CreateAsync(tournament);
         });
@@ -205,7 +236,9 @@ public class TournamentService
             await _tournamentRepository.UpdateAsync(tournament);
         });
 
+#pragma warning disable CS4014
         Task.Run(async () =>
+#pragma warning restore CS4014
         {
             await _mailService.SendEmailAsync(
                 $"Congratulations! You've won the {tournament.Name} tournament!",

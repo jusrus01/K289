@@ -4,7 +4,8 @@ import { Subject } from 'rxjs';
 export interface RentalCartItem {
   id: number,
   selectedDays: Date[],
-  price: any
+  price: any,
+  
 }
 
 @Injectable({

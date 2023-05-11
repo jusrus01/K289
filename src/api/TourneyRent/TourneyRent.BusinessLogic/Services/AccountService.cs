@@ -27,7 +27,7 @@ namespace TourneyRent.BusinessLogic.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Guid> ChangeProfileImageAsync(IImageUpload image, string? userId = null)
+        public async Task<Guid> ChangeProfileImageAsync(IImageUpload image, string userId = null)
         {
             var resolvedUserId = userId ?? _httpContextAccessor.GetAuthenticatedUserId();
             var user = await GetUserAsync(resolvedUserId);
@@ -40,13 +40,13 @@ namespace TourneyRent.BusinessLogic.Services
         {
             var user = await GetUserAsync(updateArgs.Id);
             await _userManager.UpdateAsync(user);
-            return new UserProfile(user.FirstName, user.LastName, user.ImageId);
+            return new UserProfile(user.Email,user.FirstName, user.LastName, user.ImageId);
         }
 
         public async Task<UserProfile> GetProfileAsync(string userId)
         {
             var user = await GetUserAsync(userId);
-            return new UserProfile(user.FirstName, user.LastName, user.ImageId);
+            return new UserProfile(user.Email, user.FirstName, user.LastName, user.ImageId);
         }
 
         private static void EnsureValidUser(ApplicationUser user)
