@@ -19,8 +19,8 @@
       <input type="email" formControlName="email" id="email"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         placeholder="Enter your email address">
-      <span *ngIf="editProfileForm.controls['email'].invalid && (editProfileForm.controls['email'].dirty || editProfileForm.controls['email'].touched)" class="text-red-500 font-semibold">Please enter a valid email address.</span>
     </div>
+    <span *ngIf="editProfileForm.controls['email'].invalid && (editProfileForm.controls['email'].dirty || editProfileForm.controls['email'].touched)" class="text-red-500 font-semibold">Please enter a valid email address.</span>
     <div class="flex justify-between w-full">
       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
   type="submit" [disabled]="!editProfileForm.valid || isFormSubmitted">Save</button>
