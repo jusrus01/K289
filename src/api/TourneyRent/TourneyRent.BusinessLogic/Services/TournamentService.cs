@@ -47,11 +47,22 @@ public class TournamentService
     public async Task<TournamentInfo> DeleteAsync(int id)
     {
         var tournament = await _tournamentRepository.GetSingleOrDefaultAsync(x => x.Id == id);
-        if (tournament == null) throw new NotFoundException("Tournament not found");
+
+        if (tournament == null)
+        {
+            throw new NotFoundException("Tournament not found");
+        }
 
         if (tournament.Participants.Any() && tournament.EntryFee > 0)
+        {
             throw new TournamentException(
                 "Cannot delete tournament that has participants that already payed. Please contact support.");
+        }
+
+        if (tournament.TransactionId != null)
+        {
+            throw new TournamentException("Cannot delete tournament that has bought rental items.");
+        }
 
         return _mapper.Map<TournamentInfo>(await _tournamentRepository.DeleteAsync(tournament));
     }
