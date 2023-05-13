@@ -20,4 +20,8 @@ export class ProfileResource {
       imageFormData
     );
   }
+
+  updateProfile(updateProfileArgs: any): Observable<any> {
+    return this.httpClient.put(`${API_URL}/account`, updateProfileArgs);
+  }
 }
