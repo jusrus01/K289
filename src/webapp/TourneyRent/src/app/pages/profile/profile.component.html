@@ -23,6 +23,9 @@
                 <span *ngIf="!isLoading">
                     {{profile.firstName}} {{profile.lastName}}
                 </span>
+                <button class="ml-2" mat-icon-button (click)="onEdit()">
+                    <i class="text-white fa-solid fa-pencil-alt"></i>
+                </button>
             </span>
         </div>
     </div>
