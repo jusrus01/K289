@@ -1,13 +1,15 @@
 version: '3.4'
-
+# https://learn.microsoft.com/en-us/azure/container-instances/tutorial-docker-compose
 services:
   sqldata:
     environment:
       - SA_PASSWORD=Pass@word
       - ACCEPT_EULA=Y
     ports:
-      - "5433:1433"
+      - "1433:1433"
     image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      - my-network
   api:
     container_name: api
     image: k298registry.azurecr.io/api
@@ -15,13 +17,15 @@ services:
       - ENV=Production
       - ConnectionString=Server=sqldata;Database=TourneyRent;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
     ports:
-      - "5155:80"
+      - "6379:6379"
     build:
       context: api\TourneyRent
       dockerfile: TourneyRent.Presentation.Api\Dockerfile
     restart: on-failure
     depends_on:
       - sqldata
+    networks:
+      - my-network
   frontend:
     image: k298registry.azurecr.io/front
     container_name: frontend
@@ -29,8 +33,11 @@ services:
       context: webapp\TourneyRent
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
-
+      - "80:80"
+    networks:
+      - my-network
+networks:
+  my-network:
 
   # webspa:
   #   environment:
