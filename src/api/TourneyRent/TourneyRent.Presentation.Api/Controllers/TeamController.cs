@@ -20,9 +20,9 @@ namespace TourneyRent.Presentation.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
 
-        public TeamController(TeamService teamservice, IMapper mapper, IHttpContextAccessor httpContext)
+        public TeamController(TeamService teamService, IMapper mapper, IHttpContextAccessor httpContext)
         {
-            _teamService = teamservice;
+            _teamService = teamService;
             _mapper = mapper;
             _httpContext = httpContext;
         }

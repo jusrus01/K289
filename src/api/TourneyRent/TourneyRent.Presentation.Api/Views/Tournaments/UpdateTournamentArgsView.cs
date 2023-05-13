@@ -11,14 +11,7 @@ public class UpdateTournamentArgsView
     public string TransactionReason { get; set; }
 
     [Required] public string Name { get; set; }
-
-    //[Required]
-    public DateTime? StartDate { get; set; }
-
-    //[Required]
-    public DateTime? EndDate { get; set; }
-
-    [Required] public float? EntryFee { get; set; }
-
-    [Required] public int? ParticipantCount { get; set; }
+    
+    [Required] public DateTime? StartDate { get; set; }
+    [Required] public DateTime? EndDate { get; set; }
 }
