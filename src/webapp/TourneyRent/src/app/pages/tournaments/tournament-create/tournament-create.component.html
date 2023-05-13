@@ -10,6 +10,7 @@
             <mat-stepper [linear]="true" #stepper>
               <mat-step [stepControl]="createForm">
                 <ng-template matStepLabel>Fill in tournament details</ng-template>
+
                 <!-- Name -->
                 <div class="inline-field mt-0 mb-0">
                   <span class="lbl items-center flex">
@@ -21,6 +22,7 @@
                     </mat-form-field>
                   </div>
                 </div>
+
                 <!-- Start date -->
                 <div class="inline-field mt-0 mb-0">
                   <span class="lbl items-center flex">
@@ -37,6 +39,7 @@
                     </div>
                   </div>
                 </div>
+
                 <!-- Start time -->
                 <div class="inline-field mt-0 mb-0">
                   <span class="lbl items-center flex">
@@ -44,12 +47,13 @@
                   </span>
                   <div class="control">
                     <div class="flex justify-between">
-                      <ngx-mat-timepicker formControlName="startDate" [showSpinners]="true" [stepHour]="1"
+                      <ngx-mat-timepicker formControlName="startTime" [showSpinners]="true" [stepHour]="1"
                         [stepMinute]="1" [showSeconds]="false">
                       </ngx-mat-timepicker>
                     </div>
                   </div>
                 </div>
+
                 <!-- End date -->
                 <div class="inline-field mt-0 mb-0">
                   <span class="lbl items-center flex">
@@ -66,6 +70,7 @@
                     </div>
                   </div>
                 </div>
+
                 <!-- End time -->
                 <div class="inline-field mt-0 mb-0">
                   <span class="lbl items-center flex">
@@ -73,12 +78,13 @@
                   </span>
                   <div class="control">
                     <div class="flex justify-between">
-                      <ngx-mat-timepicker formControlName="endDate" [showSpinners]="true" [stepHour]="1"
-                        [stepMinute]="1" [showSeconds]="false">
+                      <ngx-mat-timepicker [showSpinners]="true" [stepHour]="1" [stepMinute]="1" [showSeconds]="false"
+                        formControlName="endTime">
                       </ngx-mat-timepicker>
                     </div>
                   </div>
                 </div>
+
                 <!-- Participants -->
                 <div class="inline-field mt-0 mb-0">
                   <span class="lbl items-center flex">
@@ -90,6 +96,7 @@
                     </mat-form-field>
                   </div>
                 </div>
+
                 <!-- Entry fee -->
                 <div class="inline-field mt-0 mb-0">
                   <span class="lbl items-center flex">
@@ -121,6 +128,7 @@
                 <!-- Banking details -->
                 <ng-container *ngIf="showBankAccountForm">
                   <mat-divider></mat-divider>
+
                   <!-- Bank account -->
                   <div class="inline-field mt-5 mb-0">
                     <span class="lbl items-center flex">
@@ -137,6 +145,7 @@
                       </mat-form-field>
                     </div>
                   </div>
+
                   <!-- Transaction reason -->
                   <div class="inline-field mt-0 mb-0">
                     <span class="lbl items-center flex">
@@ -183,22 +192,21 @@
                     <span class="lbl float-left flex">
                     </span>
                     <div class="w-full">
-                      <button mat-raised-button class="w-1/3 float-right mt-2" color="primary"
-                      matStepperNext>Total: {{total}} €. Proceed</button>
+                      <button mat-raised-button class="w-1/3 float-right mt-2" color="primary" matStepperNext>Total:
+                        {{total}} €. Proceed</button>
                     </div>
                   </div>
                 </ng-template>
                 <ng-template matStepLabel>Select items from cart</ng-template>
               </mat-step>
-
               <mat-step>
                 <ng-template matStepLabel>Done</ng-template>
                 <div class="inline-field mt-0 mb-0">
                   <span class="lbl items-center flex">
                   </span>
                   <div class="w-full">
-                    <button mat-raised-button class="w-1/3 float-right mt-2" color="primary"
-                      (click)="create()">Total: {{total}} €. Create</button>
+                    <button mat-raised-button class="w-1/3 float-right mt-2" color="primary" (click)="create()">Total:
+                      {{total}} €. Create</button>
                   </div>
                 </div>
               </mat-step>
