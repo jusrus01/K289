@@ -9,18 +9,27 @@ services:
       - "5433:1433"
     image: mcr.microsoft.com/mssql/server:2019-latest
   api:
-    image: stopthecap
+    container_name: api
+    image: k298registry.azurecr.io/api
     environment:
       - ENV=Production
       - ConnectionString=Server=sqldata;Database=TourneyRent;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
     ports:
-      - "6379:6379"
+      - "5155:80"
     build:
       context: api\TourneyRent
       dockerfile: TourneyRent.Presentation.Api\Dockerfile
     restart: on-failure
     depends_on:
       - sqldata
+  frontend:
+    image: k298registry.azurecr.io/front
+    container_name: frontend
+    build:
+      context: webapp\TourneyRent
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
 
 
   # webspa:
