@@ -17,7 +17,6 @@ public class TournamentRepository
     public async Task<Tournament> GetSingleOrDefaultAsync(Expression<Func<Tournament, bool>> predicate)
     {
         return await _context.Tournaments
-            .Include(i => i.TransactionId)
             .Include(i => i.Participants)
             .ThenInclude(i => i.User)
             .SingleOrDefaultAsync(predicate);

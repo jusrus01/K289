@@ -94,6 +94,7 @@ public class TournamentService
             }
 
             // oof
+            decimal sum = 0;
             foreach (var reservation in createArgs.Reservation)
             {
                 // TODO: handle better
@@ -116,10 +117,18 @@ public class TournamentService
                             day.Price);
                     day.BuyerId = _httpContextAccessor.GetAuthenticatedUserId();
                     day.TransactionId = transactionId;
+
+                    sum += day.Price;
                 }
 
                 context.CalendarItems.UpdateRange(days);
             }
+
+            tournament.TransactionId = await _paymentTransactionRepository
+                .CreateAsync(
+                    _httpContextAccessor.GetAuthenticatedUserId(),
+                    sum)
+                .ConfigureAwait(false);
 
             await _tournamentRepository.CreateAsync(tournament);
         });

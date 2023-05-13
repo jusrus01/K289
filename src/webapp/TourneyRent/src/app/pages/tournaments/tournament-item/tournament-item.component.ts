@@ -35,16 +35,22 @@ export class TournamentItemComponent {
   private _tournamentId: any;
 
   ngOnInit() {
-    this.teamResource
-      .getUserTeams(this.authService.getAuthUserId())
-      .subscribe(response => this.teams = response);
-
     this.route.paramMap.subscribe((paramMap) => {
       this._tournamentId = paramMap.get('id');
       this.resource.getTournament(this._tournamentId).subscribe((response) => {
         this.tournament = response;
-        this.tournamentStatus = this.tournamentService.getTournamentStatus(this.tournament);
+        this.tournamentStatus = this.tournamentService.getTournamentStatus(
+          this.tournament
+        );
       });
+
+      if (!this.authService.isLoggedIn()) {
+        return;
+      }
+
+      this.teamResource
+        .getUserTeams(this.authService.getAuthUserId())
+        .subscribe((response) => (this.teams = response));
     });
   }
 
@@ -53,25 +59,24 @@ export class TournamentItemComponent {
   }
 
   public join(): void {
-    this._selectTeam()
-      .subscribe((teamId: any) => {
-        if (this.tournament.entryFee <= 0) {
+    this._selectTeam().subscribe((teamId: any) => {
+      if (this.tournament.entryFee <= 0) {
+        this._internalJoin(teamId);
+      } else {
+        const dialogRef = this.dialog.open(PayProcessingDialog, {
+          width: '600px',
+          data: { entryFee: this.tournament.entryFee },
+          disableClose: true,
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+          if (!result) {
+            return;
+          }
           this._internalJoin(teamId);
-        } else {
-          const dialogRef = this.dialog.open(PayProcessingDialog, {
-            width: '600px',
-            data: { entryFee: this.tournament.entryFee },
-            disableClose: true,
-          });
-      
-          dialogRef.afterClosed().subscribe((result) => {
-            if (!result) {
-              return;
-            }
-            this._internalJoin(teamId);
-          });
-        }
-      })
+        });
+      }
+    });
   }
 
   private _selectTeam(): any {
@@ -90,14 +95,12 @@ export class TournamentItemComponent {
 
   private _internalJoin(teamId: any) {
     const data = { teamId: teamId };
-    this.resource
-      .joinTournament(this._tournamentId, data)
-      .subscribe((x) => { 
-        this.tournament.isJoined = true;
-        // will not work when displaying more info
-        // change if we will need a better representation
-        this.tournament.participants.push({});
-      });
+    this.resource.joinTournament(this._tournamentId, data).subscribe((x) => {
+      this.tournament.isJoined = true;
+      // will not work when displaying more info
+      // change if we will need a better representation
+      this.tournament.participants.push({});
+    });
   }
 
   public leave(): void {
@@ -106,7 +109,7 @@ export class TournamentItemComponent {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
       }
@@ -117,12 +120,12 @@ export class TournamentItemComponent {
         this.tournament.participants.pop();
 
         this.tournament.isJoined = false;
-      });      
+      });
     });
   }
 
   public isFull(): boolean {
-    return this.getParticipantCount() == this.tournament.participantCount; 
+    return this.getParticipantCount() == this.tournament.participantCount;
   }
 
   public selectWinner() {
@@ -139,7 +142,7 @@ export class TournamentItemComponent {
 
       this.resource
         .selectWinner(this.tournament.id, winnerId)
-        .subscribe(response => {
+        .subscribe((response) => {
           this.tournamentStatus.isReadyForPrize = false;
         });
     });
@@ -155,7 +158,6 @@ export class TournamentItemComponent {
       exitAnimationDuration,
     });
 
-
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
@@ -166,7 +168,7 @@ export class TournamentItemComponent {
         .subscribe((x) => this.routing.goToTournaments());
     });
   }
-  openUpdateDialog(): void{
+  openUpdateDialog(): void {
     this.routing.goToTournamentUpdate();
   }
 }
