@@ -14,11 +14,14 @@ import { RentalComponent } from '../pages/rentals/rental/rental.component';
 import { RentalCreateComponent } from '../pages/rentals/rental-create/rental-create.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoutingService {
-  constructor(@Inject(ROUTES) private _routes: Route[][], private _router: Router) {}
-  
+  constructor(
+    @Inject(ROUTES) private _routes: Route[][],
+    private _router: Router
+  ) {}
+
   public goToRentalView(): void {
     this.navigateToComponent(RentalViewComponent);
   }
@@ -60,7 +63,9 @@ export class RoutingService {
   }
 
   public goToHome(): void {
-    this.navigateToComponent(HomeComponent);
+    // Probably we do not need home page. Unless someone wants to implement it.
+    // this.navigateToComponent(HomeComponent);
+    this.navigateToComponent(TournamentComponent);
   }
 
   public goToProfile(): void {
@@ -73,10 +78,12 @@ export class RoutingService {
 
   private getRouteFromComponent(component: Type<any>): string {
     for (const routeArray of this._routes) {
-        const path = routeArray.find(route => route.component == component)?.path;
-        if (path || path === '') {
-            return path;            
-        }
+      const path = routeArray.find(
+        (route) => route.component == component
+      )?.path;
+      if (path || path === '') {
+        return path;
+      }
     }
 
     throw new Error('Invalid component or path not registered');

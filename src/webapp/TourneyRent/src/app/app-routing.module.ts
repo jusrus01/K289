@@ -87,7 +87,7 @@ export const ROUTES: Routes = [
     component: RentalDetailsComponent,
     data: { title: 'Rental Details' },
   },
-  { path: '', component: HomeComponent, data: { title: 'Home' } },
+  // { path: '', component: HomeComponent, data: { title: 'Home' } },
   { path: '**', redirectTo: '' },
 ];
 
