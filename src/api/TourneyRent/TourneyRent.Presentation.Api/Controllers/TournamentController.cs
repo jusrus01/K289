@@ -79,6 +79,13 @@ public class TournamentController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet("User/{userId}")]
+    public async Task<IActionResult> GetJoinedTournaments(string userId)
+    {
+        return Ok(await _tournamentService.GetJoinedTournamentsAsync(userId));
+    }
+
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTournament(int id, [FromForm] UpdateTournamentArgsView tournamentArgs)
     {

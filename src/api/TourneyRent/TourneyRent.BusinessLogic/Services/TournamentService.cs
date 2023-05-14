@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TourneyRent.BusinessLogic.Exceptions;
 using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Models.Tournaments;
+using TourneyRent.Contracts.Enums;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.DataLayer.Repositories;
@@ -16,6 +17,7 @@ public class TournamentService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ImageRepository _imageRepository;
     private readonly MailService _mailService;
+    private readonly AccountService _accountService;
     private readonly IMapper _mapper;
     private readonly PaymentTransactionRepository _paymentTransactionRepository;
     private readonly PrizeRepository _prizeRepository;
@@ -31,7 +33,8 @@ public class TournamentService
         PaymentTransactionRepository paymentTransactionRepository,
         TeamRepository teamRepository,
         PrizeRepository prizeRepository,
-        MailService mailService)
+        MailService mailService,
+        AccountService accountService)
     {
         _tournamentRepository = tournamentRepository;
         _imageRepository = imageRepository;
@@ -42,6 +45,7 @@ public class TournamentService
         _teamRepository = teamRepository;
         _prizeRepository = prizeRepository;
         _mailService = mailService;
+        _accountService = accountService;
     }
 
     public async Task<TournamentInfo> DeleteAsync(int id)
@@ -145,6 +149,36 @@ public class TournamentService
     {
         var tournaments = await _tournamentRepository.GetAsync(i => i.OwnerId == ownerId);
         return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
+    }
+
+    public async Task<IEnumerable<TournamentInfo>> GetJoinedTournamentsAsync(string userId)
+    {
+        var tournaments = await _tournamentRepository.GetAsync(i => i.Participants.Any(p => p.UserId == userId));
+        var tournamentsInfo = _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
+        
+        return tournamentsInfo
+            .Select(tournament =>
+            {
+                var participant = tournament.Participants.FirstOrDefault(p => p.UserId == userId);
+                
+                ParticipantStatus? status = null;
+                if (participant.IsWinner)
+                {
+                    status = ParticipantStatus.Won;
+                }
+                else if (!tournament.IsWinnerSelected)
+                {
+                    status = ParticipantStatus.InProgress;
+                }
+                else
+                {
+                    status = ParticipantStatus.Lost;
+                }
+
+                tournament.ParticipantStatus = status;
+
+                return tournament;
+            });
     }
 
     public async Task<TournamentInfo> GetTournamentByIdAsync(int id)

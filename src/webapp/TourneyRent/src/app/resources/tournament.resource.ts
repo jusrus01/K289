@@ -25,7 +25,7 @@ export class TournamentResource {
     return this.httpClient.post(`${API_URL}/tournament`, data);
   }
 
-  public updateTournament(data: any, id: any): Observable<any>{
+  public updateTournament(data: any, id: any): Observable<any> {
     return this.httpClient.put(`${API_URL}/tournament/${id}`, data);
   }
 
@@ -41,7 +41,14 @@ export class TournamentResource {
     return this.httpClient.get(`${API_URL}/tournament/owner/${ownerId}`);
   }
 
+  public getJoinedTournaments(userId: any): Observable<any> {
+    return this.httpClient.get(`${API_URL}/tournament/user/${userId}`);
+  }
+
   public selectWinner(tournamentId: any, winnerId: any) {
-    return this.httpClient.post(`${API_URL}/tournament/${tournamentId}/winner/${winnerId}`, {});
+    return this.httpClient.post(
+      `${API_URL}/tournament/${tournamentId}/winner/${winnerId}`,
+      {}
+    );
   }
 }
