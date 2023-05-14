@@ -11,12 +11,9 @@ export class LoginResource {
   constructor(private httpClient: HttpClient) {}
 
   login(data: any): Observable<any> {
-    return this.httpClient.post<LoginResponse>(
-      `${API_URL}/account/login`,
-      {
-        email: data.email,
-        password: data.password,
-      },
-    );
+    return this.httpClient.post<LoginResponse>(`${API_URL}/account/login`, {
+      email: data.email,
+      password: data.password,
+    });
   }
 }

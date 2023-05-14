@@ -7,7 +7,7 @@ import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { AuthService } from 'src/app/services/auth.service';
 import { TournamentService } from 'src/app/services/tournament.service';
 import { TeamResource } from 'src/app/resources/team.resource';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { EditProfileComponent } from 'src/app/common/dialogs/edit-profile/edit-profile.component';
 
 @Component({
@@ -33,13 +33,15 @@ export class ProfileComponent {
   public tournaments: any;
   public teams: any;
 
+  public joinedTournaments: any;
+
   constructor(
     private profileResource: ProfileResource,
     private authService: AuthService,
     private tournamentResource: TournamentResource,
     private tournamentService: TournamentService,
     private teamResource: TeamResource,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     this.isLoading = true;
     this.isUser = true; // TODO: Same
@@ -56,27 +58,27 @@ export class ProfileComponent {
 
     this.tournamentResource
       .getTournaments(this.authService.getAuthUserId())
-      .subscribe(tournaments => {
+      .subscribe((tournaments) => {
         this.tournaments = tournaments.map((t: any) => ({
           ...t,
-          status: this.tournamentService.getTournamentStatus(t)
+          status: this.tournamentService.getTournamentStatus(t),
         }));
-      })
-    
-      this.teamResource
+      });
+
+    this.tournamentResource
+      .getJoinedTournaments(this.authService.getAuthUserId())
+      .subscribe((tournaments) => {
+        this.joinedTournaments = tournaments;
+      });
+
+    this.teamResource
       .getUserTeams(this.authService.getAuthUserId())
-      .subscribe(teams => {
+      .subscribe((teams) => {
         this.teams = teams;
       });
-    
-
   }
 
-  selectWinner(tournament: any) {
-    
-  }
-
-  public onEdit(): void{
+  public onEdit(): void {
     const dialogRef = this.dialog.open(EditProfileComponent, {
       width: '400px',
     });
@@ -100,6 +102,6 @@ export class ProfileComponent {
         setTimeout(() => {
           this.profileImage.reload();
         });
-      }); 
+      });
   }
 }

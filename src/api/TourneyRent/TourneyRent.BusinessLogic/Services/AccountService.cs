@@ -62,7 +62,7 @@ public class AccountService
         }
     }
 
-    private async Task<ApplicationUser> GetUserAsync(string userId)
+    public async Task<ApplicationUser> GetUserAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
         EnsureValidUser(user);
