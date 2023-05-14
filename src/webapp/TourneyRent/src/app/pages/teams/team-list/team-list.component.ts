@@ -32,12 +32,10 @@ export interface Profile {
 @Component({
   selector: 'app-team-list',
   templateUrl: './team-list.component.html',
-  styleUrls: ['./team-list.component.scss']
+  styleUrls: ['./team-list.component.scss'],
 })
 export class TeamListComponent implements OnInit {
   public teamsWithMembers: TeamWithMembers[] = [];
-
-  
 
   constructor(
     public teamResource: TeamResource,
@@ -46,54 +44,60 @@ export class TeamListComponent implements OnInit {
     public authService: AuthService
   ) {}
 
-  private userId: any
-  
+  private userId: any;
 
   ngOnInit(): void {
     this.teamResource.getAllTeams().subscribe((teams: Team[]) => {
       teams.forEach((team: Team) => {
-        this.teamResource.getTeamMembers(team.id).subscribe((members: Member[]) => {
-          const teamWithMembers: TeamWithMembers = {
-            team: team,
-            members: [],
-            teamLeader: null
-          };
-          members.forEach((member: Member) => {
-            this.profileResource.getProfile(member.userId).subscribe((profile) => {
-              const memberWithProfile: Member & { profile: Profile } = { ...member, profile };
-              teamWithMembers.members.push(memberWithProfile);
+        this.teamResource
+          .getTeamMembers(team.id)
+          .subscribe((members: Member[]) => {
+            const teamWithMembers: TeamWithMembers = {
+              team: team,
+              members: [],
+              teamLeader: null,
+            };
+            members.forEach((member: Member) => {
+              this.profileResource
+                .getProfile(member.userId)
+                .subscribe((profile) => {
+                  const memberWithProfile: Member & { profile: Profile } = {
+                    ...member,
+                    profile,
+                  };
+                  teamWithMembers.members.push(memberWithProfile);
 
-              const teamLeaderWithProfile: Member & { profile: Profile } = { ...member, profile };
+                  const teamLeaderWithProfile: Member & { profile: Profile } = {
+                    ...member,
+                    profile,
+                  };
 
-              this.userId = this.authService.getAuthUserId();
-              const LeaveButton = false;
-              if(member.userId == this.userId && member.role != "TeamLeader")
-              {
-                const LeaveButton = true;
-              }
+                  this.userId = this.authService.getAuthUserId();
+                  const LeaveButton = false;
+                  if (
+                    member.userId == this.userId &&
+                    member.role != 'TeamLeader'
+                  ) {
+                    const LeaveButton = true;
+                  }
 
-              if (member.role === "TeamLeader")
-              {
-                teamWithMembers.teamLeader = teamLeaderWithProfile;
-              }
+                  if (member.role === 'TeamLeader') {
+                    teamWithMembers.teamLeader = teamLeaderWithProfile;
+                  }
+                });
             });
+            this.teamsWithMembers.push(teamWithMembers);
           });
-          this.teamsWithMembers.push(teamWithMembers);
-        });
       });
     });
-    console.log(this.teamsWithMembers);
-
   }
 
-  public leaveTeam(event: Event,teamId:any):void{
-
+  public leaveTeam(event: Event, teamId: any, member: any): void {
     event?.stopPropagation();
-    console.log(teamId);
-    console.log(this.authService.getAuthUserId());
-    this.teamResource.removeTeamMember(teamId,this.authService.getAuthUserId()).subscribe(() => this.routing.goToTeams());
-  
-    console.log("Redirected");
+    this.teamResource
+      .removeTeamMember(teamId, this.authService.getAuthUserId())
+      .subscribe(() => {
+        member.userId = null;
+      });
   }
-
 }

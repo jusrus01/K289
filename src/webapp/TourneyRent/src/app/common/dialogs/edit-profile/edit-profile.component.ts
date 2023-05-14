@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss']
+  styleUrls: ['./edit-profile.component.scss'],
 })
 export class EditProfileComponent implements OnInit {
   editProfileForm!: FormGroup;
@@ -20,7 +20,7 @@ export class EditProfileComponent implements OnInit {
     private dialogRef: MatDialogRef<EditProfileComponent>,
     private profileResource: ProfileResource,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.editProfileForm = this.formBuilder.group({
@@ -32,26 +32,34 @@ export class EditProfileComponent implements OnInit {
 
   onSave(): void {
     this.isFormSubmitted = true;
-  
+
     if (this.editProfileForm.valid) {
       const userId = this.authService.getAuthUserId();
-      
+
       const formData = this.editProfileForm.value;
       formData.Id = userId;
-  
+
       this.profileResource.updateProfile(formData).subscribe(
         () => {
           this.snackBar.open('Profile updated successfully', 'Close', {
             duration: 2000,
           });
-          
-          this.dialogRef.close(); // Close the dialog
+
+          this.dialogRef.close({
+            firstName: this.editProfileForm.get(['firstName'])?.value,
+            lastName: this.editProfileForm.get(['lastName'])?.value,
+            email: this.editProfileForm.get(['email'])?.value,
+          }); // Close the dialog
         },
         (error) => {
           if (error && error.error) {
-            this.snackBar.open(`Error updating profile: ${error.error}`, 'Close', {
-              duration: 2000,              
-            });
+            this.snackBar.open(
+              `Error updating profile: ${error.error}`,
+              'Close',
+              {
+                duration: 2000,
+              }
+            );
             console.log('Error type 1:', error.error);
           } else if (error) {
             this.snackBar.open(`Error updating profile: ${error}`, 'Close', {
@@ -59,9 +67,13 @@ export class EditProfileComponent implements OnInit {
             });
             console.log('Error type 2:', error);
           } else {
-            this.snackBar.open('Unknown error occurred while updating profile', 'Close', {
-              duration: 2000,
-            });
+            this.snackBar.open(
+              'Unknown error occurred while updating profile',
+              'Close',
+              {
+                duration: 2000,
+              }
+            );
             console.log('Error type 3');
           }
         }
@@ -72,9 +84,8 @@ export class EditProfileComponent implements OnInit {
       });
     }
   }
-  
 
   onCancel(): void {
-    this.dialogRef.close(); // Close the dialog
-  } 
+    this.dialogRef.close(null); // Close the dialog
+  }
 }

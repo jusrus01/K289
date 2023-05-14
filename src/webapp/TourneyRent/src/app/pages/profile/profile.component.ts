@@ -82,6 +82,15 @@ export class ProfileComponent {
     const dialogRef = this.dialog.open(EditProfileComponent, {
       width: '400px',
     });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (!data) {
+        return;
+      }
+
+      this.profile.firstName = data.firstName;
+      this.profile.lastName = data.lastName;
+    });
   }
 
   onFileUpload(event: any, upload: any): void {
