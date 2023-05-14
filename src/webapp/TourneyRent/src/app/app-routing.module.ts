@@ -88,7 +88,7 @@ export const ROUTES: Routes = [
     data: { title: 'Rental Details' },
   },
   // { path: '', component: HomeComponent, data: { title: 'Home' } },
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: 'tournament' },
 ];
 
 @NgModule({
