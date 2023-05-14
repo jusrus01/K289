@@ -135,15 +135,15 @@ public class TournamentService
         return _mapper.Map<TournamentInfo>(tournament);
     }
 
-    public async Task<IEnumerable<TournamentInfo>> GetAllValidAsync()
+    public async Task<IEnumerable<TournamentInfo>> GetAllTournamentsAsync()
     {
-        var tournaments = await _tournamentRepository.GetAsync(x => x.EndDate >= DateTime.UtcNow);
+        var tournaments = await _tournamentRepository.GetAsync(_ => true);
         return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments); // Does not set IsJoined correctly
     }
 
     public async Task<IEnumerable<TournamentInfo>> GetTournamentsAsync(string ownerId)
     {
-        var tournaments = await _tournamentRepository.GetAsync(t => t.OwnerId == ownerId);
+        var tournaments = await _tournamentRepository.GetAsync(i => i.OwnerId == ownerId);
         return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
     }
 
