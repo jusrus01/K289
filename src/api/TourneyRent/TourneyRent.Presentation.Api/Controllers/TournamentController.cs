@@ -35,9 +35,9 @@ public class TournamentController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllValidTournaments()
+    public async Task<IActionResult> GetAllTournaments()
     {
-        return Ok(await _tournamentService.GetAllValidAsync());
+        return Ok(await _tournamentService.GetAllTournamentsAsync());
     }
 
     [Authorize]
