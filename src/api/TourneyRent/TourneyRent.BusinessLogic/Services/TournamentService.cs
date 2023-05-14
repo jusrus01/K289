@@ -277,9 +277,6 @@ public class TournamentService
     public async Task SelectWinnerAsync(int tournamentId, Guid userId)
     {
         var tournament = await GetTournamentAsync(tournamentId).ConfigureAwait(false);
-        if (tournament.EndDate > DateTime.UtcNow)
-            throw new TournamentException("Cannot select winner. Tournament is still in progress.");
-
         var userIdString = userId.ToString();
         var winner = tournament.Participants.SingleOrDefault(i => i.UserId == userIdString);
         if (winner == null) throw new TournamentException("Cannot find selected winner.");

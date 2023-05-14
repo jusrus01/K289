@@ -128,6 +128,10 @@ export class TournamentItemComponent {
     return this.getParticipantCount() == this.tournament.participantCount;
   }
 
+  public canShow(tournament: any) {
+    return new Date(tournament.startDate) > new Date();
+  }
+
   public selectWinner() {
     const dialogRef = this.dialog.open(ChooseWinnerDialog, {
       width: '600px',

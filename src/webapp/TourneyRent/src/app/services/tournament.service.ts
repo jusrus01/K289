@@ -7,7 +7,7 @@ export interface TournamentStatus {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TournamentService {
   public getTournamentStatus(tournament: any): TournamentStatus {
@@ -16,17 +16,33 @@ export class TournamentService {
     const currentDate = new Date();
 
     if (tournament.isWinnerSelected) {
-      return { message: "Winner selected", isReadyForPrize: false, isReadyForForcedEnd: false };
+      return {
+        message: 'Winner selected',
+        isReadyForPrize: false,
+        isReadyForForcedEnd: false,
+      };
     }
 
     if (startDate > currentDate) {
-      return { message: 'Registration open', isReadyForPrize: false, isReadyForForcedEnd: false };
+      return {
+        message: 'Registration open',
+        isReadyForPrize: false,
+        isReadyForForcedEnd: false,
+      };
     }
 
     if (startDate < currentDate && currentDate < endDate) {
-      return { message: 'Registration closed', isReadyForPrize: false, isReadyForForcedEnd: true };
+      return {
+        message: 'Registration closed',
+        isReadyForPrize: false,
+        isReadyForForcedEnd: true,
+      };
     }
 
-    return { message: 'Ended', isReadyForPrize: true, isReadyForForcedEnd: false };
+    return {
+      message: 'Ended',
+      isReadyForPrize: true,
+      isReadyForForcedEnd: false,
+    };
   }
 }
