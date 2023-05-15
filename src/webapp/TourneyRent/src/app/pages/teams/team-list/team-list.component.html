@@ -15,13 +15,13 @@
 <div class="w-full flex justify-center mt-3">
   <div class="w-2/3">
     <div *ngFor="let teamWithMembers of teamsWithMembers"
-      class="mb-6 cursor-pointer hover:shadow-xl transition duration-300"
+      class="mb-3 cursor-pointer hover:bg-slate-100 hover:scale-105 transform transition duration-500"
       [routerLink]="['/team', teamWithMembers.team.id]">
       <div class="bg-white shadow-lg rounded-lg px-6 py-8">
         <h2 class="text-lg font-bold team-name">{{ teamWithMembers.team.name }}</h2>
-        <div class="mt-4">
+        <div>
           <p class="text-md font-bold description">Description: {{ teamWithMembers.team.description }}</p>
-          <ul class="mt-4">
+          <ul>
             <h5 class="font-bold text-base mb-2">Team Members:</h5>
             <li *ngFor="let member of teamWithMembers.members" class="text-gray-500 text-md">
               <ng-container *ngIf="member.role === 'Member'">
