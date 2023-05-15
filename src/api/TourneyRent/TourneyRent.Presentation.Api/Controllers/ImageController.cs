@@ -22,3 +22,4 @@ namespace TourneyRent.Presentation.Api.Controllers
         }
     }
 }
+

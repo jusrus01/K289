@@ -47,6 +47,7 @@ namespace TourneyRent.Presentation.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProfile(string id)
         {
             return Ok(_mapper.Map<UserProfileView>(await _accountService.GetProfileAsync(id)));
