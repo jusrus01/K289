@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourneyRent.BusinessLogic.Models;
@@ -33,7 +34,7 @@ public class RentalItemController : Controller
 			var rentalItemdDetailedView = _mapper.Map<RentalItemDetailedView>(rentalItem);
 			return Ok(rentalItemdDetailedView);
 		}
-
+		
 		[HttpGet]
 		public async Task<IActionResult> GetRentalItems()
 		{
@@ -44,9 +45,12 @@ public class RentalItemController : Controller
 		}
 
 		[HttpPost, Authorize]
-		public async Task<IActionResult> CreateRentalItem([FromForm]RentalItemCreate itemCreate)
+		public async Task<IActionResult> CreateRentalItem([FromForm] RentalItemCreate itemCreate)
 		{
 			var args = _mapper.Map<CreateRentalItemArgs>(itemCreate);
+			var availableDays = JsonSerializer.Deserialize<List<DateTime>>(itemCreate.AvailableAt) ?? new List<DateTime>();
+			args.CalendarItems = availableDays;
+			
 			await _rentalItemService.CreateRentalItemAsync(args);
 			var itemView = _mapper.Map<RentalItemDetailedView>(args);
 			return CreatedAtAction(nameof(CreateRentalItem), itemView);

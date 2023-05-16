@@ -25,7 +25,7 @@ namespace TourneyRent.DataLayer
 
 		public async Task<IEnumerable<RentalItem>> GetRentalItemsAsync()
 		{
-			return await _context.RentalItems.Include(x => x.AvailableDays).OrderByDescending(x => x.HighlightFee).ToListAsync();
+			return await _context.RentalItems.Include(x => x.AvailableDays).OrderByDescending(x => x.Id).ToListAsync();
 		}
 		public async Task CreateRentalItemAsync(RentalItem rentalItem)
 		{

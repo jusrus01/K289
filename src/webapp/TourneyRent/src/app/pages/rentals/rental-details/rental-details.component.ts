@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RentalResource } from 'src/app/resources/rental.resource';
 import { RoutingService } from 'src/app/services/routing.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {ThemePalette} from '@angular/material/core';
-import {ProgressSpinnerMode} from '@angular/material/progress-spinner';
-
 
 @Component({
   selector: 'app-rental-details',
   templateUrl: './rental-details.component.html',
-  styleUrls: ['./rental-details.component.scss']
+  styleUrls: ['./rental-details.component.scss'],
 })
 export class RentalDetailsComponent implements OnInit {
   item: any;
 
-  constructor(public dialog: MatDialog, private dataService: RentalResource, private route: ActivatedRoute, public routing: RoutingService) { }
+  constructor(
+    public dialog: MatDialog,
+    private dataService: RentalResource,
+    private route: ActivatedRoute,
+    public routing: RoutingService
+  ) {}
 
   ngOnInit(): void {
     const itemId = Number(this.route.snapshot.paramMap.get('id'));
@@ -23,10 +25,14 @@ export class RentalDetailsComponent implements OnInit {
       this.item = data;
       // need this for cart
       this.item.id = itemId;
+      console.log(this.item);
     });
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
     this.dialog.open(DialogAnimationsExampleDialog, {
       width: '400px',
       height: '200px',
@@ -49,9 +55,7 @@ export class DialogAnimationsExampleDialog {
   templateUrl: 'progress-spinner-configurable-example.html',
   styleUrls: ['progress-spinner-configurable-example.css'],
 })
-export class ProgressSpinnerConfigurableExample {
-}
-
+export class ProgressSpinnerConfigurableExample {}
 
 // import { Component, OnInit } from '@angular/core';
 // import { ActivatedRoute, Router } from '@angular/router';
@@ -92,6 +96,3 @@ export class ProgressSpinnerConfigurableExample {
 //     }, 4000);
 //   }
 // }
-
-
-
