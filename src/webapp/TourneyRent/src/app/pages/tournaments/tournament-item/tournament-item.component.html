@@ -2,8 +2,10 @@
   <div class="w-full bg-default flex items-center justify-center py-16">
     <span class="text-white text-3xl sm:text-6xl font-bold">TOURNAMENT</span>
   </div>
-  <div class="bg-default h-16 text-center align-middle items-center justify-center flex" *ngIf="tournament && authService.isAdminOrOwner(tournament.ownerId) && tournamentStatus != null && tournamentStatus.isReadyForPrize">
-    <span class="font-medium text-white">This tournament is over. Please select the winner.</span>
+  <div class="bg-default h-16 text-center align-middle items-center justify-center flex"
+    *ngIf="tournament && authService.isAdminOrOwner(tournament.ownerId) && tournamentStatus != null && (tournamentStatus.isReadyForPrize || tournamentStatus.isReadyForForcedEnd)">
+    <span class="font-medium text-white">{{tournamentStatus.isReadyForPrize ? 'This tournament is over.' : 'This
+      tournament can be forcefully ended.'}} Please select the winner.</span>
     <button mat-raised-button class="ml-2" color="accent" (click)="selectWinner()">Select winner!</button>
   </div>
   <div class="mx-14 border-slate-900" *ngIf="tournament">
@@ -108,19 +110,20 @@
               </div>
             </div>
 
-            <div class="inline-field mt-0 mb-0">
+            <div *showForAuthenticatedUser class="inline-field mt-0 mb-0">
               <div class="w-full flex">
                 <button *ngIf="authService.isAdminOrOwner(tournament.ownerId)" mat-raised-button color="warn"
                   class="ml-[5%] mt-2" (click)="openDeleteDialog('0ms', '0ms')">
                   Delete
                 </button>
                 <button *ngIf="authService.isAdminOrOwner(tournament.ownerId)" mat-raised-button color="primary"
-                  class="ml-[5%] mt-2" [routerLink]="['/tournament/update', tournament.id]">
+                  class="ml-2 mt-2" [routerLink]="['/tournament/update', tournament.id]">
                   Update
                 </button>
               </div>
-              <ng-container *ngIf="!authService.isOwner(tournament.ownerId)">
-                <button *ngIf="!tournament.isJoined && !isFull()" mat-raised-button class="w-1/3 mt-2" color="primary" (click)="join()">
+              <ng-container *ngIf="!authService.isOwner(tournament.ownerId) && canShow(tournament)">
+                <button *ngIf="!tournament.isJoined && !isFull()" mat-raised-button class="w-1/3 mt-2" color="primary"
+                  (click)="join()">
                   Join
                 </button>
                 <button *ngIf="tournament.isJoined" mat-raised-button class="w-1/3 mt-2" color="warn" (click)="leave()">

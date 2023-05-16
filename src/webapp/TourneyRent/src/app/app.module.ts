@@ -89,6 +89,7 @@ import { ChooseWinnerDialog } from './common/dialogs/choose-winner/choose-winner
 import { RentalCartComponent } from './common/rental-cart/rental-cart.component';
 import { RentalCartAddButtonComponent } from './common/rental-cart/rental-cart-add-button/rental-cart-add-button.component';
 import { AvailableDaysComponent } from './common/dialogs/available-days/available-days.component';
+import { EditProfileComponent } from './common/dialogs/edit-profile/edit-profile.component';
 import { RentalCartItemComponent } from './common/rental-cart/rental-item/rental-cart-item/rental-cart-item.component';
 
 export const API_URL = 'http://localhost:5000';
@@ -128,6 +129,7 @@ export const API_URL = 'http://localhost:5000';
     RentalCartComponent,
     RentalCartAddButtonComponent,
     AvailableDaysComponent,
+    EditProfileComponent,
     RentalCartItemComponent
   ],
   

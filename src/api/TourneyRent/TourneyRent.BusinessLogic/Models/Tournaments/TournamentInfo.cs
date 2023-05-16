@@ -1,4 +1,5 @@
 using TourneyRent.BusinessLogic.Models.Prizes;
+using TourneyRent.Contracts.Enums;
 
 namespace TourneyRent.BusinessLogic.Models.Tournaments;
 
@@ -19,4 +20,6 @@ public class TournamentInfo
     public IEnumerable<TournamentParticipantInfo> Participants { get; set; }
     public bool IsWinnerSelected { get; set; }
     public PrizeInfo Prize { get; set; }
+
+    public ParticipantStatus? ParticipantStatus { get; set; }
 }

@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { ErrorSnackComponent } from 'src/app/common/snacks/error/error.snack';
 import { TournamentResource } from 'src/app/resources/tournament.resource';
 import { RoutingService } from 'src/app/services/routing.service';
 
@@ -22,88 +23,47 @@ export class TournamentUpdateComponent {
 
   public showBankAccountForm = true;
 
-  private _tournamentId : any;
-  public tournament : any;
-
-  
+  private _tournamentId: any;
+  public tournament: any;
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private tournamentResource: TournamentResource,
-    private routing: RoutingService,
-    private snackBar: MatSnackBar
+    private routing: RoutingService
   ) {
-     this.updateForm = this.formBuilder.group({
-       name: ['', Validators.required],
-       startDate: [new Date(), Validators.required],
-       endDate: [ new Date(), Validators.required],
-       entryFee: [ 1, [Validators.required, Validators.min(0), Validators.max(1000), Validators.pattern(/^[0-9]+(\.[0-9]+)?$/)]],
-       participantCount: [ 1, [Validators.required, Validators.min(1), Validators.max(1000), Validators.pattern(/^[0-9]*$/)]],
-       bankAccountName: ['', Validators.required],
-       bankAccountNumber: ['', Validators.required],
-       transactionReason: ['']
-     });
+    this.updateForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      startDate: ['', [Validators.required, this.startDateValidator()]],
+      startTime: [],
+      endDate: ['', [Validators.required, this.endDateValidator()]],
+      endTime: [],
+      bankAccountName: ['', Validators.required],
+      bankAccountNumber: ['', Validators.required],
+      transactionReason: [''],
+    });
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.startRecheckCycleForFormControl('startDate', 'startTime');
+    this.startRecheckCycleForFormControl('endDate', 'endTime');
+
     this.route.paramMap.subscribe((paramMap) => {
       this._tournamentId = paramMap.get('id');
-      this.tournamentResource.getTournament(this._tournamentId).subscribe((response) => {
-        this.tournament = response;
-        this.tournament.startDate = new Date(this.tournament.startDate);
-        this.tournament.endDate = new Date(this.tournament.endDate);
-        console.log(this.tournament)
-        this.updateForm.patchValue(this.tournament);
-      });
-      
-    });
+      this.tournamentResource
+        .getTournament(this._tournamentId)
+        .subscribe((response) => {
+          this.tournament = response;
+          this.tournament.startDate = new Date(this.tournament.startDate);
+          this.tournament.endDate = new Date(this.tournament.endDate);
+          this.updateForm.patchValue(this.tournament);
 
+          this.showBankAccountForm = this.tournament.entryFee > 0;
+        });
+    });
   }
-  
+
   public update(): void {
-    if (!this.updateForm.valid) {
-      return;
-    }
-
-    const startDate = this.updateForm.get(['startDate'])?.value as Date;
-    const endDate =  this.updateForm.get(['endDate'])?.value as Date;
-    if (startDate >= endDate && startDate.getTime() >= endDate.getTime()) {
-      this.snackBar.openFromComponent(ErrorSnackComponent, {
-        duration: 1500,
-        data: "The start date cannot be after the end date",
-      } as MatSnackBarConfig);
-      return;
-    }
-
-    if (startDate < new Date()) {
-      this.snackBar.openFromComponent(ErrorSnackComponent, {
-        duration: 1500,
-        data: "The start date has to be after today's date",
-      } as MatSnackBarConfig);
-      return;
-    }
-
-    const formData = new FormData();
-    Object.keys(this.updateForm.controls).forEach(key => {
-      let val =  this.updateForm.get([key])?.value;
-      if (val instanceof Date) {
-        val = val.toUTCString();
-      }
-      formData.append(key, val);
-    });
-
-    formData.append('imageFile', this.pictureFile ?? null);
-
-    this.tournamentResource
-      .updateTournament(formData,this._tournamentId)
-      .subscribe(() => this.routing.goToTournaments());
-  }
-
-  onEntryFeeChange(): void {
-    const entryFee = this.updateForm.get(['entryFee'])?.value;
-    this.showBankAccountForm = entryFee > 0;
-
     const controlNames = ['bankAccountName', 'bankAccountNumber'];
     for (const controlName of controlNames) {
       const control = this.updateForm.get(controlName);
@@ -114,6 +74,25 @@ export class TournamentUpdateComponent {
       }
       control?.updateValueAndValidity();
     }
+
+    if (!this.updateForm.valid) {
+      return;
+    }
+
+    const formData = new FormData();
+    Object.keys(this.updateForm.controls).forEach((key) => {
+      let val = this.updateForm.get([key])?.value;
+      if (val instanceof Date) {
+        val = val.toUTCString();
+      }
+      formData.append(key, val);
+    });
+
+    formData.append('imageFile', this.pictureFile ?? null);
+
+    this.tournamentResource
+      .updateTournament(formData, this._tournamentId)
+      .subscribe(() => this.routing.goToTournaments());
   }
 
   onFileUpload(event: any, upload: any): void {
@@ -126,5 +105,84 @@ export class TournamentUpdateComponent {
     this.updateForm.patchValue({
       pictureFile: this.pictureFile,
     });
+  }
+
+  startDateValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const startDate = control.value;
+      const validationErrorResponse = { valid: false };
+      const successResponse = null;
+
+      const requestDate = new Date();
+      if (startDate < requestDate) {
+        return validationErrorResponse;
+      }
+
+      const endDate = this.updateForm?.get(['endDate'])?.value;
+      if (!endDate) {
+        return successResponse;
+      }
+
+      if (endDate < startDate) {
+        return validationErrorResponse;
+      }
+
+      return successResponse;
+    };
+  }
+
+  endDateValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const endDate = control.value;
+      const validationErrorResponse = { valid: false };
+      const successResponse = null;
+
+      const requestDate = new Date();
+      if (endDate < requestDate) {
+        return validationErrorResponse;
+      }
+
+      const startDate = this.updateForm?.get(['startDate'])?.value;
+      if (!startDate) {
+        return successResponse;
+      }
+
+      if (endDate < startDate) {
+        return validationErrorResponse;
+      }
+
+      return successResponse;
+    };
+  }
+
+  private startRecheckCycleForFormControl(
+    controlKey: string,
+    timeControlKey: string
+  ) {
+    setTimeout(() => {
+      const dateControl = this.updateForm?.controls[controlKey];
+      const timeControl = this.updateForm?.controls[timeControlKey];
+      if (dateControl && timeControl) {
+        dateControl.setValue(
+          this.applyTimeFromDate(dateControl.value, timeControl.value)
+        );
+        dateControl.updateValueAndValidity();
+      }
+
+      this.startRecheckCycleForFormControl(controlKey, timeControlKey);
+    }, 1000);
+  }
+
+  private applyTimeFromDate(date: any, dateWithTime: any) {
+    const hours = dateWithTime.getHours();
+    const minutes = dateWithTime.getMinutes();
+    const seconds = dateWithTime.getSeconds();
+
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(seconds);
+
+    // Return the updated date object
+    return date;
   }
 }

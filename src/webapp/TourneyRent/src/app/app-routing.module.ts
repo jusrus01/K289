@@ -19,26 +19,80 @@ import { TournamentComponent } from './pages/tournaments/tournament/tournament.c
 import { TeamComponent } from './pages/teams/team/team.component';
 
 export const ROUTES: Routes = [
-  { path: 'tournament/create', component: TournamentCreateComponent, data: { title: 'Create' }, canActivate: [AuthGuard]},
-  { path: 'tournament/:id', component: TournamentItemComponent, data: { title: 'Tournament'} },
-  { path: 'tournament/update/:id', component: TournamentUpdateComponent, data: { title: 'Tournament Update'}, canActivate: [AuthGuard]},
-  { path: 'tournament', component: TournamentComponent, data: { title: 'Tournaments' } },
-  { path: 'profile', component: ProfileComponent, data: { title: 'Profile' }, canActivate: [AuthGuard]},
-  { path: 'login', component: LoginComponent, data: { title: 'Login' }, canActivate: [GuestGuard] },
-  { path: 'register', component: RegisterComponent, data: { title: 'Register' }, canActivate: [GuestGuard] },
-  { path: 'team/create', component: TeamCreateComponent, data: {title: 'Team Create'}, canActivate: [AuthGuard]},
+  {
+    path: 'tournament/create',
+    component: TournamentCreateComponent,
+    data: { title: 'Create' },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tournament/:id',
+    component: TournamentItemComponent,
+    data: { title: 'Tournament' },
+  },
+  {
+    path: 'tournament/update/:id',
+    component: TournamentUpdateComponent,
+    data: { title: 'Tournament Update' },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tournament',
+    component: TournamentComponent,
+    data: { title: 'Tournaments' },
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    data: { title: 'Profile' },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: { title: 'Login' },
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    data: { title: 'Register' },
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'team/create',
+    component: TeamCreateComponent,
+    data: { title: 'Team Create' },
+    canActivate: [AuthGuard],
+  },
   { path: 'team', component: TeamComponent, data: { title: 'Teams' } },
-  { path: 'rental/create', component: RentalCreateComponent, data: { title: 'Rental Create' } },
-  { path: 'rental/view', component: RentalViewComponent, data: { title: 'Rental View' } },
+  {
+    path: 'rental/create',
+    component: RentalCreateComponent,
+    data: { title: 'Rental Create' },
+  },
+  {
+    path: 'rental/view',
+    component: RentalViewComponent,
+    data: { title: 'Rental View' },
+  },
   { path: 'rental', component: RentalComponent, data: { title: 'Rental' } },
-  { path: 'rental/edit/:id', component: RentalEditComponent, data: { title: 'Rental Edit' } },
-  { path: 'rental/details/:id', component: RentalDetailsComponent, data: { title: 'Rental Details' } },
-  { path: '', component: HomeComponent, data: { title: 'Home' }, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '' }
+  {
+    path: 'rental/edit/:id',
+    component: RentalEditComponent,
+    data: { title: 'Rental Edit' },
+  },
+  {
+    path: 'rental/details/:id',
+    component: RentalDetailsComponent,
+    data: { title: 'Rental Details' },
+  },
+  // { path: '', component: HomeComponent, data: { title: 'Home' } },
+  { path: '**', redirectTo: 'tournament' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(ROUTES)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -3,8 +3,6 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.Contracts.Options;
-using TourneyRent.DataLayer;
-using TourneyRent.Presentation.Api.Controllers;
 using TourneyRent.Presentation.Api.Extensions;
 using TourneyRent.Presentation.Api.Filters;
 using TourneyRent.Presentation.Api.Middlewares;

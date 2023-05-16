@@ -13,7 +13,10 @@ export class AuthService {
 
   public readonly isLoggedIn$: Subject<boolean>;
 
-  constructor(private cookieService: CookieService, private rentalCartService: RentalCartService) {
+  constructor(
+    private cookieService: CookieService,
+    private rentalCartService: RentalCartService
+  ) {
     this.isLoggedIn$ = new Subject<boolean>();
   }
 
@@ -34,7 +37,7 @@ export class AuthService {
 
   public getAuthUserId(): string {
     const userInfo = this.getUserInfo();
-    return userInfo.userId;
+    return userInfo?.userId ?? '';
   }
 
   public isLoggedIn(): boolean {
@@ -43,7 +46,7 @@ export class AuthService {
 
   public hasRole(role: string): boolean {
     const userInfo = this.getUserInfo();
-    return userInfo.roles.includes(role);
+    return userInfo === null || userInfo.roles.includes(role);
   }
 
   public isAdminOrOwner(userId: any): boolean {
@@ -54,9 +57,14 @@ export class AuthService {
     return this.getAuthUserId() == userId;
   }
 
-  private getUserInfo(): LoginResponse {
-    return JSON.parse(
-      this.cookieService.get(this.TOKEN_COOKIE_PARAM)
-    ) as LoginResponse;
+  private getUserInfo(): LoginResponse | null {
+    try {
+      const parsedUserInfo = JSON.parse(
+        this.cookieService.get(this.TOKEN_COOKIE_PARAM)
+      );
+      return parsedUserInfo as LoginResponse;
+    } catch {
+      return null;
+    }
   }
 }

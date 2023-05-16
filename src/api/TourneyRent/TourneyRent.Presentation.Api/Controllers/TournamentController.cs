@@ -35,9 +35,9 @@ public class TournamentController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllValidTournaments()
+    public async Task<IActionResult> GetAllTournaments()
     {
-        return Ok(await _tournamentService.GetAllValidAsync());
+        return Ok(await _tournamentService.GetAllTournamentsAsync());
     }
 
     [Authorize]
@@ -76,6 +76,13 @@ public class TournamentController : ControllerBase
     public async Task<IActionResult> GetOwnerTournaments(string ownerId)
     {
         return Ok(await _tournamentService.GetTournamentsAsync(ownerId));
+    }
+
+    [Authorize]
+    [HttpGet("User/{userId}")]
+    public async Task<IActionResult> GetJoinedTournaments(string userId)
+    {
+        return Ok(await _tournamentService.GetJoinedTournamentsAsync(userId));
     }
 
     [Authorize]

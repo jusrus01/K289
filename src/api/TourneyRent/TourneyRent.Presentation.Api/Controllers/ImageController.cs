@@ -6,7 +6,6 @@ namespace TourneyRent.Presentation.Api.Controllers
 {
     [Route("Image")]
     [ApiController]
-    [Authorize]
     public class ImageController : ControllerBase
     {
         private readonly ImageService _imageService;
@@ -23,3 +22,4 @@ namespace TourneyRent.Presentation.Api.Controllers
         }
     }
 }
+

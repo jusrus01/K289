@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TourneyRent.BusinessLogic.Exceptions;
 using TourneyRent.BusinessLogic.Extensions;
 using TourneyRent.BusinessLogic.Models.Tournaments;
+using TourneyRent.Contracts.Enums;
 using TourneyRent.DataLayer;
 using TourneyRent.DataLayer.Models;
 using TourneyRent.DataLayer.Repositories;
@@ -16,6 +17,7 @@ public class TournamentService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ImageRepository _imageRepository;
     private readonly MailService _mailService;
+    private readonly AccountService _accountService;
     private readonly IMapper _mapper;
     private readonly PaymentTransactionRepository _paymentTransactionRepository;
     private readonly PrizeRepository _prizeRepository;
@@ -31,7 +33,8 @@ public class TournamentService
         PaymentTransactionRepository paymentTransactionRepository,
         TeamRepository teamRepository,
         PrizeRepository prizeRepository,
-        MailService mailService)
+        MailService mailService,
+        AccountService accountService)
     {
         _tournamentRepository = tournamentRepository;
         _imageRepository = imageRepository;
@@ -42,16 +45,28 @@ public class TournamentService
         _teamRepository = teamRepository;
         _prizeRepository = prizeRepository;
         _mailService = mailService;
+        _accountService = accountService;
     }
 
     public async Task<TournamentInfo> DeleteAsync(int id)
     {
         var tournament = await _tournamentRepository.GetSingleOrDefaultAsync(x => x.Id == id);
-        if (tournament == null) throw new NotFoundException("Tournament not found");
+
+        if (tournament == null)
+        {
+            throw new NotFoundException("Tournament not found");
+        }
 
         if (tournament.Participants.Any() && tournament.EntryFee > 0)
+        {
             throw new TournamentException(
                 "Cannot delete tournament that has participants that already payed. Please contact support.");
+        }
+
+        if (tournament.TransactionId != null)
+        {
+            throw new TournamentException("Cannot delete tournament that has bought rental items.");
+        }
 
         return _mapper.Map<TournamentInfo>(await _tournamentRepository.DeleteAsync(tournament));
     }
@@ -83,6 +98,7 @@ public class TournamentService
             }
 
             // oof
+            decimal sum = 0;
             foreach (var reservation in createArgs.Reservation)
             {
                 // TODO: handle better
@@ -105,26 +121,64 @@ public class TournamentService
                             day.Price);
                     day.BuyerId = _httpContextAccessor.GetAuthenticatedUserId();
                     day.TransactionId = transactionId;
+
+                    sum += day.Price;
                 }
 
                 context.CalendarItems.UpdateRange(days);
             }
+
+            tournament.TransactionId = await _paymentTransactionRepository
+                .CreateAsync(
+                    _httpContextAccessor.GetAuthenticatedUserId(),
+                    sum)
+                .ConfigureAwait(false);
 
             await _tournamentRepository.CreateAsync(tournament);
         });
         return _mapper.Map<TournamentInfo>(tournament);
     }
 
-    public async Task<IEnumerable<TournamentInfo>> GetAllValidAsync()
+    public async Task<IEnumerable<TournamentInfo>> GetAllTournamentsAsync()
     {
-        var tournaments = await _tournamentRepository.GetAsync(x => x.EndDate >= DateTime.UtcNow);
+        var tournaments = await _tournamentRepository.GetAsync(_ => true);
         return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments); // Does not set IsJoined correctly
     }
 
     public async Task<IEnumerable<TournamentInfo>> GetTournamentsAsync(string ownerId)
     {
-        var tournaments = await _tournamentRepository.GetAsync(t => t.OwnerId == ownerId);
+        var tournaments = await _tournamentRepository.GetAsync(i => i.OwnerId == ownerId);
         return _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
+    }
+
+    public async Task<IEnumerable<TournamentInfo>> GetJoinedTournamentsAsync(string userId)
+    {
+        var tournaments = await _tournamentRepository.GetAsync(i => i.Participants.Any(p => p.UserId == userId));
+        var tournamentsInfo = _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
+        
+        return tournamentsInfo
+            .Select(tournament =>
+            {
+                var participant = tournament.Participants.FirstOrDefault(p => p.UserId == userId);
+                
+                ParticipantStatus? status = null;
+                if (participant.IsWinner)
+                {
+                    status = ParticipantStatus.Won;
+                }
+                else if (!tournament.IsWinnerSelected)
+                {
+                    status = ParticipantStatus.InProgress;
+                }
+                else
+                {
+                    status = ParticipantStatus.Lost;
+                }
+
+                tournament.ParticipantStatus = status;
+
+                return tournament;
+            });
     }
 
     public async Task<TournamentInfo> GetTournamentByIdAsync(int id)
@@ -208,7 +262,9 @@ public class TournamentService
         //tournamentToUpdate.EntryFee = updateArgs.EntryFee;
         //tournamentToUpdate.ParticipantCount = updateArgs.ParticipantCount;
         var imageId = await _imageRepository.UploadImageAsync(updateArgs);
-        tournamentToUpdate.ImageId = imageId;
+
+        if(imageId != null)
+            tournamentToUpdate.ImageId = imageId;
 
         var tourney = _mapper.Map(updateArgs, tournamentToUpdate);
 
@@ -221,9 +277,6 @@ public class TournamentService
     public async Task SelectWinnerAsync(int tournamentId, Guid userId)
     {
         var tournament = await GetTournamentAsync(tournamentId).ConfigureAwait(false);
-        if (tournament.EndDate > DateTime.UtcNow)
-            throw new TournamentException("Cannot select winner. Tournament is still in progress.");
-
         var userIdString = userId.ToString();
         var winner = tournament.Participants.SingleOrDefault(i => i.UserId == userIdString);
         if (winner == null) throw new TournamentException("Cannot find selected winner.");

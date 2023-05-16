@@ -23,6 +23,9 @@
                 <span *ngIf="!isLoading">
                     {{profile.firstName}} {{profile.lastName}}
                 </span>
+                <button class="ml-2" mat-icon-button (click)="onEdit()">
+                    <i class="text-white fa-solid fa-pencil-alt"></i>
+                </button>
             </span>
         </div>
     </div>
@@ -31,9 +34,10 @@
     <div class="w-full h-96 bg-default text-white" *ngIf="!isLoading">
         <mat-tab-group class="sm:ml-24 sm:mr-24 h-full" mat-stretch-tabs="false" [color]="'primary'"
             [backgroundColor]="'primary'">
+
             <mat-tab label="My tournaments">
-                <div class="p-0 h-80 w-full">
-                    <span *ngIf="!tournaments">You don't have any tournaments yet</span>
+                <div class="p-0 h-80 w-full bg-slate-800">
+                    <span *ngIf="!tournaments || !tournaments.length">You don't have any tournaments created yet</span>
                     <div [routerLink]="['/tournament', tournament.id]"
                         class="align-middle flex border border-indigo-800 w-full h-20 cursor-pointer hover:bg-slate-700 bg-slate-800"
                         *ngFor="let tournament of tournaments">
@@ -45,20 +49,45 @@
                         </div>
                         <div style="align-self: center;" class="ml-auto mr-2 text-right">
                             {{tournament.status.message}}
-                            <span style="align-self: center; font-style: italic;" *ngIf="tournament.status.isReadyForPrize">
+                            <span style="align-self: center; font-style: italic;"
+                                *ngIf="tournament.status.isReadyForPrize">
                                 (waiting for winner)
                             </span>
-                            <span style="align-self: center; font-style: italic;" *ngIf="tournament.status.isReadyForForcedEnd">
+                            <span style="align-self: center; font-style: italic;"
+                                *ngIf="tournament.status.isReadyForForcedEnd">
                                 (force end is available)
                             </span>
                         </div>
                     </div>
                 </div>
             </mat-tab>
+
+            <mat-tab label="Joined tournaments">
+                <div class="p-0 h-80 w-full bg-slate-800">
+                    <span *ngIf="!joinedTournaments || !joinedTournaments.length">You have not joined any tournaments
+                        yet</span>
+                    <div [routerLink]="['/tournament', tournament.id]"
+                        class="align-middle flex border border-indigo-800 w-full h-20 cursor-pointer hover:bg-slate-700 bg-slate-800"
+                        *ngFor="let tournament of joinedTournaments">
+                        <app-image style="align-self: center;" [containerClass]="'ml-2 w-16 h-16'"
+                            [imageId]="tournament.imageId"
+                            [imageSource]="'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='"></app-image>
+                        <div style="align-self: center;" class="ml-2">
+                            {{tournament.name}}
+                        </div>
+                        <div style="align-self: center;" class="ml-auto mr-2 text-right">
+                            {{tournament.participantStatus}}
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
             <mat-tab label="Teams">
-                <div class="h-full p-0 sm:p-3 bg-slate-800">
-                    <span *ngIf="!teams">You don't belong to any teams yet</span>
-                    <div [routerLink]="['/team', team.id]" class="align-middle flex border border-indigo-800 w-full h-20 cursor-pointer hover:bg-slate-700 bg-slate-800" *ngFor="let team of teams">
+                <div class="p-0 h-80 w-full bg-slate-800">
+                    <span *ngIf="!teams || !teams.length">You don't belong to any teams yet</span>
+                    <div [routerLink]="['/team', team.id]"
+                        class="align-middle flex border border-indigo-800 w-full h-20 cursor-pointer hover:bg-slate-700 bg-slate-800"
+                        *ngFor="let team of teams">
                         <div style="align-self: center;" class="ml-2">
                             {{team.name}}
                         </div>
