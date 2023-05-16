@@ -1,9 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TourneyRent.BusinessLogic.Exceptions;
 using TourneyRent.BusinessLogic.Models;
 using TourneyRent.BusinessLogic.Services;
 using TourneyRent.DataLayer.Models;
+using TourneyRent.DataLayer.Repositories;
 using TourneyRent.Presentation.Api.Views.RentalItems;
 
 namespace TourneyRent.Presentation.Api.Controllers;
@@ -14,11 +18,13 @@ public class RentalItemController : Controller
 {
     private readonly IMapper _mapper;
     private readonly RentalItemService _rentalItemService;
+    private readonly TransactionExecutor _executor;
 
-    public RentalItemController(RentalItemService rentalItemService, IMapper mapper)
+    public RentalItemController(RentalItemService rentalItemService, IMapper mapper, TransactionExecutor executor)
     {
         _rentalItemService = rentalItemService;
         _mapper = mapper;
+        _executor = executor;
     }
     
 		[HttpGet("{id}")]
@@ -33,7 +39,7 @@ public class RentalItemController : Controller
 			var rentalItemdDetailedView = _mapper.Map<RentalItemDetailedView>(rentalItem);
 			return Ok(rentalItemdDetailedView);
 		}
-
+		
 		[HttpGet]
 		public async Task<IActionResult> GetRentalItems()
 		{
@@ -44,9 +50,12 @@ public class RentalItemController : Controller
 		}
 
 		[HttpPost, Authorize]
-		public async Task<IActionResult> CreateRentalItem([FromForm]RentalItemCreate itemCreate)
+		public async Task<IActionResult> CreateRentalItem([FromForm] RentalItemCreate itemCreate)
 		{
 			var args = _mapper.Map<CreateRentalItemArgs>(itemCreate);
+			var availableDays = JsonSerializer.Deserialize<List<DateTime>>(itemCreate.AvailableAt) ?? new List<DateTime>();
+			args.CalendarItems = availableDays;
+			
 			await _rentalItemService.CreateRentalItemAsync(args);
 			var itemView = _mapper.Map<RentalItemDetailedView>(args);
 			return CreatedAtAction(nameof(CreateRentalItem), itemView);
@@ -61,24 +70,36 @@ public class RentalItemController : Controller
 				return NotFound();
 			}
 
-			await _rentalItemService.DeleteRentalItemAsync(rentalItem);
+			try
+			{
+				await _rentalItemService.DeleteRentalItemAsync(rentalItem);
+			}
+			catch (Exception e)
+			{
+				throw new NotFoundException(e.Message);
+			}
 
 			return NoContent();
 		}
 
 		[HttpPut("{id}"), Authorize]
-		public async Task<IActionResult> UpdateRentalItemAsync(int id, RentalItem rentalUpdate)
+		public async Task<IActionResult> UpdateRentalItemAsync(int id, [FromForm] RentalItem rentalUpdate)
 		{
-
-			rentalUpdate.Id = id;
-
-			await _rentalItemService.UpdateTeamAsync(rentalUpdate);
-
-			if (await _rentalItemService.GetRentalItemAsync(id) == null)
+			await _executor.ExecuteAsync(async context =>
 			{
-				return NotFound();
-			}
+				var rental = await context.RentalItems.FirstOrDefaultAsync(i => i.Id == id);
+				if (rental == null)
+				{
+					throw new NotFoundException("Could not find rental item");
+				}
 
+				rental.Price = rentalUpdate.Price;
+				rental.Description = rentalUpdate.Description;
+				rental.Name = rentalUpdate.Name;
+
+				context.RentalItems.Update(rental);
+			});
+			
 			return NoContent();
 		}
 

@@ -4,8 +4,10 @@
   </div>
   <div class="bg-default h-16 text-center align-middle items-center justify-center flex"
     *ngIf="tournament && authService.isAdminOrOwner(tournament.ownerId) && tournamentStatus != null && (tournamentStatus.isReadyForPrize || tournamentStatus.isReadyForForcedEnd)">
-    <span class="font-medium text-white">{{tournamentStatus.isReadyForPrize ? 'This tournament is over.' : 'This
-      tournament can be forcefully ended.'}} Please select the winner.</span>
+    <span class="font-medium text-white">
+      {{tournamentStatus.isReadyForPrize ?
+      'This tournament is over.' :
+      'This tournament can be forcefully ended.'}} Please select the winner.</span>
     <button mat-raised-button class="ml-2" color="accent" (click)="selectWinner()">Select winner!</button>
   </div>
   <div class="mx-14 border-slate-900" *ngIf="tournament">

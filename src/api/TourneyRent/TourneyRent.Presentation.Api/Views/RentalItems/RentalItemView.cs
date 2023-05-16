@@ -10,7 +10,7 @@ namespace TourneyRent.Presentation.Api.Views.RentalItems
         public string Name { get; set; }
 		public string Description { get; set; }
 		public Guid? ImageId { get; set; }
-
+		public decimal Price { get; set; }
 		public ICollection<CalendarItemView> AvailableDays { get; set; }
 	}
 }

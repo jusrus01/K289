@@ -1,59 +1,83 @@
 import { Component, OnInit } from '@angular/core';
 import { RentalResource } from 'src/app/resources/rental.resource';
-import { FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { RoutingService } from 'src/app/services/routing.service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-rental-edit',
   templateUrl: './rental-edit.component.html',
-  styleUrls: ['./rental-edit.component.scss']
+  styleUrls: ['./rental-edit.component.scss'],
 })
 export class RentalEditComponent implements OnInit {
-  itemId = Number(this.route.snapshot.paramMap.get('itemId'));
-  //itemId!: number;
-  item: any = {
-    name: '',
-    description: '',
-    image: '',
-    periodStart: '',
-    periodEnd: '',
-    price: 0
-  };
-  editForm: FormGroup;
+  public updateForm!: FormGroup;
+  public showBankAccountForm = true;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private itemService: RentalResource, public routing: RoutingService) { 
-    this.editForm = new FormGroup({
-      name: new FormControl(),
-      description: new FormControl(),
-      image: new FormControl(),
-      periodStart: new FormControl(),
-      periodEnd: new FormControl(),
-      price: new FormControl()
+  public item!: any;
+
+  itemId = Number(this.route.snapshot.paramMap.get('itemId'));
+
+  constructor(
+    private route: ActivatedRoute,
+    private itemService: RentalResource,
+    public routing: RoutingService,
+    private formBuilder: FormBuilder
+  ) {}
+
+  ngOnInit() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.itemId = id;
+    this.updateForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      price: [
+        1,
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(1000),
+          Validators.pattern(/^[0-9]+(\.[0-9]+)?$/),
+        ],
+      ],
+    });
+
+    this.itemService.getItemById(id).subscribe((item) => {
+      this.item = item;
+
+      this.updateForm.patchValue(this.item);
     });
   }
 
-  ngOnInit() {
-    this.itemId = Number(this.route.snapshot.paramMap.get('itemId'));
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.itemService.getItemById(id).subscribe(item => {
-      this.item = item;
-      this.editForm.patchValue({
-        name: item.name,
-        description: item.description,
-        image: item.image,
-        periodStart: item.periodStart,
-        periodEnd: item.periodEnd,
-        price: item.price
-      });
-    });
+  onEntryFeeChange(): void {
+    const price = this.updateForm.get(['price'])?.value;
+
+    this.showBankAccountForm = price > 0;
+
+    // const controlNames = ['bankAccountName', 'bankAccountNumber'];
+    // for (const controlName of controlNames) {
+    //   const control = this.updateForm.get(controlName);
+    //   if (this.showBankAccountForm) {
+    //     control?.setValidators([Validators.required]);
+    //   } else {
+    //     control?.clearValidators();
+    //   }
+    //   control?.updateValueAndValidity();
+    // }
   }
 
   submit(): void {
-    this.itemService.updateItem(this.itemId, this.item).subscribe(() => {
-      
+    if (!this.updateForm.valid) {
+      return;
+    }
+
+    const formData = new FormData();
+    Object.keys(this.updateForm.controls).forEach((key) => {
+      const val = this.updateForm.get([key])?.value;
+      formData.append(key, val);
+    });
+
+    this.itemService.updateItem(this.itemId, formData).subscribe((_) => {
+      this.routing.goToRental();
     });
   }
-
 }

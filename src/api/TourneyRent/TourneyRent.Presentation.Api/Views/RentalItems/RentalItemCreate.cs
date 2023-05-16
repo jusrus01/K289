@@ -12,5 +12,7 @@ public class RentalItemCreate
     public string Description { get; set; }
     public int Price { get; set; }
 
+    public string AvailableAt { get; set; }
+    
     public List<DateTime> CalendarItems { get; set; }
 }

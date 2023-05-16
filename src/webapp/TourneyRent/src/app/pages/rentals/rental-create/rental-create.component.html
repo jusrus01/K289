@@ -1,125 +1,131 @@
-<h2 class="mt-16"></h2>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
-<div class="header-paget">
-  <h4>CREATE RENTAL ITEMS</h4>
-</div>
-
-<div class="w-full flex justify-center mt-3">
-  <div class="w-1/1">
-    <button
-      class="mt-4"
-      mat-raised-button
-      color="primary"
-      (click)="routing.goToRental()"
-    >
-      Go back
-    </button>
+<div class="mt-14">
+  <div class="w-full bg-default flex items-center justify-center py-16">
+    <span class="text-white text-3xl sm:text-6xl font-bold">CREATE RENTAL ITEM</span>
   </div>
-</div>
-
-<div class="box mt-16">
-  <fieldset class="form-fieldset">
-    <div class="form-panel">
-      <div class="body">
-
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="item_name">Item name</label>
-          </span>
-          <div class="control">
-            <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" [(ngModel)]="name" id="item_name">
-            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
-          </div>
-        </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="item_description">Description</label>
-          </span>
-          <div class="control">
-            <textarea cols="60" required="required" class="auto-focus form-control" [(ngModel)]="description" id="item_description"></textarea>
-            <!-- <textarea cols="60" required="required" class="auto-focus form-control" ng-model="item.description" id="item_description"></textarea> -->
-          </div>
-        </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="item_period">Rental period</label>
-          </span>
-          <div class="control">
-            <button mat-icon-button [matMenuTriggerFor]="appMenu">
-              <mat-icon>calendar_today</mat-icon>
-            </button>
-            <mat-menu #appMenu="matMenu" class="drop-calendar" >
-              <div (click)="$event.stopPropagation()">
-                <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateClass]="isSelected" [(ngModel)]="availableAt"></mat-calendar>
+  <form class="mx-14 border-slate-900" [formGroup]="createForm">
+    <div class="box">
+      <fieldset class="form-fieldset">
+        <div class="form-panel">
+          <div class="body">
+            <!-- Name -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Name</label>
+              </span>
+              <div class="control">
+                <mat-form-field appearance="outline" class="w-full mt-2">
+                  <input formControlName="name" type="text" matInput>
+                </mat-form-field>
               </div>
-            </mat-menu>
-            <pre>
-            {{daysSelected|json}}
-            </pre>
+            </div>
+
+            <!-- Description -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Description</label>
+              </span>
+              <div class="control">
+                <mat-form-field appearance="outline" class="w-full mt-2">
+                  <input formControlName="description" type="text" matInput>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Price -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Price</label>
+              </span>
+              <div class="control">
+                <mat-form-field class="w-full" appearance="outline">
+                  <input [min]="0" [minlength]="0" formControlName="price" class="w-full" type="text" matInput
+                    (change)="onEntryFeeChange()">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Banking details -->
+            <ng-container *ngIf="showBankAccountForm">
+              <mat-divider></mat-divider>
+
+              <!-- Bank account -->
+              <div class="inline-field mt-5 mb-0">
+                <span class="lbl items-center flex">
+                  <label class="field-label">Bank account</label>
+                </span>
+                <div class="control flex justify-between">
+                  <mat-form-field class="w-2/4" appearance="outline">
+                    <input [min]="0" [minlength]="0" formControlName="bankAccountNumber" class="w-full" type="text"
+                      matInput placeholder="e.g. LT121000011101001000">
+                  </mat-form-field>
+                  <mat-form-field class="w-2/5" appearance="outline">
+                    <input [min]="0" [minlength]="0" formControlName="bankAccountName" class="w-full" type="text"
+                      matInput placeholder="Name Surname">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Transaction reason -->
+              <div class="inline-field mt-0 mb-0">
+                <span class="lbl items-center flex">
+                  <label class="field-label">Reason</label>
+                </span>
+                <div class="control">
+                  <mat-form-field class="w-full" appearance="outline">
+                    <input formControlName="transactionReason" class="w-full" type="text" matInput
+                      placeholder="Enter custom reason message">
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+            </ng-container>
+
+            <!-- Image -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Image</label>
+              </span>
+              <div class="control">
+                <input #imageUpload (change)="onFileUpload($event, imageUpload)" type="file" hidden="true">
+                <button mat-button class="w-full mb-2" color="primary" (click)="imageUpload.click()">Upload</button>
+                <app-image *ngIf="pictureSource != null" class="mx-auto py-2" [imageSource]="pictureSource"
+                  [imageClass]="'w-full'" [containerClass]="'w-full'"></app-image>
+              </div>
+            </div>
+
+            <!-- Period -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Renting days</label>
+              </span>
+              <div class="control">
+                <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                  <mat-icon>calendar_today</mat-icon>
+                </button>
+                <mat-menu #appMenu="matMenu" class="drop-calendar">
+                  <div (click)="$event.stopPropagation()">
+                    <mat-calendar #calendar (selectedChange)="select($event,calendar)"
+                      [dateClass]="isSelected"></mat-calendar>
+                  </div>
+                </mat-menu>
+                <ng-container *ngIf="daysSelected && daysSelected.length > 0">
+                  <div>Selected: </div>
+                  <span *ngFor="let day of daysSelected">{{day | date:'yyyy-MM-dd'}}, </span>
+                </ng-container>
+              </div>
+            </div>
+
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+              </span>
+              <div class="w-full">
+                <button mat-raised-button class="w-1/3 float-right mt-2" color="primary" (click)="create()">
+                  Create</button>
+              </div>
+            </div>
           </div>
         </div>
-
-        
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="item_price">Price</label>
-          </span>
-          <div class="control">
-            <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="number" [(ngModel)]="price" id="item_price"> €
-            <!-- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="number" ng-model="item.price" id="item_price"> $ -->
-          </div>
-        </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="bank_name">Bank account name</label>
-          </span>
-          <div class="control">
-            <input maxlength="40" required="required" placeholder="John Cena" class="auto-focus form-control" size="60" type="text" [(ngModel)]="bankAccountName" id="bank_name">
-            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
-          </div>
-        </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="bank_number">IBAN number</label>
-          </span>
-          <div class="control">
-            <input maxlength="40" required="required" placeholder="LT000000000000000000" class="auto-focus form-control" size="60" type="text" [(ngModel)]="bankAccountNumber" id="bank_number">
-            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
-          </div>
-        </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="bank_reason">Transaction reason</label>
-          </span>
-          <div class="control">
-            <input maxlength="40" placeholder="Debt" required="required" class="auto-focus form-control" size="60" type="text" [(ngModel)]="transactionReason" id="bank_reason">
-            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
-          </div>
-        </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="image">imagefile</label>
-          </span>
-          <div class="control">
-            <input type="file" id="image" name="image"  accept=".jpg,.jpeg,.png" required>
-            
-          </div>
-        </div>
-
-        <div class="inline-field cntr">
-          <button class="button sbutton" (click)="submit()">CREATE</button>
-          <!--<button class="button sbutton" ng-click="createRentalItem()">CREATE</button>-->
-        </div>
-      </div>
+      </fieldset>
     </div>
-  </fieldset>
+  </form>
 </div>

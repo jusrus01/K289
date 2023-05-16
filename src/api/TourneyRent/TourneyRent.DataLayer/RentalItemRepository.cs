@@ -25,7 +25,7 @@ namespace TourneyRent.DataLayer
 
 		public async Task<IEnumerable<RentalItem>> GetRentalItemsAsync()
 		{
-			return await _context.RentalItems.Include(x => x.AvailableDays).OrderByDescending(x => x.HighlightFee).ToListAsync();
+			return await _context.RentalItems.Include(x => x.AvailableDays).OrderByDescending(x => x.Id).ToListAsync();
 		}
 		public async Task CreateRentalItemAsync(RentalItem rentalItem)
 		{
@@ -35,6 +35,11 @@ namespace TourneyRent.DataLayer
 
 		public async Task DeleteRentalItemAsync(RentalItem rentalItem)
 		{
+			if (rentalItem.AvailableDays?.Any(i => i.BuyerId != null) == true)
+			{
+				throw new Exception("Cannot delete item when there are reserved days. Please contact support.");
+			}
+			
 			_context.RemoveRange(rentalItem.AvailableDays);
 			_context.RentalItems.Remove(rentalItem);
 			await _context.SaveChangesAsync();

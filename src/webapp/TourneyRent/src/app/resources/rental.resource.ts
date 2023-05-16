@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { API_URL } from '../app.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RentalResource {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getItems(): Observable<any[]> {
     return this.http.get<any[]>(`${API_URL}/rentalItem`);
@@ -19,7 +19,7 @@ export class RentalResource {
   }
 
   createItem(item: any): Observable<any> {
-    return this.http.post<any>(API_URL, item);
+    return this.http.post<any>(`${API_URL}/rentalItem`, item);
   }
 
   updateItem(itemId: number, item: any): Observable<any> {

@@ -32,7 +32,9 @@ export class AuthService {
   public logout(): void {
     this.cookieService.delete(this.TOKEN_COOKIE_PARAM);
     this.rentalCartService.reset();
-    this.isLoggedIn$.next(false);
+    setTimeout(() => {
+      this.isLoggedIn$.next(false);
+    }, 1000);
   }
 
   public getAuthUserId(): string {
@@ -50,7 +52,10 @@ export class AuthService {
   }
 
   public isAdminOrOwner(userId: any): boolean {
-    return this.hasRole(ADMINISTRATOR_ROLE) || this.getAuthUserId() == userId;
+    return (
+      (this.hasRole(ADMINISTRATOR_ROLE) || this.getAuthUserId() == userId) &&
+      this.isLoggedIn()
+    );
   }
 
   public isOwner(userId: any): boolean {
