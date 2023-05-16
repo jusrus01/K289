@@ -105,7 +105,7 @@
           </div>
         </div>
 
-        <div class="inline-field">
+        <!-- <div class="inline-field">
           <span class="lbl">
             <label class="field-label -required" for="image">imagefile</label>
           </span>
@@ -113,12 +113,21 @@
             <input type="file" id="image" name="image"  accept=".jpg,.jpeg,.png" required>
             
           </div>
-        </div>
+        </div> -->
 
         <div class="inline-field cntr">
           <button class="button sbutton" (click)="submit()">CREATE</button>
           <!--<button class="button sbutton" ng-click="createRentalItem()">CREATE</button>-->
         </div>
+
+
+
+
+<!-- 
+              <div>
+              <input type="file" (change)="handleFileInput($event.target.files)">
+              <img [src]="imageUrl" *ngIf="imageUrl">
+            </div> -->
       </div>
     </div>
   </fieldset>

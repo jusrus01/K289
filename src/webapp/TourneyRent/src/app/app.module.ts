@@ -91,7 +91,7 @@ import { RentalCartAddButtonComponent } from './common/rental-cart/rental-cart-a
 import { AvailableDaysComponent } from './common/dialogs/available-days/available-days.component';
 import { RentalCartItemComponent } from './common/rental-cart/rental-item/rental-cart-item/rental-cart-item.component';
 
-export const API_URL = 'http://localhost:5155';
+export const API_URL = 'http://localhost:5000';
 
 @NgModule({
   declarations: [
