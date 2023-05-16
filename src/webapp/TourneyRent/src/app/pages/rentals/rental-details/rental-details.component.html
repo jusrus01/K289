@@ -47,20 +47,19 @@
 
             <div class="inline-field mt-0 mb-0" *ngIf="authService.isAdminOrOwner(item.ownerId)">
               <div class="w-full flex justify-between">
-                <button mat-raised-button color="primary" class="ml-[5%] mt-2" [routerLink]="['/rental/edit', item.id]">
-                  Update
-                </button>
+                <div class="w-full flex">
+                  <button *ngIf="authService.isAdminOrOwner(item.ownerId)" mat-raised-button color="warn"
+                    class="ml-[5%]  mt-2" (click)="openDeleteDialog('0ms', '0ms')">
+                    Delete
+                  </button>
+                  <button *ngIf="authService.isAdminOrOwner(item.ownerId)" mat-raised-button color="primary"
+                    class="ml-2 mt-2" [routerLink]="['/rental/edit', item.id]">
+                    Update
+                  </button>
+                </div>
 
                 <button mat-raised-button (click)="openDialog('10ms', '10ms')" class="ml-[5%] mt-2"
                   color="yellow">Highlight</button>
-              </div>
-
-              <div class="inline-field mt-0 mb-0">
-                <div class="w-full flex justify-between">
-                  <button mat-raised-button color="warn" class="ml-[5%] mt-2">
-                    Delete
-                  </button>
-                </div>
               </div>
             </div>
           </div>

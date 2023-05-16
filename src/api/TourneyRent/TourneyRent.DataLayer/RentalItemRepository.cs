@@ -35,6 +35,11 @@ namespace TourneyRent.DataLayer
 
 		public async Task DeleteRentalItemAsync(RentalItem rentalItem)
 		{
+			if (rentalItem.AvailableDays?.Any(i => i.BuyerId != null) == true)
+			{
+				throw new Exception("Cannot delete item when there are reserved days. Please contact support.");
+			}
+			
 			_context.RemoveRange(rentalItem.AvailableDays);
 			_context.RentalItems.Remove(rentalItem);
 			await _context.SaveChangesAsync();

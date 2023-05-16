@@ -4,6 +4,7 @@ import { RentalResource } from 'src/app/resources/rental.resource';
 import { RoutingService } from 'src/app/services/routing.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
+import { ConfirmDeleteDialogTemp } from '../../tournaments/tournament-item/tournament-item.component';
 
 @Component({
   selector: 'app-rental-details',
@@ -28,6 +29,27 @@ export class RentalDetailsComponent implements OnInit {
       // need this for cart
       this.item.id = itemId;
       console.log(this.item);
+    });
+  }
+
+  openDeleteDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogTemp, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+
+      this.dataService
+        .deleteItem(this.item.id)
+        .subscribe((x) => this.routing.goToRental());
     });
   }
 

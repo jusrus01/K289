@@ -1,84 +1,60 @@
-<h2 class="mt-16"></h2>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
-<div class="header-paget">
-  <h4>EDIT RENTAL ITEMS</h4>
-</div>
-
-<div class="w-full flex justify-center mt-3">
-  <div class="w-1/1">
-    <button
-      class="mt-4"
-      mat-raised-button
-      color="primary"
-      (click)="routing.goToRental()"
-    >
-      Go back
-    </button>
+<div class="mt-14">
+  <div class="w-full bg-default flex items-center justify-center py-16">
+    <span class="text-white text-3xl sm:text-6xl font-bold">UPDATE RENTAL ITEM</span>
   </div>
-</div>
+  <form class="mx-14 border-slate-900" [formGroup]="updateForm">
+    <div class="box">
+      <fieldset class="form-fieldset">
+        <div class="form-panel">
+          <div class="body">
+            <!-- Name -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Name</label>
+              </span>
+              <div class="control">
+                <mat-form-field appearance="outline" class="w-full mt-2">
+                  <input formControlName="name" type="text" matInput>
+                </mat-form-field>
+              </div>
+            </div>
 
-<div class="box mt-16">
-  <fieldset class="form-fieldset">
-    <div class="form-panel">
-      <div class="body">
+            <!-- Description -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Description</label>
+              </span>
+              <div class="control">
+                <mat-form-field appearance="outline" class="w-full mt-2">
+                  <input formControlName="description" type="text" matInput>
+                </mat-form-field>
+              </div>
+            </div>
 
+            <!-- Price -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Price</label>
+              </span>
+              <div class="control">
+                <mat-form-field class="w-full" appearance="outline">
+                  <input [min]="0" [minlength]="0" formControlName="price" class="w-full" type="text" matInput
+                    (change)="onEntryFeeChange()">
+                </mat-form-field>
+              </div>
+            </div>
 
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="item_name">Item name</label>
-          </span>
-          <div class="control">
-            <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" [(ngModel)]="item.name" id="item_name">
-            <!-- <input maxlength="40" required="required" class="auto-focus form-control" size="60" type="text" ng-model="item.name" id="item_name"> -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+              </span>
+              <div class="w-full">
+                <button mat-raised-button class="w-1/3 float-right mt-2" color="primary" (click)="submit()">
+                  Update</button>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="item_description">Description</label>
-          </span>
-          <div class="control">
-            <textarea cols="60" required="required" class="auto-focus form-control" [(ngModel)]="item.description" id="item_description"></textarea>
-            <!-- <textarea cols="60" required="required" class="auto-focus form-control" ng-model="item.description" id="item_description"></textarea> -->
-          </div>
-        </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label" for="item_image">Upload image</label>
-          </span>
-          <div class="control">
-            <input maxlength="5" required="required" class="auto-focus form-control" size="5" type="image" alt="select" [(ngModel)]="item.image" id="item_image">
-            <!-- <input maxlength="5" required="required" class="auto-focus form-control" size="5" type="image" alt="select" ng-model="item.image" id="item_image"> -->
-          </div>
-        </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="item_period">Rental period</label>
-          </span>
-          <div class="control">
-            <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" [(ngModel)]="item.periodStart" placeholder="yyyy-MM-dd" id="item_period" required> -- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" [(ngModel)]="item.periodEnd" id="item_period">
-            <!-- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" ng-model="item.period1" id="item_period"> -- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="date" ng-model="item.period2" id="item_period"> -->
-          </div>
-        </div>
-
-        <div class="inline-field">
-          <span class="lbl">
-            <label class="field-label -required" for="item_price">Price</label>
-          </span>
-          <div class="control">
-            <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="number" [(ngModel)]="item.price" id="item_price"> $
-            <!-- <input maxlength="60" required="required" class="auto-focus form-control" size="60" type="number" ng-model="item.price" id="item_price"> $ -->
-          </div>
-        </div>
-
-        <div class="inline-field cntr">
-          <button class="button sbutton" (click)="submit()">EDIT</button>
-          <!--<button class="button sbutton" ng-click="createRentalItem()">CREATE</button>-->
-        </div>
-      </div>
+      </fieldset>
     </div>
-  </fieldset>
+  </form>
 </div>

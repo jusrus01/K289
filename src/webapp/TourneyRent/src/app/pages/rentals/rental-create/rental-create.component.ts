@@ -2,7 +2,6 @@ import { RoutingService } from 'src/app/services/routing.service';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RentalResource } from 'src/app/resources/rental.resource';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-rental-create',
