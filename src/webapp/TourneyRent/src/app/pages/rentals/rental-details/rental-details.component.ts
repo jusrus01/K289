@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RentalResource } from 'src/app/resources/rental.resource';
 import { RoutingService } from 'src/app/services/routing.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-rental-details',
@@ -16,7 +17,8 @@ export class RentalDetailsComponent implements OnInit {
     public dialog: MatDialog,
     private dataService: RentalResource,
     private route: ActivatedRoute,
-    public routing: RoutingService
+    public routing: RoutingService,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {

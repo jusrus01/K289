@@ -8,9 +8,8 @@
       <fieldset class="form-fieldset">
         <div class="form-panel">
           <div class="body relative" *ngIf="item">
-            <app-rental-cart-add-button *showForAuthenticatedUser class="absolute right-0 mr-5"
-              [item]="item"></app-rental-cart-add-button>
-
+            <app-rental-cart-add-button *ngIf="!authService.isOwner(item.ownerId) && authService.isLoggedIn()"
+              class="absolute right-0 mr-5" [item]="item"></app-rental-cart-add-button>
             <div class="ml-[5%] inline-field mt-0 mb-0">
               <span class="items-center flex">
                 <app-image [imageId]="item.imageId" class="mx-auto py-2" [imageSource]="
@@ -39,50 +38,6 @@
 
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">
-                <label class="field-label">Start date</label>
-              </span>
-              <div class="control">
-                <div class="flex justify-between">
-                  {{ item.startDate | date : "MMM d, y" }}
-                </div>
-              </div>
-            </div>
-
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">Start time</label>
-              </span>
-              <div class="control">
-                <div class="flex justify-between">
-                  {{ item.startDate | date : "h:mm a" }}
-                </div>
-              </div>
-            </div>
-
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">End date</label>
-              </span>
-              <div class="control">
-                <div class="flex justify-between">
-                  {{ item.endDate | date : "MMM d, y" }}
-                </div>
-              </div>
-            </div>
-
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
-                <label class="field-label">End time</label>
-              </span>
-              <div class="control">
-                <div class="flex justify-between">
-                  {{ item.endDate | date : "h:mm a" }}
-                </div>
-              </div>
-            </div>
-
-            <div class="inline-field mt-0 mb-0">
-              <span class="lbl items-center flex">
                 <label class="field-label">Price</label>
               </span>
               <div class="control">
@@ -90,30 +45,7 @@
               </div>
             </div>
 
-            <!-- <div *showForAuthenticatedUser class="inline-field mt-0 mb-0">
-              <div class="w-full flex">
-                <button *ngIf="authService.isAdminOrOwner(tournament.ownerId)" mat-raised-button color="warn"
-                  class="ml-[5%] mt-2" (click)="openDeleteDialog('0ms', '0ms')">
-                  Delete
-                </button>
-                <button *ngIf="authService.isAdminOrOwner(tournament.ownerId)" mat-raised-button color="primary"
-                  class="ml-2 mt-2" [routerLink]="['/tournament/update', tournament.id]">
-                  Update
-                </button>
-              </div>
-              <ng-container *ngIf="!authService.isOwner(tournament.ownerId) && canShow(tournament)">
-                <button *ngIf="!tournament.isJoined && !isFull()" mat-raised-button class="w-1/3 mt-2" color="primary"
-                  (click)="join()">
-                  Join
-                </button>
-                <button *ngIf="tournament.isJoined" mat-raised-button class="w-1/3 mt-2" color="warn" (click)="leave()">
-                  Leave
-                </button>
-              </ng-container>
-            </div> -->
-
-
-            <div class="inline-field mt-0 mb-0">
+            <div class="inline-field mt-0 mb-0" *ngIf="authService.isAdminOrOwner(item.ownerId)">
               <div class="w-full flex justify-between">
                 <button mat-raised-button color="primary" class="ml-[5%] mt-2" [routerLink]="['/rental/edit', item.id]">
                   Update
