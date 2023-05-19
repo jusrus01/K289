@@ -11,10 +11,10 @@ namespace TourneyRent.Presentation.Api.Profiles
 		public RentalItemProfile() 
 		{
 			CreateMap<RentalItem, RentalItemView>();
-			CreateMap<RentalItemCreate, RentalItem>();
+			CreateMap<ManageRentalItemView, RentalItem>();
 
 			CreateMap<RentalItem, RentalItemDetailedView>();
-			CreateMap<RentalItemCreate, CreateRentalItemArgs>();
+			CreateMap<ManageRentalItemView, CreateRentalItemArgs>();
 			CreateMap<CreateRentalItemArgs, RentalItemDetailedView>();
 
 			CreateMap<CalendarIRentalItemEntry, CalendarItemView>();

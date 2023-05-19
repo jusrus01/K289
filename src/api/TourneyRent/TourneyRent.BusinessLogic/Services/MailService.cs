@@ -1,5 +1,6 @@
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using TourneyRent.Contracts.Options;
@@ -9,17 +10,19 @@ namespace TourneyRent.BusinessLogic.Services;
 public class MailService
 {
     private readonly MailOptions _mailOptions;
+    private readonly ILogger<MailService> _logger;
 
-    public MailService(IOptions<MailOptions> mailOptions)
+    public MailService(IOptions<MailOptions> mailOptions, ILogger<MailService> logger)
     {
         _mailOptions = mailOptions.Value;
+        _logger = logger;
     }
 
     public async Task SendEmailAsync(string subject, string name, string email, string message)
     {
         if (!_mailOptions.UseSmtp4Dev)
         {
-            return;
+            _logger.LogWarning("You are not using the development settings. Are you sure you are running correct configuration?");
         }
 
         var mimeMessage = new MimeMessage();

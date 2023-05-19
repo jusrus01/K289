@@ -12,14 +12,14 @@ namespace TourneyRent.DataLayer.Repositories
             return File.ReadAllBytes($"{Storage}/{imageFileName}");
         }
 
-        public async Task<Guid?> UploadImageAsync(IImageUpload image, Guid? assingId = null)
+        public async Task<Guid?> UploadImageAsync(IImageUpload image, Guid? assingId = null, CancellationToken cancellationToken = default)
         {
             try
             {
                 var fileName = assingId ?? Guid.NewGuid();
                 using (var stream = new FileStream($"{Storage}/{fileName}", FileMode.Create))
                 {
-                    await image.ImageFile.CopyToAsync(stream);
+                    await image.ImageFile.CopyToAsync(stream, cancellationToken);
                 }
 
                 return fileName;

@@ -1,6 +1,8 @@
-﻿namespace TourneyRent.Presentation.Api.Views.RentalItems;
+﻿using TourneyRent.Contracts.Models;
 
-public class RentalItemCreate
+namespace TourneyRent.Presentation.Api.Views.RentalItems;
+
+public class ManageRentalItemView : IImageUpload
 {
     public IFormFile ImageFile { get; set; }
 
