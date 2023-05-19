@@ -32,8 +32,14 @@ export class AuthService {
   public logout(): void {
     this.cookieService.delete(this.TOKEN_COOKIE_PARAM);
     this.rentalCartService.reset();
+
     setTimeout(() => {
       this.isLoggedIn$.next(false);
+      this.cookieService.delete(this.TOKEN_COOKIE_PARAM);
+    }, 300);
+
+    setTimeout(() => {
+      this.cookieService.delete(this.TOKEN_COOKIE_PARAM);
     }, 1000);
   }
 

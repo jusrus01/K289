@@ -44,6 +44,73 @@
               </div>
             </div>
 
+            <mat-divider></mat-divider>
+            <!-- Bank account -->
+            <div class="inline-field mt-5 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Bank account</label>
+              </span>
+              <div class="control flex justify-between">
+                <mat-form-field class="w-2/4" appearance="outline">
+                  <input [min]="0" [minlength]="0" formControlName="bankAccountNumber" class="w-full" type="text"
+                    matInput placeholder="e.g. LT121000011101001000">
+                </mat-form-field>
+                <mat-form-field class="w-2/5" appearance="outline">
+                  <input [min]="0" [minlength]="0" formControlName="bankAccountName" class="w-full" type="text" matInput
+                    placeholder="Name Surname">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Transaction reason -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Reason</label>
+              </span>
+              <div class="control">
+                <mat-form-field class="w-full" appearance="outline">
+                  <input formControlName="transactionReason" class="w-full" type="text" matInput
+                    placeholder="Enter custom reason message">
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <!-- Image -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Image</label>
+              </span>
+              <div class="control">
+                <input #imageUpload (change)="onFileUpload($event, imageUpload)" type="file" hidden="true">
+                <button mat-button class="w-full mb-2" color="primary" (click)="imageUpload.click()">Upload</button>
+                <app-image *ngIf="pictureSource != null" class="mx-auto py-2" [imageSource]="pictureSource"
+                  [imageClass]="'w-full'" [containerClass]="'w-full'"></app-image>
+              </div>
+            </div>
+
+            <!-- Period -->
+            <div class="inline-field mt-0 mb-0">
+              <span class="lbl items-center flex">
+                <label class="field-label">Renting days</label>
+              </span>
+              <div class="control">
+                <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                  <mat-icon>calendar_today</mat-icon>
+                </button>
+                <mat-menu #appMenu="matMenu" class="drop-calendar">
+                  <div (click)="$event.stopPropagation()">
+                    <mat-calendar #calendar (selectedChange)="select($event,calendar)"
+                      [dateClass]="isSelected"></mat-calendar>
+                  </div>
+                </mat-menu>
+                <ng-container *ngIf="daysSelected && daysSelected.length > 0">
+                  <div>Selected: </div>
+                  <span *ngFor="let day of daysSelected">{{day | date:'yyyy-MM-dd'}}, </span>
+                </ng-container>
+              </div>
+            </div>
+
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">
               </span>

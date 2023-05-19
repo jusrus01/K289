@@ -43,9 +43,9 @@ public class RentalItemService
         return await _rentalItemRepository.GetRentalItemsAsync();
     }
 
-    public async Task<RentalItem> CreateRentalItemAsync(CreateRentalItemArgs createArgs)
+    public async Task<RentalItem> CreateRentalItemAsync(CreateRentalItemArgs createArgs, CancellationToken cancellationToken)
     {
-        var image = await _imageRepository.UploadImageAsync(createArgs);
+        var image = await _imageRepository.UploadImageAsync(createArgs, cancellationToken: cancellationToken);
 
         var rentalItem = new RentalItem
         {
@@ -65,7 +65,7 @@ public class RentalItemService
 			OwnerId = _httpContextAccessor.GetAuthenticatedUserId()
         };
 
-        await _rentalItemRepository.CreateRentalItemAsync(rentalItem);
+        await _rentalItemRepository.CreateRentalItemAsync(rentalItem, cancellationToken);
         return rentalItem;
     }
 

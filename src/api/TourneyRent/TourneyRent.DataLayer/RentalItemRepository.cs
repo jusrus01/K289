@@ -27,10 +27,10 @@ namespace TourneyRent.DataLayer
 		{
 			return await _context.RentalItems.Include(x => x.AvailableDays).OrderByDescending(x => x.Id).ToListAsync();
 		}
-		public async Task CreateRentalItemAsync(RentalItem rentalItem)
+		public async Task CreateRentalItemAsync(RentalItem rentalItem, CancellationToken cancellationToken)
 		{
 			_context.RentalItems.Add(rentalItem);
-			await _context.SaveChangesAsync();
+			await _context.SaveChangesAsync(cancellationToken);
 		}
 
 		public async Task DeleteRentalItemAsync(RentalItem rentalItem)
