@@ -66,12 +66,18 @@ import { ShowForGuestUserDirective } from './common/directives/show-for-guest-us
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ImageComponent } from './common/image/image.component';
 import { CommonModule } from '@angular/common';
-import { RentalViewComponent } from './pages/rentals/rental-view/rental-view.component';
 import { TournamentCreateComponent } from './pages/tournaments/tournament-create/tournament-create.component';
 import { TournamentListComponent } from './pages/tournaments/tournament-list/tournament-list.component';
 import { TournamentComponent } from './pages/tournaments/tournament/tournament.component';
-import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
-import { ConfirmDeleteDialogTemp, TournamentItemComponent } from './pages/tournaments/tournament-item/tournament-item.component';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from '@angular-material-components/datetime-picker';
+import {
+  ConfirmDeleteDialogTemp,
+  TournamentItemComponent,
+} from './pages/tournaments/tournament-item/tournament-item.component';
 import { ShowForAdminUserDirective } from './common/directives/show-for-admin-user.directive';
 import { RentalComponent } from './pages/rentals/rental/rental.component';
 import { RentalDetailsComponent } from './pages/rentals/rental-details/rental-details.component';
@@ -108,7 +114,6 @@ export const API_URL = 'http://localhost:5155';
     ShowForAdminUserDirective,
     ProfileComponent,
     ImageComponent,
-    RentalViewComponent,
     TournamentCreateComponent,
     TournamentListComponent,
     TournamentComponent,
@@ -130,9 +135,9 @@ export const API_URL = 'http://localhost:5155';
     RentalCartAddButtonComponent,
     AvailableDaysComponent,
     EditProfileComponent,
-    RentalCartItemComponent
+    RentalCartItemComponent,
   ],
-  
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -209,7 +214,7 @@ export const API_URL = 'http://localhost:5155';
       },
       multi: true,
       deps: [AuthService, RoutingService, MatSnackBar],
-    }
+    },
   ],
   bootstrap: [AppComponent],
 })

@@ -12,7 +12,7 @@ import { RentalResource } from 'src/app/resources/rental.resource';
 export class RentalCreateComponent {
   public createForm!: FormGroup;
   public showBankAccountForm = true;
-
+  public minDate = new Date();
   public pictureSource!: string | ArrayBuffer | null;
   public pictureFile!: any;
 

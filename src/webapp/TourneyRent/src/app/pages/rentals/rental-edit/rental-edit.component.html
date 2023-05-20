@@ -94,14 +94,14 @@
               <span class="lbl items-center flex">
                 <label class="field-label">Renting days</label>
               </span>
-              <div class="control">
+              <div class="control" *ngIf="!isLoading">
                 <button mat-icon-button [matMenuTriggerFor]="appMenu">
                   <mat-icon>calendar_today</mat-icon>
                 </button>
                 <mat-menu #appMenu="matMenu" class="drop-calendar">
                   <div (click)="$event.stopPropagation()">
-                    <mat-calendar #calendar (selectedChange)="select($event,calendar)"
-                      [dateClass]="isSelected"></mat-calendar>
+                    <mat-calendar [minDate]="minDate" #calendar [selected]="daysSelected"
+                      (selectedChange)="select($event,calendar)" [dateClass]="isSelected"></mat-calendar>
                   </div>
                 </mat-menu>
                 <ng-container *ngIf="daysSelected && daysSelected.length > 0">

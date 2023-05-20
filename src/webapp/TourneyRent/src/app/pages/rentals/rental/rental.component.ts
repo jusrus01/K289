@@ -5,7 +5,7 @@ import { RentalResource } from 'src/app/resources/rental.resource';
 @Component({
   selector: 'app-rental',
   templateUrl: './rental.component.html',
-  styleUrls: ['./rental.component.scss']
+  styleUrls: ['./rental.component.scss'],
 })
 export class RentalComponent implements OnInit {
   items: any[] = [];
@@ -18,54 +18,44 @@ export class RentalComponent implements OnInit {
 
   ngOnInit() {
     this.rentalResource.getItems().subscribe(
-      data => {
+      (data) => {
         this.items = data;
       },
-      error => {
+      (error) => {
         console.log(error);
       }
     );
   }
 
   getItems() {
-    this.rentalResource.getItems().subscribe(items => {
+    this.rentalResource.getItems().subscribe((items) => {
       this.items = items;
     });
   }
 
   onSelect(item: any) {
     if (this.selectedItems.includes(item)) {
-      this.selectedItems = this.selectedItems.filter(i => i !== item);
+      this.selectedItems = this.selectedItems.filter((i) => i !== item);
     } else {
       this.selectedItems.push(item);
     }
   }
 
   onDelete() {
-    if (confirm("Are you sure you want to delete the selected items?")) {
-    this.selectedItems.forEach(item => {
-      this.rentalResource.deleteItem(item.id).subscribe(
-        data => {
-          console.log(data);
-          this.items = this.items.filter(i => i !== item);
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    });
-    //clear
-    this.selectedItems = [];
-  }
-}
-
-  viewDetails(itemId: number) {
-    //this.routing.navigate(['/item-details', itemId]);
-    window.location.href = '/rental/details/' + itemId;
-  }
-
-  editItem(itemId: number) {
-    //this.routing.navigate(['/item-edit', itemId]);
-    window.location.href = '/rental/edit/' + itemId;
+    if (confirm('Are you sure you want to delete the selected items?')) {
+      this.selectedItems.forEach((item) => {
+        this.rentalResource.deleteItem(item.id).subscribe(
+          (data) => {
+            console.log(data);
+            this.items = this.items.filter((i) => i !== item);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      });
+      //clear
+      this.selectedItems = [];
+    }
   }
 }

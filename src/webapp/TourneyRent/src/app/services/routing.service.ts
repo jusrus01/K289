@@ -1,10 +1,8 @@
 import { Inject, Injectable, Type } from '@angular/core';
 import { Route, Router, ROUTES } from '@angular/router';
-import { HomeComponent } from '../pages/home/home.component';
 import { LoginComponent } from '../pages/login/login.component';
 import { ProfileComponent } from '../pages/profile/profile.component';
 import { RegisterComponent } from '../pages/register/register.component';
-import { RentalViewComponent } from '../pages/rentals/rental-view/rental-view.component';
 import { TeamCreateComponent } from '../pages/teams/team-create/team-create.component';
 import { TeamComponent } from '../pages/teams/team/team.component';
 import { TournamentCreateComponent } from '../pages/tournaments/tournament-create/tournament-create.component';
@@ -21,10 +19,6 @@ export class RoutingService {
     @Inject(ROUTES) private _routes: Route[][],
     private _router: Router
   ) {}
-
-  public goToRentalView(): void {
-    this.navigateToComponent(RentalViewComponent);
-  }
 
   public goToTournamentCreate(): void {
     this.navigateToComponent(TournamentCreateComponent);

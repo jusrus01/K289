@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RentalResource } from 'src/app/resources/rental.resource';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RoutingService } from 'src/app/services/routing.service';
+import { MatCalendar } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-rental-edit',
@@ -12,10 +13,10 @@ import { RoutingService } from 'src/app/services/routing.service';
 export class RentalEditComponent implements OnInit {
   public updateForm!: FormGroup;
   public showBankAccountForm = true;
-
+  public isLoading = true;
   public pictureSource!: string | ArrayBuffer | null;
   public pictureFile!: any;
-
+  public minDate = new Date();
   public item!: any;
 
   itemId = Number(this.route.snapshot.paramMap.get('itemId'));
@@ -52,6 +53,7 @@ export class RentalEditComponent implements OnInit {
       this.daysSelected =
         item.availableDays.map((i: any) => new Date(i.availableAt)) ?? [];
       this.updateForm.patchValue(this.item);
+      this.isLoading = false;
     });
   }
 

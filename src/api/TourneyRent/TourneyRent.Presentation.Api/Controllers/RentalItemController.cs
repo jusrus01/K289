@@ -145,6 +145,6 @@ public class RentalItemController : Controller
     [Authorize]
     public async Task<ActionResult<IEnumerable<DateTime>>> GetAvailableDays(int id)
     {
-        return Ok(await _rentalItemService.GetAvailableDaysAsync(id).ConfigureAwait(false));
+        return Ok((await _rentalItemService.GetAvailableDaysAsync(id).ConfigureAwait(false)).Select(i => i.AvailableAt).ToList());
     }
 }
