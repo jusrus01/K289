@@ -11,7 +11,7 @@ public class RentalItem : IImage, ITransactionable
 
     public string Description { get; set; }
 
-    public int Price { get; set; }
+    public decimal Price { get; set; }
 
     public ApplicationUser Owner { get; set; }
     public string OwnerId { get; set; }

@@ -8,7 +8,6 @@ import { RegisterComponent } from './pages/register/register.component';
 import { TeamCreateComponent } from './pages/teams/team-create/team-create.component';
 import { RentalComponent } from './pages/rentals/rental/rental.component';
 import { RentalCreateComponent } from './pages/rentals/rental-create/rental-create.component';
-import { RentalViewComponent } from './pages/rentals/rental-view/rental-view.component';
 import { RentalEditComponent } from './pages/rentals/rental-edit/rental-edit.component';
 import { RentalDetailsComponent } from './pages/rentals/rental-details/rental-details.component';
 import { TournamentCreateComponent } from './pages/tournaments/tournament-create/tournament-create.component';
@@ -69,11 +68,6 @@ export const ROUTES: Routes = [
     path: 'rental/create',
     component: RentalCreateComponent,
     data: { title: 'Rental Create' },
-  },
-  {
-    path: 'rental/view',
-    component: RentalViewComponent,
-    data: { title: 'Rental View' },
   },
   { path: 'rental', component: RentalComponent, data: { title: 'Rental' } },
   {
