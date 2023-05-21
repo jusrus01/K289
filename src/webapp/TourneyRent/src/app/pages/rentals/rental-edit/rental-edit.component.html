@@ -90,27 +90,15 @@
             </div>
 
             <!-- Period -->
-            <div class="inline-field mt-0 mb-0">
+            <div class="inline-field mt-0 mb-0 w-full flex">
               <span class="lbl items-center flex">
                 <label class="field-label">Renting days</label>
               </span>
-              <div class="control" *ngIf="!isLoading">
-                <button mat-icon-button [matMenuTriggerFor]="appMenu">
-                  <mat-icon>calendar_today</mat-icon>
-                </button>
-                <mat-menu #appMenu="matMenu" class="drop-calendar">
-                  <div (click)="$event.stopPropagation()">
-                    <mat-calendar [minDate]="minDate" #calendar [selected]="daysSelected"
-                      (selectedChange)="select($event,calendar)" [dateClass]="isSelected"></mat-calendar>
-                  </div>
-                </mat-menu>
-                <ng-container *ngIf="daysSelected && daysSelected.length > 0">
-                  <div>Selected: </div>
-                  <span *ngFor="let day of daysSelected">{{day | date:'yyyy-MM-dd'}}, </span>
-                </ng-container>
+              <div class="w-72 border justify-end mx-auto" *ngIf="!isLoading" (click)="$event.stopPropagation()">
+                <mat-calendar [minDate]="minDate" #calendar [selected]="daysSelected"
+                  (selectedChange)="select($event,calendar)" [dateClass]="isSelected"></mat-calendar>
               </div>
             </div>
-
             <div class="inline-field mt-0 mb-0">
               <span class="lbl items-center flex">
               </span>

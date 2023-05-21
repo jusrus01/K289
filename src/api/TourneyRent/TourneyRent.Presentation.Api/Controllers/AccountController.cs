@@ -5,7 +5,6 @@ using TourneyRent.Authentication.Models;
 using TourneyRent.Authentication.Services;
 using TourneyRent.BusinessLogic.Models;
 using TourneyRent.BusinessLogic.Services;
-using TourneyRent.Contracts.Models;
 using TourneyRent.Presentation.Api.Views.Account;
 
 namespace TourneyRent.Presentation.Api.Controllers

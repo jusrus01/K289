@@ -19,6 +19,8 @@ export class RentalEditComponent implements OnInit {
   public minDate = new Date();
   public item!: any;
 
+  @ViewChild('calendar') calendar!: MatCalendar<any>;
+
   itemId = Number(this.route.snapshot.paramMap.get('itemId'));
 
   constructor(
@@ -27,6 +29,8 @@ export class RentalEditComponent implements OnInit {
     public routing: RoutingService,
     private formBuilder: FormBuilder
   ) {}
+
+  private _usedDays: any = [];
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -51,7 +55,16 @@ export class RentalEditComponent implements OnInit {
     this.itemService.getItemById(id).subscribe((item) => {
       this.item = item;
       this.daysSelected =
-        item.availableDays.map((i: any) => new Date(i.availableAt)) ?? [];
+        item.availableDays.map((i: any) => {
+          let date = new Date(i.availableAt + 'Z');
+          const dateIso = date.toISOString();
+
+          if (i.buyerId) {
+            this._usedDays.push(dateIso);
+          }
+
+          return dateIso;
+        }) ?? [];
       this.updateForm.patchValue(this.item);
       this.isLoading = false;
     });
@@ -103,28 +116,35 @@ export class RentalEditComponent implements OnInit {
   }
 
   daysSelected: any[] = [];
-  // event: any;
   isSelected = (event: any) => {
-    const date =
-      event.getFullYear() +
-      '-' +
-      ('00' + (event.getMonth() + 1)).slice(-2) +
-      '-' +
-      ('00' + event.getDate()).slice(-2);
-    //return this.daysSelected.find(x => x == date) ? "selected" : null;
-    return this.daysSelected.find((x) => x == date) ? 'selected' : '';
+    const date = new Date(event);
+    date.setHours(0, 0, 0, 0); // Set time to midnight
+    const dateIso = date.toISOString();
+
+    if (this._usedDays.find((i: any) => i == dateIso)) {
+      return 'selected2';
+    }
+
+    return this.daysSelected.find((x) => x == dateIso) ? 'selected' : '';
   };
 
   select(event: any, calendar: any) {
-    const date =
-      event.getFullYear() +
-      '-' +
-      ('00' + (event.getMonth() + 1)).slice(-2) +
-      '-' +
-      ('00' + event.getDate()).slice(-2);
-    const index = this.daysSelected.findIndex((x) => x == date);
-    if (index < 0) this.daysSelected.push(date);
-    else this.daysSelected.splice(index, 1);
+    const date = new Date(event);
+    const selectedDate = date.toISOString();
+
+    if (this._usedDays.find((i: any) => i == selectedDate)) {
+      return;
+    }
+
+    const previousSelectedDaysCount = this.daysSelected.length;
+
+    this.daysSelected = this.daysSelected.filter(
+      (date) => date != selectedDate
+    );
+
+    if (this.daysSelected.length === previousSelectedDaysCount) {
+      this.daysSelected.push(selectedDate);
+    }
 
     calendar.updateTodaysDate();
   }

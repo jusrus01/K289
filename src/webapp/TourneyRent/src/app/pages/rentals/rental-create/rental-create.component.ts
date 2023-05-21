@@ -89,28 +89,27 @@ export class RentalCreateComponent {
   }
 
   daysSelected: any[] = [];
-  // event: any;
   isSelected = (event: any) => {
-    const date =
-      event.getFullYear() +
-      '-' +
-      ('00' + (event.getMonth() + 1)).slice(-2) +
-      '-' +
-      ('00' + event.getDate()).slice(-2);
-    //return this.daysSelected.find(x => x == date) ? "selected" : null;
-    return this.daysSelected.find((x) => x == date) ? 'selected' : '';
+    const date = new Date(event);
+    date.setHours(0, 0, 0, 0);
+    return this.daysSelected.find((x) => x == date.toISOString())
+      ? 'selected'
+      : '';
   };
 
   select(event: any, calendar: any) {
-    const date =
-      event.getFullYear() +
-      '-' +
-      ('00' + (event.getMonth() + 1)).slice(-2) +
-      '-' +
-      ('00' + event.getDate()).slice(-2);
-    const index = this.daysSelected.findIndex((x) => x == date);
-    if (index < 0) this.daysSelected.push(date);
-    else this.daysSelected.splice(index, 1);
+    const date = new Date(event);
+    date.setHours(0, 0, 0, 0);
+    const selectedDate = date.toISOString();
+    const previousSelectedDaysCount = this.daysSelected.length;
+
+    this.daysSelected = this.daysSelected.filter(
+      (date) => date != selectedDate
+    );
+
+    if (this.daysSelected.length === previousSelectedDaysCount) {
+      this.daysSelected.push(selectedDate);
+    }
 
     calendar.updateTodaysDate();
   }

@@ -1,10 +1,21 @@
-.mat-calendar-body-cell.selected {
+::ng-deep .mat-calendar-body-cell.selected {
   background-color: hwb(224 30% 32%) !important;
-  border-radius: 50%
+  border-radius: 50%;
+}
+
+::ng-deep .mat-calendar-body-cell.selected2 {
+  background-color: hwb(60 30% 32%) !important;
+  border-radius: 50%;
+}
+
+
+.selected {
+  background-color: hwb(224 30% 32%) !important;
+  border-radius: 50%;
 }
 
 .drop-calendar {
-  width: 30rem
+  width: 30rem;
 }
 
 fieldset {
