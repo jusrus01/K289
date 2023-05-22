@@ -9,6 +9,7 @@ export class SelectPrizeDialog {
   constructor(public dialogRef: MatDialogRef<SelectPrizeDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
+
   public choosePrize(prize: any): void {
     this.dialogRef.close(prize);
   }

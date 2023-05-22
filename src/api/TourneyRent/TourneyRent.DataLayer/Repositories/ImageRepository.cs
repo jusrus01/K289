@@ -1,33 +1,38 @@
-﻿using TourneyRent.Contracts;
+﻿using Microsoft.AspNetCore.Http;
+using TourneyRent.Contracts;
 using TourneyRent.Contracts.Models;
 
-namespace TourneyRent.DataLayer.Repositories
+namespace TourneyRent.DataLayer.Repositories;
+
+public class ImageRepository
 {
-    public class ImageRepository
+    private const string Storage = Constants.ImageStorage;
+
+    public byte[] GetImageBytes(string imageFileName)
     {
-        private const string Storage = Constants.ImageStorage;
+        return File.ReadAllBytes($"{Storage}/{imageFileName}");
+    }
 
-        public byte[] GetImageBytes(string imageFileName)
+    public async Task<Guid?> UploadImageAsync(IFormFile image, Guid? assingId = null,
+        CancellationToken cancellationToken = default)
+    {
+        try
         {
-            return File.ReadAllBytes($"{Storage}/{imageFileName}");
-        }
+            var fileName = assingId ?? Guid.NewGuid();
+            await using var stream = new FileStream($"{Storage}/{fileName}", FileMode.Create);
+            await image.CopyToAsync(stream, cancellationToken);
 
-        public async Task<Guid?> UploadImageAsync(IImageUpload image, Guid? assingId = null, CancellationToken cancellationToken = default)
+            return fileName;
+        }
+        catch
         {
-            try
-            {
-                var fileName = assingId ?? Guid.NewGuid();
-                using (var stream = new FileStream($"{Storage}/{fileName}", FileMode.Create))
-                {
-                    await image.ImageFile.CopyToAsync(stream, cancellationToken);
-                }
-
-                return fileName;
-            }
-            catch
-            {
-                return null;
-            }
+            return null;
         }
+    }
+
+    public async Task<Guid?> UploadImageAsync(IImageUpload image, Guid? assingId = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await UploadImageAsync(image.ImageFile, assingId, cancellationToken);
     }
 }
