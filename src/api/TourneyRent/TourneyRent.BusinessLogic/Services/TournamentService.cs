@@ -13,11 +13,11 @@ namespace TourneyRent.BusinessLogic.Services;
 
 public class TournamentService
 {
+    private readonly AccountService _accountService;
     private readonly TransactionExecutor _executor;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ImageRepository _imageRepository;
     private readonly MailService _mailService;
-    private readonly AccountService _accountService;
     private readonly IMapper _mapper;
     private readonly PaymentTransactionRepository _paymentTransactionRepository;
     private readonly PrizeRepository _prizeRepository;
@@ -88,13 +88,30 @@ public class TournamentService
             TransactionReason = createArgs.TransactionReason,
             Prizes = new List<Prize>()
         };
+
+
         var prize = createArgs.PrizeId != null ? await _prizeRepository.GetByIdAsync(createArgs.PrizeId.Value) : null;
 
         await _executor.ExecuteAsync(async context =>
         {
-            if (prize != null)
+            if (prize != null && !IsCustomPrizeSpecified(createArgs))
             {
                 tournament.Prizes.Add(prize);
+            }
+            else if (IsCustomPrizeSpecified(createArgs))
+            {
+                // update prize to something else
+                var prizeImageId = await _imageRepository.UploadImageAsync(createArgs.PrizeImageFile)
+                    .ConfigureAwait(false);
+                var customPrize = new Prize
+                {
+                    Id = Guid.NewGuid(),
+                    ImageId = prizeImageId,
+                    Description = createArgs.PrizeName,
+                    Name = createArgs.PrizeName,
+                    TournamentId = tournament.Id
+                };
+                tournament.Prizes.Add(customPrize);
             }
 
             // oof
@@ -139,6 +156,11 @@ public class TournamentService
         return _mapper.Map<TournamentInfo>(tournament);
     }
 
+    private bool IsCustomPrizeSpecified(CreateTournamentArgs createArgs)
+    {
+        return createArgs.PrizeImageFile != null && !string.IsNullOrWhiteSpace(createArgs.PrizeName);
+    }
+
     public async Task<IEnumerable<TournamentInfo>> GetAllTournamentsAsync()
     {
         var tournaments = await _tournamentRepository.GetAsync(_ => true);
@@ -155,14 +177,14 @@ public class TournamentService
     {
         var tournaments = await _tournamentRepository.GetAsync(i => i.Participants.Any(p => p.UserId == userId));
         var tournamentsInfo = _mapper.Map<IEnumerable<TournamentInfo>>(tournaments);
-        
+
         return tournamentsInfo
             .Select(tournament =>
             {
                 var participant = tournament.Participants.FirstOrDefault(p => p.UserId == userId);
-                
-                ParticipantStatus? status = null;
-                if (participant.IsWinner)
+
+                ParticipantStatus? status;
+                if (participant?.IsWinner == true)
                 {
                     status = ParticipantStatus.Won;
                 }
@@ -263,7 +285,7 @@ public class TournamentService
         //tournamentToUpdate.ParticipantCount = updateArgs.ParticipantCount;
         var imageId = await _imageRepository.UploadImageAsync(updateArgs);
 
-        if(imageId != null)
+        if (imageId != null)
             tournamentToUpdate.ImageId = imageId;
 
         var tourney = _mapper.Map(updateArgs, tournamentToUpdate);

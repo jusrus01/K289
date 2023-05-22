@@ -22,4 +22,9 @@ public class CreateTournamentArgsView
 
     [Required] public int? ParticipantCount { get; set; }
     public string Reservation { get; set; } = "[]"; // Does not map to defined structure from form-data
+
+    // Custom prize
+    public IFormFile PrizeImageFile { get; set; }
+    public string PrizeName { get; set; }
+    public string PrizeDescription { get; set; }
 }

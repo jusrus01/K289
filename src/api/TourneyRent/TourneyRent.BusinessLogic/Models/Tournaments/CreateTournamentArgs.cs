@@ -22,6 +22,11 @@ public class CreateTournamentArgs : IImageUpload, ITransactionable
     public int ParticipantCount { get; set; }
 
     public IEnumerable<TournamentReservationArgs> Reservation { get; set; }
+
+    // Custom prize data
+    public IFormFile PrizeImageFile { get; set; }
+    public string PrizeName { get; set; }
+    public string PrizeDescription { get; set; }
     public IFormFile ImageFile { get; set; }
 
     public string BankAccountName { get; set; }

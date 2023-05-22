@@ -90,6 +90,8 @@ export class TournamentCreateComponent {
       bankAccountName: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
       transactionReason: [''],
+      prizeName: [''],
+      prizeDescription: [''],
     });
   }
 
@@ -150,7 +152,12 @@ export class TournamentCreateComponent {
     });
 
     formData.append('imageFile', this.pictureFile ?? null);
-    formData.append('prizeId', this.selectedPrize?.id ?? '');
+
+    if (this.selectedPrize && !this.selectedPrize.custom) {
+      formData.append('prizeId', this.selectedPrize?.id ?? '');
+    } else if (this.selectedPrize && this.selectedPrize.custom) {
+      formData.append('prizeImageFile', this.prizePictureFile ?? null);
+    }
 
     this.tournamentResource.createTournament(formData).subscribe(() => {
       for (const item of this.selectedRentalItems) {
@@ -158,6 +165,10 @@ export class TournamentCreateComponent {
       }
       this.routing.goToTournaments();
     });
+  }
+
+  isSelectingCustomPrize() {
+    return this.selectedPrize && this.selectedPrize.custom;
   }
 
   onEntryFeeChange(): void {
@@ -185,6 +196,17 @@ export class TournamentCreateComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.selectedPrize = result;
+
+      const controlNames = ['prizeName', 'prizeDescription'];
+      for (const controlName of controlNames) {
+        const control = this.createForm.get(controlName);
+        if (this.isSelectingCustomPrize()) {
+          control?.setValidators([Validators.required]);
+        } else {
+          control?.clearValidators();
+        }
+        control?.updateValueAndValidity();
+      }
     });
   }
 
@@ -198,6 +220,17 @@ export class TournamentCreateComponent {
     this.createForm.patchValue({
       pictureFile: this.pictureFile,
     });
+  }
+
+  prizePictureFile: any;
+  prizePictureSource: any;
+  onFileUpload2(event: any, upload: any): void {
+    this.prizePictureFile = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => (this.prizePictureSource = reader.result);
+    reader.readAsDataURL(this.prizePictureFile);
+    upload.value = null;
   }
 
   selectRental(id: any) {

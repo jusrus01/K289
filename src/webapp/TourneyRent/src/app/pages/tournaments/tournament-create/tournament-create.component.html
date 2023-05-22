@@ -118,13 +118,54 @@
                   </span>
                   <div class="control flex justify-between mb-2">
                     <button type="button" mat-button class="w-full mb-2" color="primary" (click)="selectPrize()">
-                      <span *ngIf="selectedPrize">{{selectedPrize.name}}</span>
+                      <span *ngIf="selectedPrize">{{selectedPrize.name || 'Custom prize'}}</span>
                       <span class="text-black" *ngIf="!selectedPrize">No prize selected. Choose a prize!</span>
                     </button>
                   </div>
                 </div>
-                <mat-divider *ngIf="!showBankAccountForm"></mat-divider>
 
+                <!-- Custom prize -->
+                <ng-container *ngIf="isSelectingCustomPrize()">
+                  <!-- Name -->
+                  <div class="inline-field mt-0 mb-0">
+                    <span class="lbl items-center flex">
+                      <label class="field-label">Prize name</label>
+                    </span>
+                    <div class="control">
+                      <mat-form-field appearance="outline" class="w-full mt-2">
+                        <input formControlName="prizeName" type="text" matInput>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <!-- Desc -->
+                  <div class="inline-field mt-0 mb-0">
+                    <span class="lbl items-center flex">
+                      <label class="field-label">Prize description</label>
+                    </span>
+                    <div class="control">
+                      <mat-form-field appearance="outline" class="w-full mt-2">
+                        <input formControlName="prizeDescription" type="text" matInput>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="inline-field mt-0 mb-0">
+                    <span class="lbl items-center flex">
+                      <label class="field-label">Prize image</label>
+                    </span>
+                    <div class="control">
+                      <input #imageUpload2 (change)="onFileUpload2($event, imageUpload2)" type="file" hidden="true">
+                      <button mat-button class="w-full mb-2" color="primary"
+                        (click)="imageUpload2.click()">Upload</button>
+                      <app-image *ngIf="prizePictureSource != null" class="mx-auto py-2"
+                        [imageSource]="prizePictureSource" [imageClass]="'w-full'"
+                        [containerClass]="'w-full'"></app-image>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <mat-divider *ngIf="!showBankAccountForm"></mat-divider>
                 <!-- Banking details -->
                 <ng-container *ngIf="showBankAccountForm">
                   <mat-divider></mat-divider>
